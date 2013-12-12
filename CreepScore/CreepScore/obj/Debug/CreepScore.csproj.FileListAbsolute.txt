@@ -1,0 +1,6 @@
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\CreepScore.dll
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\CreepScore.pdb
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.dll
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.pdb
