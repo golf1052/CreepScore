@@ -4,24 +4,13 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace CreepScore
+namespace CreepScoreAPI
 {
     /// <summary>
     /// Game class
     /// </summary>
     public class Game
     {
-        /// <summary>
-        /// Game type
-        /// </summary>
-        public enum GameType
-        {
-            Custom,
-            Matched,
-            CoOp,
-            Tutorial
-        }
-
         /// <summary>
         /// Champion ID associated with game
         /// </summary>
@@ -196,34 +185,6 @@ namespace CreepScore
                 {
                     statistics.Add(new RawStat((int)a[i]["id"], (string)a[i]["name"], (int)a[i]["value"]));
                 }
-            }
-        }
-
-        /// <summary>
-        /// Sets the gameType enum
-        /// </summary>
-        /// <param name="gameTypeStr">The game type as a string</param>
-        void SetGameType(string gameTypeStr)
-        {
-            if (gameTypeStr == "CUSTOM_GAME")
-            {
-                gameType = GameType.Custom;
-            }
-            else if (gameTypeStr == "MATCHED_GAME")
-            {
-                gameType = GameType.Matched;
-            }
-            else if (gameTypeStr == "CO_OP_VS_AI_GAME")
-            {
-                gameType = GameType.CoOp;
-            }
-            else if (gameTypeStr == "TUTORIAL_GAME")
-            {
-                gameType = GameType.Tutorial;
-            }
-            else
-            {
-                // error
             }
         }
     }

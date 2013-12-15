@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http;
 using System.IO;
 using System.Diagnostics;
 
-namespace CreepScore
+namespace CreepScoreAPI
 {
     /// <summary>
     /// CreepScore class
@@ -35,6 +37,11 @@ namespace CreepScore
         //string versionPart = "";
 
         /// <summary>
+        /// Summoner part of url
+        /// </summary>
+        string summonerPart = "/summoner";
+
+        /// <summary>
         /// Summoner ID part of URL
         /// </summary>
         string summonerId = "";
@@ -43,6 +50,8 @@ namespace CreepScore
         /// Summoner name part of URL
         /// </summary>
         string summonerName = "";
+
+        string apiKeyPart = "?api_key=";
 
         /// <summary>
         /// API key
@@ -74,59 +83,23 @@ namespace CreepScore
             EUNE
         }
 
-        /// <summary>
-        /// Map types
-        /// </summary>
-        public enum Map
-        {
-            None,
-            SummonersRiftSummer,
-            SummonersRiftAutumn,
-            TheProvingGrounds,
-            TwistedTreelineOriginal,
-            TheCrystalScar,
-            TwistedTreelineCurrent,
-            HowlingAbyss
-        }
+        //enum APIGetting
+        //{
+        //    Nothing,
+        //    Champions,
+        //    Game,
+        //    League,
+        //    StatsSummary,
+        //    StatsRanked,
+        //    SummonerMasteries,
+        //    SummonerRunes,
+        //    SummonerByName,
+        //    SummonerByID,
+        //    SummonerList,
+        //    Team
+        //}
 
-        /// <summary>
-        /// Game mode types
-        /// </summary>
-        public enum GameMode
-        {
-            None,
-            Classic,
-            Dominion,
-            Aram,
-            Tutorial
-        }
-
-        /// <summary>
-        /// Queue types
-        /// </summary>
-        public enum Queue
-        {
-            None,
-            Solo5,
-            Team3,
-            Team5
-        }
-
-        /// <summary>
-        /// Tier types
-        /// </summary>
-        public enum Tier
-        {
-            None,
-            Challenger,
-            Diamond,
-            Platinum,
-            Gold,
-            Silver,
-            Bronze
-            //Wood
-            //Dirt
-        }
+        //APIGetting currentlyGetting;
 
         /// <summary>
         /// CreepScore constructor
@@ -137,46 +110,177 @@ namespace CreepScore
             champions = new List<Champion>();
             summoners = new List<Summoner>();
             apiKey = key;
-            //LoadChampions(champList);
         }
 
-        public void RetrieveChampions(Region region)
+        public async Task<List<Champion>> RetrieveChampions(Region region)
         {
-            Uri uri = new Uri(baseUrl + lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + "?api_key=" + apiKey);
-            BeginWebRequest(uri);
+            Uri uri = new Uri(baseUrl + lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + apiKeyPart + apiKey);
+            string responseString = await GetWebData(uri);
+
+            if (responseString != "400" && responseString != "401" && responseString != "404" && responseString != "500" && responseString != "Unknown status code")
+            {
+                LoadChampions(JObject.Parse(responseString));
+                return champions;
+            }
+
+            return null;
         }
 
-        void BeginWebRequest(Uri uri)
+        public async Task RetrieveSummoner(Region region, long summonerId)
         {
-            HttpWebRequest req = WebRequest.CreateHttp(uri);
-            req.BeginGetResponse(new AsyncCallback(EndWebRequest), req);
+            if (!SummonerLoaded(summonerId))
+            {
+                Uri uri = new Uri(baseUrl + lolPart + "/" + GetRegion(region) + "/" + "v1.1" + summonerPart + "/" + summonerId.ToString() + apiKeyPart + apiKey);
+                string responseString = await GetWebData(uri);
+
+                if (responseString != "400" && responseString != "401" && responseString != "404" && responseString != "500" && responseString != "Unknown status code")
+                {
+                    summoners.Add(new Summoner(JObject.Parse(responseString)));
+                }
+            }
         }
 
-        void EndWebRequest(IAsyncResult result)
+        public async Task<string> RetrieveSummoner(Region region, long summonerId)
         {
-            HttpWebResponse resp = (result.AsyncState as HttpWebRequest).EndGetResponse(result) as HttpWebResponse;
-            if (resp.StatusCode == HttpStatusCode.OK)
+            if (!SummonerLoaded(summonerId))
+            {
+                Uri uri = new Uri(baseUrl + lolPart + "/" + GetRegion(region) + "/" + "v1.1" + summonerPart + "/" + summonerId.ToString() + apiKeyPart + apiKey);
+                string responseString = await GetWebData(uri);
+
+                if (responseString != "400" && responseString != "401" && responseString != "404" && responseString != "500" && responseString != "Unknown status code")
+                {
+                    summoners.Add(new Summoner(JObject.Parse(responseString)));
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public async Task RetrieveSummoner(Region region, string summonerName)
+        {
+            if (!SummonerLoaded(summonerName))
+            {
+                Uri uri = new Uri(baseUrl + lolPart + "/" + GetRegion(region) + "/" + "v1.1" + summonerPart + "/by-name" + summonerName + apiKeyPart + apiKey);
+                string responseString = await GetWebData(uri);
+
+                if (responseString != "400" && responseString != "401" && responseString != "404" && responseString != "500" && responseString != "Unknown status code")
+                {
+                    summoners.Add(new Summoner(JObject.Parse(responseString)));
+                }
+            }
+        }
+
+        public async Task RetrieveSummoner(Region region, List<long> summonerIds)
+        {
+            foreach (long id in summonerIds)
+            {
+                if (!SummonerLoaded(id))
+                {
+                    //summoners.Add();
+                }
+            }
+        }
+
+        public bool SummonerLoaded(long summonerId)
+        {
+            foreach (Summoner summoner in summoners)
+            {
+                if (summoner.id == summonerId)
+                {
+                    // summoner already loaded
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool SummonerLoaded(string summonerName)
+        {
+            foreach (Summoner summoner in summoners)
+            {
+                if (summoner.name == summonerName)
+                {
+                    // summoner already loaded
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool TryGetSummoner(long summonerId, out Summoner summoner)
+        {
+            if (SummonerLoaded(summonerId))
+            {
+                foreach (Summoner s in summoners)
+                {
+                    if (summonerId == s.id)
+                    {
+                        summoner = s;
+                        return true;
+                    }
+                }
+            }
+
+            summoner = null;
+            return false;
+        }
+
+        public bool TryGetSummoner(string summonerName, out Summoner summoner)
+        {
+            if (SummonerLoaded(summonerName))
+            {
+                foreach (Summoner s in summoners)
+                {
+                    if (summonerName == s.name)
+                    {
+                        summoner = s;
+                        return true;
+                    }
+                }
+            }
+
+            summoner = null;
+            return false;
+        }
+
+        async Task<string> GetWebData(Uri uri)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(uri);
+
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 // 200 - OK
-                Stream responseStream = resp.GetResponseStream();
-                StreamReader readStream = new StreamReader(responseStream);
-                LoadChampions((JObject)JToken.ReadFrom(new JsonTextReader(readStream)));
+                string responseString = await response.Content.ReadAsStringAsync();
+                return responseString;
             }
-            else if (resp.StatusCode == HttpStatusCode.BadRequest)
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 // 400 - Bad request
+                return "400";
             }
-            else if (resp.StatusCode == HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 // 401 - Unauthoriezed
+                return "401";
             }
-            else if (resp.StatusCode == HttpStatusCode.NotFound)
+            else if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 // 404 - Summoner not found
+                return "404";
             }
-            else if (resp.StatusCode == HttpStatusCode.InternalServerError)
+            else if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 // 500 - Internal server error
+                return "500";
+            }
+            else
+            {
+                return "Unknown status code";
             }
         }
 
@@ -184,7 +288,7 @@ namespace CreepScore
         /// Loads a champion
         /// </summary>
         /// <param name="o">json object representing a champion</param>
-        public void LoadChampions(JObject o)
+        List<Champion> LoadChampions(JObject o)
         {
             for (int i = 0; i < o["champions"].Count(); i++)
             {
@@ -200,6 +304,8 @@ namespace CreepScore
                     (string)o["champions"][i]["name"],
                     (bool)o["champions"][i]["rankedPlayEnabled"]));
             }
+
+            return champions;
         }
 
         /// <summary>
@@ -239,136 +345,6 @@ namespace CreepScore
         public static DateTime EpochToDateTime(long date)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(date);
-        }
-
-        /// <summary>
-        /// Turns a gameMode string into a GameMode enum
-        /// </summary>
-        /// <param name="gameModeStr">GameMode string</param>
-        /// <returns>GameMode enum</returns>
-        public static GameMode SetGameMode(string gameModeStr)
-        {
-            if (gameModeStr == "CLASSIC")
-            {
-                return GameMode.Classic;
-            }
-            else if (gameModeStr == "ODIN")
-            {
-                return GameMode.Dominion;
-            }
-            else if (gameModeStr == "ARAM")
-            {
-                return GameMode.Aram;
-            }
-            else if (gameModeStr == "TUTORIAL")
-            {
-                return GameMode.Tutorial;
-            }
-            else
-            {
-                return GameMode.None;
-            }
-        }
-
-        /// <summary>
-        /// Tuns a mapID int into a Map enum
-        /// </summary>
-        /// <param name="mapInt">MapId int</param>
-        /// <returns>Map enum</returns>
-        public static Map SetMap(int mapInt)
-        {
-            if (mapInt == 1)
-            {
-                return Map.SummonersRiftSummer;
-            }
-            else if (mapInt == 2)
-            {
-                return Map.SummonersRiftAutumn;
-            }
-            else if (mapInt == 3)
-            {
-                return Map.TheProvingGrounds;
-            }
-            else if (mapInt == 4)
-            {
-                return Map.TwistedTreelineOriginal;
-            }
-            else if (mapInt == 8)
-            {
-                return Map.TheCrystalScar;
-            }
-            else if (mapInt == 10)
-            {
-                return Map.TwistedTreelineCurrent;
-            }
-            else if (mapInt == 12)
-            {
-                return Map.HowlingAbyss;
-            }
-            else
-            {
-                return Map.None;
-            }
-        }
-
-        /// <summary>
-        /// Set the Queue field
-        /// </summary>
-        /// <param name="queueStr">The queue type as a string</param>
-        public static Queue SetQueue(string queueStr)
-        {
-            if (queueStr == "RANKED_SOLO_5x5")
-            {
-                return Queue.Solo5;
-            }
-            else if (queueStr == "RANKED_TEAM_3x3")
-            {
-                return Queue.Team3;
-            }
-            else if (queueStr == "RANKED_TEAM_5x5")
-            {
-                return Queue.Team5;
-            }
-            else
-            {
-                return Queue.None;
-            }
-        }
-
-        /// <summary>
-        /// Set the Tier field
-        /// </summary>
-        /// <param name="tierStr">The tier type as a string</param>
-        public static Tier SetTier(string tierStr)
-        {
-            if (tierStr == "CHALLENGER")
-            {
-                return Tier.Challenger;
-            }
-            else if (tierStr == "DIAMOND")
-            {
-                return Tier.Diamond;
-            }
-            else if (tierStr == "PLATINUM")
-            {
-                return Tier.Platinum;
-            }
-            else if (tierStr == "GOLD")
-            {
-                return Tier.Gold;
-            }
-            else if (tierStr == "SILVER")
-            {
-                return Tier.Silver;
-            }
-            else if (tierStr == "BRONZE")
-            {
-                return Tier.Bronze;
-            }
-            else
-            {
-                return Tier.None;
-            }
         }
     }
 }

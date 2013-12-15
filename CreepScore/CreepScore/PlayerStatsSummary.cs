@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace CreepScore
+namespace CreepScoreAPI
 {
     /// <summary>
     /// PlayerStatsSummary class
@@ -47,23 +47,6 @@ namespace CreepScore
         public int wins;
 
         /// <summary>
-        /// Player stats summary type list
-        /// </summary>
-        public enum PlayerStatSummaryType
-        {
-            UnrankedAram,
-            CoOp,
-            UnrankedDominion,
-            RankedPremade3,
-            RankedPremade5,
-            RankedSolo5,
-            RankedTeam3,
-            RankedTeam5,
-            Unranked5,
-            Unranked3
-        }
-
-        /// <summary>
         /// PlayerStatsSummary constructor
         /// </summary>
         /// <param name="aggregatedStatsA">JArray of aggregated stats</param>
@@ -92,58 +75,6 @@ namespace CreepScore
             for (int i = 0; i < a.Count; i++)
             {
                 aggregatedStats.Add(new AggregatedStat((int)a[i]["count"], (int)a[i]["id"], (string)a[i]["name"]));
-            }
-        }
-
-        /// <summary>
-        /// Set PlayerStatSummaryType
-        /// </summary>
-        /// <param name="playerStatSummaryTypeStr">Player stat summary type as a string</param>
-        void SetPlayerStatSummaryType(string playerStatSummaryTypeStr)
-        {
-            if (playerStatSummaryTypeStr == "AramUnranked5x5")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.UnrankedAram;
-            }
-            else if (playerStatSummaryTypeStr == "CoopVsAI")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.CoOp;
-            }
-            else if (playerStatSummaryTypeStr == "OdinUnranked")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.UnrankedDominion;
-            }
-            else if (playerStatSummaryTypeStr == "RankedPremade3x3")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.RankedPremade3;
-            }
-            else if (playerStatSummaryTypeStr == "RankedPremade5x5")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.RankedPremade5;
-            }
-            else if (playerStatSummaryTypeStr == "RankedSolo5x5")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.RankedSolo5;
-            }
-            else if (playerStatSummaryTypeStr == "RankedTeam3x3")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.RankedTeam3;
-            }
-            else if (playerStatSummaryTypeStr == "RankedTeam5x5")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.RankedTeam5;
-            }
-            else if (playerStatSummaryTypeStr == "Unranked")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.Unranked5;
-            }
-            else if (playerStatSummaryTypeStr == "Unranked3x3")
-            {
-                playerStatSummaryType = PlayerStatSummaryType.Unranked3;
-            }
-            else
-            {
-                // error
             }
         }
     }

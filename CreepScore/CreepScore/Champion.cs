@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CreepScore
+namespace CreepScoreAPI
 {
     /// <summary>
     /// Champion class
