@@ -245,12 +245,19 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.statsPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.rankedPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
+                    if (summonerLevel == 30)
                     {
-                        LoadRankedStats(JObject.Parse(responseString), season);
+                        Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.statsPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.rankedPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                        string responseString = await CreepScore.GetWebData(uri);
+
+                        if (CreepScore.GoodStatusCode(responseString))
+                        {
+                            LoadRankedStats(JObject.Parse(responseString), season);
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                     else
                     {

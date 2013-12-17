@@ -80,14 +80,22 @@ namespace CreepScoreAPI
         /// <summary>
         /// ID of first summoner spell
         /// </summary>
-        /// <remarks>Will add enumeration for real spells once I know them</remarks>
-        public int spell1;
+        public int spell1ID;
+
+        /// <summary>
+        /// First summoner spell
+        /// </summary>
+        public GameConstants.Spell spell1;
 
         /// <summary>
         /// ID of second summoner spell
         /// </summary>
-        /// <remarks>Will add enumeration for real spells once I know them</remarks>
-        public int spell2;
+        public int spell2ID;
+
+        /// <summary>
+        /// Second summoner spell
+        /// </summary>
+        public GameConstants.Spell spell2;
 
         /// <summary>
         /// List of statistics associated with the game for this summoner
@@ -97,7 +105,7 @@ namespace CreepScoreAPI
         /// <summary>
         ///  Game sub-type
         /// </summary>
-        public string subType;
+        public string subTypeString;
 
         /// <summary>
         /// Team ID associated with game
@@ -116,10 +124,10 @@ namespace CreepScoreAPI
         /// <param name="invalid">Invalid flag</param>
         /// <param name="level">Level</param>
         /// <param name="mapId">Map ID number</param>
-        /// <param name="spell1">ID of first summoner spell</param>
-        /// <param name="spell2">ID of second summoner spell</param>
+        /// <param name="spell1ID">ID of first summoner spell</param>
+        /// <param name="spell2ID">ID of second summoner spell</param>
         /// <param name="statisticsA">JArray of statistics associated with the game for this summoner</param>
-        /// <param name="subType">Game sub-type</param>
+        /// <param name="subTypeString">Game sub-type</param>
         /// <param name="teamId">Team ID associated with game</param>
         public Game(int championId,
             long createDateLong,
@@ -130,10 +138,10 @@ namespace CreepScoreAPI
             bool invalid,
             int level,
             int mapId,
-            int spell1,
-            int spell2,
+            int spell1ID,
+            int spell2ID,
             JArray statisticsA,
-            string subType,
+            string subTypeString,
             int teamId)
         {
             fellowPlayers = new List<Player>();
@@ -152,10 +160,12 @@ namespace CreepScoreAPI
             this.level = level;
             this.mapId = mapId;
             map = GameConstants.SetMap(mapId);
-            this.spell1 = spell1;
-            this.spell2 = spell2;
+            this.spell1ID = spell1ID;
+            this.spell2ID = spell2ID;
+            spell1 = GameConstants.SetSpellType(spell1ID);
+            spell2 = GameConstants.SetSpellType(spell2ID);
             LoadStatistics(statisticsA);
-            this.subType = subType;
+            this.subTypeString = subTypeString;
             this.teamId = teamId;
         }
 
