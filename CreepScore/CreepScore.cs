@@ -70,11 +70,22 @@ namespace CreepScoreAPI
         /// Retrieves the list of champions from the API and returns them
         /// </summary>
         /// <param name="region">The region where to retrive the data</param>
+        /// <param name="freeToPlay">Retrive only the free to play champs</param>
         /// <returns>A list of champions.
         /// If it could not retrieve the champions it returns null</returns>
-        public async Task<List<Champion>> RetrieveChampions(Region region)
+        public async Task<List<Champion>> RetrieveChampions(Region region, bool freeToPlay)
         {
-            Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + UrlConstants.apiKeyPart + apiKey);
+            Uri uri;
+
+            if (!freeToPlay)
+            {
+                uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + UrlConstants.apiKeyPart + apiKey);
+            }
+            else
+            {
+                uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
+            }
+
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
