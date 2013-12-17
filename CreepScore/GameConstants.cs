@@ -117,6 +117,24 @@ namespace CreepScoreAPI.Constants
             AramCoop
         }
 
+        public enum Spell
+        {
+            None,
+            Cleanse,
+            Clairvoyance,
+            Exhaust,
+            Flash,
+            Ghost,
+            Heal,
+            Smite,
+            Teleport,
+            Clarity,
+            Ignite,
+            Barrier,
+            Garrison,
+            Revive
+        }
+
         /// <summary>
         /// Turns a gameMode string into a GameMode enum
         /// </summary>
@@ -389,6 +407,62 @@ namespace CreepScoreAPI.Constants
             else
             {
                 return MatchMakingQueues.None;
+            }
+        }
+
+        public static Spell SetSpellType(int spell)
+        {
+            if (spell == 1)
+            {
+                return Spell.Cleanse;
+            }
+            else if (spell == 2)
+            {
+                return Spell.Clairvoyance;
+            }
+            else if (spell == 3)
+            {
+                return Spell.Exhaust;
+            }
+            else if (spell == 4)
+            {
+                return Spell.Flash;
+            }
+            else if (spell == 6)
+            {
+                return Spell.Ghost;
+            }
+            else if (spell == 7)
+            {
+                return Spell.Heal;
+            }
+            else if (spell == 10)
+            {
+                return Spell.Revive;
+            }
+            else if (spell == 11)
+            {
+                return Spell.Smite;
+            }
+            else if (spell == 12)
+            {
+                return Spell.Teleport;
+            }
+            else if (spell == 13)
+            {
+                return Spell.Clarity;
+            }
+            else if (spell == 14)
+            {
+                return Spell.Ignite;
+            }
+            else if (spell == 21)
+            {
+                return Spell.Barrier;
+            }
+            else
+            {
+                return Spell.None;
             }
         }
     }

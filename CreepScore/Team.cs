@@ -201,19 +201,22 @@ namespace CreepScoreAPI
         /// <param name="a">json list of match history</param>
         void LoadMatchHistory(JArray a)
         {
-            for (int i = 0; i < a.Count; i++)
+            if (a != null)
             {
-                matchHistory.Add(new MatchHistorySummary((int)a[i]["assists"],
-                    (long)a[i]["date"],
-                    (int)a[i]["deaths"],
-                    (long)a[i]["gameId"],
-                    (string)a[i]["gameMode"],
-                    (bool)a[i]["invalid"],
-                    (int)a[i]["kills"],
-                    (int)a[i]["mapId"],
-                    (int)a[i]["opposingTeamKills"],
-                    (string)a[i]["opposingTeamName"],
-                    (bool)a[i]["win"]));
+                for (int i = 0; i < a.Count; i++)
+                {
+                    matchHistory.Add(new MatchHistorySummary((int)a[i]["assists"],
+                        (long)a[i]["date"],
+                        (int)a[i]["deaths"],
+                        (long)a[i]["gameId"],
+                        (string)a[i]["gameMode"],
+                        (bool)a[i]["invalid"],
+                        (int)a[i]["kills"],
+                        (int)a[i]["mapId"],
+                        (int)a[i]["opposingTeamKills"],
+                        (string)a[i]["opposingTeamName"],
+                        (bool)a[i]["win"]));
+                }
             }
         }
 
@@ -236,7 +239,10 @@ namespace CreepScoreAPI
         /// <param name="o">json object representing the roster</param>
         void LoadRoster(JObject o)
         {
-            roster = new Roster((JArray)o["memberList"], (long)o["ownerId"]);
+            if (o != null)
+            {
+                roster = new Roster((JArray)o["memberList"], (long)o["ownerId"]);
+            }
         }
 
         /// <summary>
@@ -245,7 +251,10 @@ namespace CreepScoreAPI
         /// <param name="o">json object representing the team ID</param>
         void LoadTeamId(JObject o)
         {
-            teamId = new TeamId((string)o["fullId"]);
+            if (o != null)
+            {
+                teamId = new TeamId((string)o["fullId"]);
+            }
         }
 
         /// <summary>
@@ -254,7 +263,10 @@ namespace CreepScoreAPI
         /// <param name="o">json object representing the team stat summary</param>
         void LoadTeamStatSummary(JObject o)
         {
-            teamStatSummary = new TeamStatSummary((JObject)o["teamId"], (JArray)o["teamStatDetails"]);
+            if (o != null)
+            {
+                teamStatSummary = new TeamStatSummary((JObject)o["teamId"], (JArray)o["teamStatDetails"]);
+            }
         }
     }
 }

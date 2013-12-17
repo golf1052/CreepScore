@@ -466,24 +466,27 @@ namespace CreepScoreAPI
         /// <param name="a">JArray list of teams</param>
         public void LoadTeams(JArray a)
         {
-            for (int i = 0; i < a.Count; i++)
+            if (a != null)
             {
-                teams.Add(new Team((long)a[i]["createDate"],
-                    (long)a[i]["lastGameDate"],
-                    (long)a[i]["lastJoinDate"],
-                    (long)a[i]["lastJoinedRankedTeamQueueDate"],
-                    (JArray)a[i]["matchHistory"],
-                    (JObject)a[i]["messageOfDay"],
-                    (long)a[i]["modifyDate"],
-                    (string)a[i]["name"],
-                    (JObject)a[i]["roster"],
-                    (long)a[i]["secondLastJoinDate"],
-                    (string)a[i]["status"],
-                    (string)a[i]["tag"],
-                    (JObject)a[i]["teamId"],
-                    (JObject)a[i]["teamStatSummary"],
-                    (long)a[i]["thirdLastJoinDate"],
-                    (long)a[i]["timestamp"]));
+                for (int i = 0; i < a.Count; i++)
+                {
+                    teams.Add(new Team((long)a[i]["createDate"],
+                        (long)a[i]["lastGameDate"],
+                        (long)a[i]["lastJoinDate"],
+                        (long)a[i]["lastJoinedRankedTeamQueueDate"],
+                        (JArray)a[i]["matchHistory"],
+                        (JObject)a[i]["messageOfDay"],
+                        (long)a[i]["modifyDate"],
+                        (string)a[i]["name"],
+                        (JObject)a[i]["roster"],
+                        (long)a[i]["secondLastJoinDate"],
+                        (string)a[i]["status"],
+                        (string)a[i]["tag"],
+                        (JObject)a[i]["teamId"],
+                        (JObject)a[i]["teamStatSummary"],
+                        (long)a[i]["thirdLastJoinDate"],
+                        (long)a[i]["timestamp"]));
+                }
             }
         }
     }

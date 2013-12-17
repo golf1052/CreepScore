@@ -41,7 +41,7 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < a.Count; i++)
             {
-                memberList.Add(new TeamMemberInfo((long)a[i]["inviteDate"], (long)a[i]["joinDate"], (long)a[i]["playerId"], (string)a[i]["status"]));
+                memberList.Add(new TeamMemberInfo((long)a[i]["inviteDate"], (long?)a[i]["joinDate"], (long)a[i]["playerId"], (string)a[i]["status"]));
             }
         }
     }
