@@ -486,12 +486,12 @@ namespace CreepScoreAPI
                         (long)a[i]["modifyDate"],
                         (string)a[i]["name"],
                         (JObject)a[i]["roster"],
-                        (long)a[i]["secondLastJoinDate"],
+                        (long?)a[i]["secondLastJoinDate"],
                         (string)a[i]["status"],
                         (string)a[i]["tag"],
                         (JObject)a[i]["teamId"],
                         (JObject)a[i]["teamStatSummary"],
-                        (long)a[i]["thirdLastJoinDate"],
+                        (long?)a[i]["thirdLastJoinDate"],
                         (long)a[i]["timestamp"]));
                 }
             }

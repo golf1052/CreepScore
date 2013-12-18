@@ -85,7 +85,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// Second to last summoner join date specified as epoch milliseconds
         /// </summary>
-        public long secondLastJoinDateLong;
+        public long? secondLastJoinDateLong;
 
         /// <summary>
         /// Second to last summoner join date
@@ -115,7 +115,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// Third to last summoner join date specified as epoch milliseconds
         /// </summary>
-        public long thirdLastJoinDateLong;
+        public long? thirdLastJoinDateLong;
 
         /// <summary>
         /// Third to last summoner join date
@@ -160,12 +160,12 @@ namespace CreepScoreAPI
             long modifyDateLong,
             string name,
             JObject rosterO,
-            long secondLastJoinDateLong,
+            long? secondLastJoinDateLong,
             string status,
             string tag,
             JObject teamIdO,
             JObject teamStatSummaryO,
-            long thirdLastJoinDateLong,
+            long? thirdLastJoinDateLong,
             long timestampLong)
         {
             matchHistory = new List<MatchHistorySummary>();
@@ -184,13 +184,19 @@ namespace CreepScoreAPI
             this.name = name;
             LoadRoster(rosterO);
             this.secondLastJoinDateLong = secondLastJoinDateLong;
-            secondLastJoinDate = CreepScore.EpochToDateTime(secondLastJoinDateLong);
+            if (secondLastJoinDateLong != null)
+            {
+                secondLastJoinDate = CreepScore.EpochToDateTime((long)secondLastJoinDateLong);
+            }
             this.status = status;
             this.tag = tag;
             LoadTeamId(teamIdO);
             LoadTeamStatSummary(teamStatSummaryO);
             this.thirdLastJoinDateLong = thirdLastJoinDateLong;
-            thirdLastJoinDate = CreepScore.EpochToDateTime(thirdLastJoinDateLong);
+            if (thirdLastJoinDateLong != null)
+            {
+                thirdLastJoinDate = CreepScore.EpochToDateTime((long)thirdLastJoinDateLong);
+            }
             this.timestampLong = timestampLong;
             timestamp = CreepScore.EpochToDateTime(timestampLong);
         }

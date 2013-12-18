@@ -315,6 +315,7 @@ namespace CreepScoreAPI.Constants
         /// </summary>
         public enum MasteryName
         {
+            None,
             //4311 Phasewalker
             Phasewalker,
             //4362 Wanderer
@@ -412,7 +413,7 @@ namespace CreepScoreAPI.Constants
             //4224 Bladed Armor
             BladedArmor,
             //4241 Perseverance
-            Perserverance,
+            Perseverance,
             //4234 Resistance
             Resistance,
             //4252 Legendary Guardian
@@ -876,6 +877,247 @@ namespace CreepScoreAPI.Constants
             else
             {
                 return SubType.None;
+            }
+        }
+
+        /// <summary>
+        /// Set Mastery name
+        /// </summary>
+        /// <param name="masteryName">Mastery name</param>
+        /// <returns>MasteryName type</returns>
+        public static MasteryName SetMasteryName(string masteryName)
+        {
+            if (masteryName == "Phasewalker")
+            {
+	            return MasteryName.Phasewalker;
+            }
+            else if (masteryName == "Wanderer")
+            {
+	            return MasteryName.Wanderer;
+            }
+            else if (masteryName == "Expose Weakness")
+            {
+	            return MasteryName.ExposeWeakness;
+            }
+            else if (masteryName == "Summoner's Insight")
+            {
+	            return MasteryName.SummonersInsight;
+            }
+            else if (masteryName == "Culinary Master")
+            {
+	            return MasteryName.CulinaryMaster;
+            }
+            else if (masteryName == "Inspiration")
+            {
+	            return MasteryName.Inspiration;
+            }
+            else if (masteryName == "Strength of Spirit")
+            {
+	            return MasteryName.StrengthOfSpirit;
+            }
+            else if (masteryName == "Sorcery")
+            {
+	            return MasteryName.Sorcery;
+            }
+            else if (masteryName == "Scout")
+            {
+	            return MasteryName.Scout;
+            }
+            else if (masteryName == "Greed")
+            {
+	            return MasteryName.Greed;
+            }
+            else if (masteryName == "Alchemist")
+            {
+	            return MasteryName.Alchemist;
+            }
+            else if (masteryName == "Mental Force")
+            {
+	            return MasteryName.MentalForce;
+            }
+            else if (masteryName == "Fleet of Foot")
+            {
+	            return MasteryName.FleetOfFoot;
+            }
+            else if (masteryName == "Meditation")
+            {
+	            return MasteryName.Meditation;
+            }
+            else if (masteryName == "Arcane Mastery")
+            {
+	            return MasteryName.ArcaneMastery;
+            }
+            else if (masteryName == "Scavenger")
+            {
+	            return MasteryName.Scavenger;
+            }
+            else if (masteryName == "Block")
+            {
+	            return MasteryName.Block;
+            }
+            else if (masteryName == "Executioner")
+            {
+	            return MasteryName.Executioner;
+            }
+            else if (masteryName == "Recovery")
+            {
+	            return MasteryName.Recovery;
+            }
+            else if (masteryName == "Enchanted Armor")
+            {
+	            return MasteryName.EnchantedArmor;
+            }
+            else if (masteryName == "Tough Skin")
+            {
+	            return MasteryName.ToughSkin;
+            }
+            else if (masteryName == "Frenzy")
+            {
+	            return MasteryName.Frenzy;
+            }
+            else if (masteryName == "Veteran's Scars")
+            {
+	            return MasteryName.VeteransScars;
+            }
+            else if (masteryName == "Fury")
+            {
+	            return MasteryName.Fury;
+            }
+            else if (masteryName == "Dangerous Game")
+            {
+	            return MasteryName.DangerousGame;
+            }
+            else if (masteryName == "Brute Force")
+            {
+	            return MasteryName.BruteForce;
+            }
+            else if (masteryName == "Devastating Strikes")
+            {
+	            return MasteryName.DevastatingStrikes;
+            }
+            else if (masteryName == "Double-Edged Sword")
+            {
+	            return MasteryName.DoubleEdgedSword;
+            }
+            else if (masteryName == "Martial Mastery")
+            {
+	            return MasteryName.MartialMastery;
+            }
+            else if (masteryName == "Warlord")
+            {
+	            return MasteryName.Warlord;
+            }
+            else if (masteryName == "Juggernaut")
+            {
+	            return MasteryName.Juggernaut;
+            }
+            else if (masteryName == "Havoc")
+            {
+	            return MasteryName.Havoc;
+            }
+            else if (masteryName == "Runic Affinity")
+            {
+	            return MasteryName.RunicAffinity;
+            }
+            else if (masteryName == "Feast")
+            {
+	            return MasteryName.Feast;
+            }
+            else if (masteryName == "Arcane Blade")
+            {
+	            return MasteryName.ArcaneBlade;
+            }
+            else if (masteryName == "Butcher")
+            {
+	            return MasteryName.Butcher;
+            }
+            else if (masteryName == "Archmage")
+            {
+	            return MasteryName.Archmage;
+            }
+            else if (masteryName == "Spell Weaving")
+            {
+	            return MasteryName.SpellWeaving;
+            }
+            else if (masteryName == "Hardiness")
+            {
+	            return MasteryName.Hardiness;
+            }
+            else if (masteryName == "Oppression")
+            {
+	            return MasteryName.Oppression;
+            }
+            else if (masteryName == "Unyielding")
+            {
+	            return MasteryName.Unyielding;
+            }
+            else if (masteryName == "Blade Weaving")
+            {
+	            return MasteryName.BladeWeaving;
+            }
+            else if (masteryName == "Swiftness")
+            {
+	            return MasteryName.Swiftness;
+            }
+            else if (masteryName == "Reinforced Armor")
+            {
+	            return MasteryName.ReinforcedArmor;
+            }
+            else if (masteryName == "Second Wind")
+            {
+	            return MasteryName.SecondWind;
+            }
+            else if (masteryName == "Runic Blessing")
+            {
+	            return MasteryName.RunicBlessing;
+            }
+            else if (masteryName == "Tenacious")
+            {
+	            return MasteryName.Tenacious;
+            }
+            else if (masteryName == "Bladed Armor")
+            {
+	            return MasteryName.BladedArmor;
+            }
+            else if (masteryName == "Perseverance")
+            {
+	            return MasteryName.Perseverance;
+            }
+            else if (masteryName == "Resistance")
+            {
+	            return MasteryName.Resistance;
+            }
+            else if (masteryName == "Legendary Guardian")
+            {
+	            return MasteryName.LegendaryGuardian;
+            }
+            else if (masteryName == "Bandit")
+            {
+	            return MasteryName.Bandit;
+            }
+            else if (masteryName == "Expanded Mind")
+            {
+	            return MasteryName.ExpandedMind;
+            }
+            else if (masteryName == "Wealth")
+            {
+	            return MasteryName.Wealth;
+            }
+            else if (masteryName == "Evasive")
+            {
+	            return MasteryName.Evasive;
+            }
+            else if (masteryName == "Intelligence")
+            {
+	            return MasteryName.Intelligence;
+            }
+            else if (masteryName == "Vampirism")
+            {
+	            return MasteryName.Vampirism;
+            }
+            else
+            {
+                return MasteryName.None;
             }
         }
     }
