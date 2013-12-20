@@ -17,6 +17,11 @@ namespace CreepScoreAPI
         public bool current;
 
         /// <summary>
+        /// Mastery page ID
+        /// </summary>
+        public long id;
+
+        /// <summary>
         /// Mastery page name
         /// </summary>
         public string name;
@@ -32,10 +37,11 @@ namespace CreepScoreAPI
         /// <param name="current">Indicates if the mastery page is the current mastery page</param>
         /// <param name="name">Mastery page name</param>
         /// <param name="a">JArray of mastery page talents associated with the mastery page</param>
-        public MasteryPage(bool current, string name, JArray a)
+        public MasteryPage(bool current, long id, string name, JArray a)
         {
             talents = new List<Talent>();
             this.current = current;
+            this.id = id;
             this.name = name;
             LoadTalents(a);
         }

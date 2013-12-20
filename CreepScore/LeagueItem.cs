@@ -53,11 +53,6 @@ namespace CreepScoreAPI
         public int leaguePoints;
 
         /// <summary>
-        /// Number of losses
-        /// </summary>
-        public int losses;
-
-        /// <summary>
         /// If not null the player/team is in a mini series
         /// </summary>
         public MiniSeries miniSeries;
@@ -98,17 +93,6 @@ namespace CreepScoreAPI
         public GameConstants.Tier tier;
 
         /// <summary>
-        /// Time until decay date specified as epoch milliseconds
-        /// </summary>
-        public long timeUntilDecayLong;
-
-        /// <summary>
-        /// Time until decay as a DateTime
-        /// </summary>
-        /// <remarks>I do not know if this should be a TimeSpan or a DateTime</remarks>
-        public DateTime timeUntilDecay;
-
-        /// <summary>
         /// Number of wins
         /// </summary>
         public int wins;
@@ -123,14 +107,12 @@ namespace CreepScoreAPI
         /// <param name="lastPlayedLong">Last played date specified as epoch milliseconds</param>
         /// <param name="leagueName">League name</param>
         /// <param name="leaguePoints">Number of league points</param>
-        /// <param name="losses">Number of losses</param>
         /// <param name="miniSeriesO">JObject representing the miniseries</param>
         /// <param name="playerOrTeamId">Player or team ID</param>
         /// <param name="playerOrTeamName">Player or team name</param>
         /// <param name="queueTypeString">Queue type as a string</param>
         /// <param name="rank">Rank</param>
         /// <param name="tierString">Tier as a string</param>
-        /// <param name="timeUntilDecayLong">Time until decay date specified as epoch milliseconds</param>
         /// <param name="wins">Number of wins</param>
         public LeagueItem(bool isFreshBlood,
             bool isHotStreak,
@@ -139,14 +121,12 @@ namespace CreepScoreAPI
             long lastPlayedLong,
             string leagueName,
             int leaguePoints,
-            int losses,
             JObject miniSeriesO,
             string playerOrTeamId,
             string playerOrTeamName,
             string queueTypeString,
             string rank,
             string tierString,
-            long timeUntilDecayLong,
             int wins)
         {
             this.isFreshBlood = isFreshBlood;
@@ -157,7 +137,6 @@ namespace CreepScoreAPI
             lastPlayed = CreepScore.EpochToDateTime(lastPlayedLong);
             this.leagueName = leagueName;
             this.leaguePoints = leaguePoints;
-            this.losses = losses;
             LoadMiniSeries(miniSeriesO);
             this.playerOrTeamId = playerOrTeamId;
             this.playerOrTeamName = playerOrTeamName;
@@ -166,9 +145,6 @@ namespace CreepScoreAPI
             this.rank = rank;
             this.tierString = tierString;
             tier = GameConstants.SetTier(tierString);
-            this.timeUntilDecayLong = timeUntilDecayLong;
-            timeUntilDecay = CreepScore.EpochToDateTime(timeUntilDecayLong);
-            //timeUntilDecay = TimeSpan.FromMilliseconds(timeUntilDecayLong);
             this.wins = wins;
         }
 

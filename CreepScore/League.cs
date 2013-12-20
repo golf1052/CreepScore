@@ -43,24 +43,13 @@ namespace CreepScoreAPI
         public GameConstants.Tier tier;
 
         /// <summary>
-        /// Date specified as epoch milliseconds
-        /// </summary>
-        public long timeStampLong;
-
-        /// <summary>
-        /// Date
-        /// </summary>
-        public DateTime timeStamp;
-
-        /// <summary>
         /// League constructor
         /// </summary>
         /// <param name="entriesA">JArray of LeagueItem entries</param>
         /// <param name="name">Name of league</param>
         /// <param name="queueString">Queue type as a string</param>
         /// <param name="tierString">Tier type as a string</param>
-        /// <param name="timeStampLong">Date specified as epoch milliseconds</param>
-        public League(JArray entriesA, string name, string queueString, string tierString, long timeStampLong)
+        public League(JArray entriesA, string name, string queueString, string tierString)
         {
             entries = new List<LeagueItem>();
             LoadEntries(entriesA);
@@ -69,8 +58,6 @@ namespace CreepScoreAPI
             queue = GameConstants.SetQueue(queueString);
             this.tierString = tierString;
             tier = GameConstants.SetTier(tierString);
-            this.timeStampLong = timeStampLong;
-            timeStamp = CreepScore.EpochToDateTime(timeStampLong);
         }
 
         /// <summary>
@@ -88,14 +75,12 @@ namespace CreepScoreAPI
                     (long)a[i]["lastPlayed"],
                     (string)a[i]["leagueName"],
                     (int)a[i]["leaguePoints"],
-                    (int)a[i]["losses"],
                     (JObject)a[i]["miniSeries"],
                     (string)a[i]["playerOrTeamId"],
                     (string)a[i]["playerOrTeamName"],
                     (string)a[i]["queueType"],
                     (string)a[i]["rank"],
                     (string)a[i]["tier"],
-                    (long)a[i]["timeUntilDecay"],
                     (int)a[i]["wins"]));
             }
         }

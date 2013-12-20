@@ -22,27 +22,9 @@ namespace CreepScoreAPI
         public int losses;
 
         /// <summary>
-        /// Max rating (usually null)
-        /// </summary>
-        /// <remarks>Probably was used back when ELO was around</remarks>
-        public int? maxRating;
-
-        /// <summary>
-        /// Rating (usually null)
-        /// </summary>
-        /// <remarks>Probably was used back when ELO was around</remarks>
-        public int? rating;
-
-        /// <summary>
-        /// Seed rating (usually null)
-        /// </summary>
-        /// <remarks>Probably was used back when ELO was around</remarks>
-        public int? seedRating;
-
-        /// <summary>
         /// Team ID
         /// </summary>
-        public TeamId teamId;
+        public string fullId;
 
         /// <summary>
         /// Team stat type
@@ -65,25 +47,13 @@ namespace CreepScoreAPI
         /// <param name="teamIdO">JObject representing team ID</param>
         /// <param name="teamStatType">Team stat type</param>
         /// <param name="wins">Number of wins</param>
-        public TeamStatDetail(int averageGamesPlayed, int losses, int? maxRating, int? rating, int? seedRating, JObject teamIdO, string teamStatType, int wins)
+        public TeamStatDetail(int averageGamesPlayed, int losses, string fullId, string teamStatType, int wins)
         {
             this.averageGamesPlayed = averageGamesPlayed;
             this.losses = losses;
-            this.maxRating = maxRating;
-            this.rating = rating;
-            this.seedRating = seedRating;
-            LoadTeamId(teamIdO);
+            this.fullId = fullId;
             this.teamStatType = teamStatType;
             this.wins = wins;
-        }
-
-        /// <summary>
-        /// Loads team ID
-        /// </summary>
-        /// <param name="o">json object representing the team ID</param>
-        void LoadTeamId(JObject o)
-        {
-            teamId = new TeamId((string)o["teamId"]);
         }
     }
 }

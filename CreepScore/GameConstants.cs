@@ -92,7 +92,10 @@ namespace CreepScoreAPI.Constants
             RankedTeam3,
             RankedTeam5,
             Unranked5,
-            Unranked3
+            Unranked3,
+            OneForAll5,
+            FirstBlood1,
+            FirstBlood2
         }
 
         /// <summary>
@@ -114,7 +117,9 @@ namespace CreepScoreAPI.Constants
             RankedTeam5v5,
             TwistedTreelineCoop,
             Aram,
-            AramCoop
+            AramCoop,
+            Snowdown1v1,
+            Snowdown2v2
         }
 
         /// <summary>
@@ -156,73 +161,6 @@ namespace CreepScoreAPI.Constants
             Coop,
             // RANKED_SOLO_5x5
             RankedSolo5v5
-        }
-
-        /// <summary>
-        /// Aggregated Stat Types
-        /// </summary>
-        /// <remarks>Not fully completed yet</remarks>
-        public enum AggregatedStatType
-        {
-            None,
-            // 34 TOTAL_ASSISTS
-            TotalAssists,
-            // 4 TOTAL_CHAMPION_KILLS
-            TotalChampionKills,
-            // 53 TOTAL_DECAYER
-            TotalDecayer,
-            // 23 TOTAL_TURRETS_KILLED
-            TotalTurretsKilled,
-            // 9 TOTAL_MINION_KILLS
-            TotalMinionKills,
-            // 1026 MAX_NODE_CAPTURE_ASSIST
-            MaxNodeCaptureAssist,
-            // 1030 AVERAGE_CHAMPIONS_KILLED
-            AverageChampionsKilled,
-            // 1025 MAX_OBJECTIVE_PLAYER_SCORE
-            MaxObjectivePlayerScore,
-            // 1033 MAX_ASSISTS
-            MaxAssists,
-            // 1029 TOTAL_NODE_CAPTURE
-            TotalNodeCapture,
-            // 1032 AVERAGE_ASSISTS
-            AverageAssists,
-            // 1020 MAX_NODE_CAPTURE
-            MaxNodeCapture,
-            // 1024 MAX_COMBAT_PLAYER_SCORE
-            MaxCombatPlayerScore,
-            // 1022 MAX_TEAM_OBJECTIVE
-            MaxTeamObjective,
-            //1028 TOTAL_NODE_NEUTRALIZE
-            TotalNodeNeutralize,
-            //1003 AVERAGE_TOTAL_PLAYER_SCORE
-            AverageTotalPlayerScore,
-            //1000 AVERAGE_NODE_CAPTURE
-            AverageNodeCapture,
-            //1031 AVERAGE_NUM_DEATHS
-            AverageNumDeaths,
-            //1002 AVERAGE_TEAM_OBJECTIVE
-            AverageTeamObjective,
-            //1021 MAX_NODE_NEUTRALIZE
-            MaxNodeNeutralize,
-            //1005 AVERAGE_OBJECTIVE_PLAYER_SCORE
-            AverageObjectivePlayerScore,
-            //1006 AVERAGE_NODE_CAPTURE_ASSIST
-            AverageNodeCaptureAssist,
-            //1007 AVERAGE_NODE_NEUTRALIZE_ASSIST
-            AverageNodeNeutralizeAssist,
-            //1027 MAX_NODE_NEUTRALIZE_ASSIST
-            MaxNodeNeutralizeAssist,
-            //1004 AVERAGE_COMBAT_PLAYER_SCORE
-            AverageCombatPlayerScore,
-            //1001 AVERAGE_NODE_NEUTRALIZE
-            AverageNodeNeutralize,
-            //48 MAX_CHAMPIONS_KILLED
-            MaxChampionsKilled,
-            //1023 MAX_TOTAL_PLAYER_SCORE
-            MaxTotalPlayerScore,
-            //29 TOTAL_NEUTRAL_MINIONS_KILLED
-            TotalNeutralMinionsKilled
         }
 
         /// <summary>
@@ -774,6 +712,14 @@ namespace CreepScoreAPI.Constants
             else if (queueId == 67)
             {
                 return MatchMakingQueues.AramCoop;
+            }
+            else if (queueId == 72)
+            {
+                return MatchMakingQueues.Snowdown1v1;
+            }
+            else if (queueId == 73)
+            {
+                return MatchMakingQueues.Snowdown2v2;
             }
             else
             {

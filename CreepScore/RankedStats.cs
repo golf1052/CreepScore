@@ -54,7 +54,7 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < a.Count; i++)
             {
-                champions.Add(new ChampionStats((int)a[i]["id"], (string)a[i]["name"], (JArray)a[i]["stats"]));
+                champions.Add(new ChampionStats((int)a[i]["id"], (string)a[i]["name"], (JObject)a[i]["stats"]));
             }
         }
     }

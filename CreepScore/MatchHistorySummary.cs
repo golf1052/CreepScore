@@ -17,16 +17,6 @@ namespace CreepScoreAPI
         public int assists;
 
         /// <summary>
-        /// Date of match specified as epoch milliseconds
-        /// </summary>
-        public long dateLong;
-
-        /// <summary>
-        /// Date of match
-        /// </summary>
-        public DateTime date;
-
-        /// <summary>
         /// Number of deaths
         /// </summary>
         public int deaths;
@@ -95,11 +85,9 @@ namespace CreepScoreAPI
         /// <param name="opposingTeamKills">Opposing team kills</param>
         /// <param name="opposingTeamName">Opposing team name</param>
         /// <param name="win">If the team won or not</param>
-        public MatchHistorySummary(int assists, long dateLong, int deaths, long gameId, string gameModeString, bool invalid, int kills, int mapId, int opposingTeamKills, string opposingTeamName, bool win)
+        public MatchHistorySummary(int assists, int deaths, long gameId, string gameModeString, bool invalid, int kills, int mapId, int opposingTeamKills, string opposingTeamName, bool win)
         {
             this.assists = assists;
-            this.dateLong = dateLong;
-            date = CreepScore.EpochToDateTime(dateLong);
             this.deaths = deaths;
             this.gameId = gameId;
             this.gameModeString = gameModeString;

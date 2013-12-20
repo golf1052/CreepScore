@@ -15,7 +15,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// List of aggregated stats
         /// </summary>
-        public List<AggregatedStat> aggregatedStats;
+        public AggregatedStats aggregatedStats;
 
         /// <summary>
         /// Number of losses for this queue type. Returned only for ranked queue types only. Always 0 for normal queues
@@ -55,16 +55,15 @@ namespace CreepScoreAPI
         /// <summary>
         /// PlayerStatsSummary constructor
         /// </summary>
-        /// <param name="aggregatedStatsA">JArray of aggregated stats</param>
+        /// <param name="aggregatedStatsO">JArray of aggregated stats</param>
         /// <param name="losses">Number of losses for this queue type. Returned only for ranked queue types only. Always 0 for normal queues</param>
         /// <param name="modifyDateLong">Date stats were last modified specified as epoch milliseconds</param>
         /// <param name="playerStatSummaryTypeString">Player stats summary type as a string</param>
         /// <param name="wins">Number of wins for this queue type</param>
         /// <param name="season">The season that this day represents</param>
-        public PlayerStatsSummary(JArray aggregatedStatsA, int losses, long modifyDateLong, string playerStatSummaryTypeString, int wins, CreepScore.Season season)
+        public PlayerStatsSummary(JObject aggregatedStatsO, int losses, long modifyDateLong, string playerStatSummaryTypeString, int wins, CreepScore.Season season)
         {
-            aggregatedStats = new List<AggregatedStat>();
-            LoadAggregatedStats(aggregatedStatsA);
+            LoadAggregatedStats(aggregatedStatsO);
             this.losses = losses;
             this.modifyDateLong = modifyDateLong;
             modifyDate = CreepScore.EpochToDateTime(modifyDateLong);
@@ -78,12 +77,62 @@ namespace CreepScoreAPI
         /// Load aggregated stats
         /// </summary>
         /// <param name="a">json list of aggregated stats</param>
-        void LoadAggregatedStats(JArray a)
+        void LoadAggregatedStats(JObject o)
         {
-            for (int i = 0; i < a.Count; i++)
-            {
-                aggregatedStats.Add(new AggregatedStat((int)a[i]["count"], (int)a[i]["id"], (string)a[i]["name"]));
-            }
+            aggregatedStats = new AggregatedStats((int?)o["averageAssists"],
+                (int?)o["averageChampionsKilled"],
+                (int?)o["averageCombatPlayerScore"],
+                (int?)o["averageNodeCapture"],
+                (int?)o["averageNodeCaptureAssist"],
+                (int?)o["averageNodeNeutralize"],
+                (int?)o["averageNodeNeutralizeAssist"],
+                (int?)o["averageNumDeaths"],
+                (int?)o["averageObjectivePlayerScore"],
+                (int?)o["averageTeamObjective"],
+                (int?)o["averageTotalPlayerScore"],
+                (int?)o["botGamesPlayed"],
+                (int?)o["killingSpree"],
+                (int?)o["maxAssists"],
+                (int?)o["maxChampionsKilled"],
+                (int?)o["maxCombatPlayerScore"],
+                (int?)o["maxLargestCriticalStrike"],
+                (int?)o["maxLargestKillingSpree"],
+                (int?)o["maxNodeCapture"],
+                (int?)o["maxNodeCaptureAssist"],
+                (int?)o["maxNodeNeutralize"],
+                (int?)o["maxNodeNeutralizeAssist"],
+                (int?)o["maxObjectivePlayerScore"],
+                (int?)o["maxTeamObjective"],
+                (int?)o["maxTimePlayed"],
+                (int?)o["maxTimeSpentLiving"],
+                (int?)o["maxTotalPlayerScore"],
+                (int?)o["mostChampionKillsPerSession"],
+                (int?)o["mostSpellsCast"],
+                (int?)o["normalGamesPlayed"],
+                (int?)o["rankedPremadeGamesPlayed"],
+                (int?)o["rankedSoloGamesPlayed"],
+                (int?)o["totalAssists"],
+                (int?)o["totalChampionKills"],
+                (int?)o["totalDamageDealt"],
+                (int?)o["totalDamageTaken"],
+                (int?)o["totalDoubleKills"],
+                (int?)o["totalFirstBlood"],
+                (int?)o["totalGoldEarned"],
+                (int?)o["totalHeal"],
+                (int?)o["totalMagicDamageDealt"],
+                (int?)o["totalMinionKills"],
+                (int?)o["totalNeutralMinionsKilled"],
+                (int?)o["totalNodeCapture"],
+                (int?)o["totalNodeNeutralize"],
+                (int?)o["totalPentaKills"],
+                (int?)o["totalPhysicalDamageDealt"],
+                (int?)o["totalQuadraKills"],
+                (int?)o["totalSessionsLost"],
+                (int?)o["totalSessionsPlayed"],
+                (int?)o["totalSessionsWon"],
+                (int?)o["totalTripleKills"],
+                (int?)o["totalTurretsKilled"],
+                (int?)o["totalUnrealKills"]);
         }
     }
 }

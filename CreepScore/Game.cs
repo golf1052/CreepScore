@@ -18,12 +18,12 @@ namespace CreepScoreAPI
         public int championId;
         
         /// <summary>
-        /// Date game was played specified as epoch milliseconds
+        /// Date that end game data was recorded, specified as epoch milliseconds
         /// </summary>
         public long createDateLong;
 
         /// <summary>
-        /// Date game was played
+        /// Date that end game data was recorded
         /// </summary>
         public DateTime createDate;
 
@@ -116,7 +116,7 @@ namespace CreepScoreAPI
         /// Game constructor
         /// </summary>
         /// <param name="championId">Champion ID associated with game</param>
-        /// <param name="createDateLong">Date game was played specified as epoch milliseconds</param>
+        /// <param name="createDateLong">Date that end game data was recorded, specified as epoch milliseconds</param>
         /// <param name="fellowPlayersA">JArray of other players associated with the game</param>
         /// <param name="gameId">Game ID</param>
         /// <param name="gameModeString">Game mode as a string</param>

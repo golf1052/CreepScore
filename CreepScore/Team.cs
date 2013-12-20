@@ -22,6 +22,11 @@ namespace CreepScoreAPI
         public DateTime createDate;
 
         /// <summary>
+        /// Full team ID
+        /// </summary>
+        public string fullId;
+
+        /// <summary>
         /// Date of last game specified as epoch milliseconds
         /// </summary>
         public long lastGameDateLong;
@@ -103,11 +108,6 @@ namespace CreepScoreAPI
         public string tag;
 
         /// <summary>
-        /// Team ID
-        /// </summary>
-        public TeamId teamId;
-
-        /// <summary>
         /// Team stat summary
         /// </summary>
         public TeamStatSummary teamStatSummary;
@@ -121,16 +121,6 @@ namespace CreepScoreAPI
         /// Third to last summoner join date
         /// </summary>
         public DateTime thirdLastJoinDate;
-
-        /// <summary>
-        /// Timestamp specified as epoch milliseconds
-        /// </summary>
-        public long timestampLong;
-
-        /// <summary>
-        /// Timestamp
-        /// </summary>
-        public DateTime timestamp;
 
         /// <summary>
         /// Team constructor
@@ -152,6 +142,7 @@ namespace CreepScoreAPI
         /// <param name="thirdLastJoinDateLong">Third to last summoner join date specified as epoch milliseconds</param>
         /// <param name="timestampLong">Timestamp specified as epoch milliseconds</param>
         public Team(long createDateLong,
+            string fullId,
             long lastGameDateLong,
             long lastJoinDateLong,
             long lastJoinedRankedTeamQueueDateLong,
@@ -163,14 +154,13 @@ namespace CreepScoreAPI
             long? secondLastJoinDateLong,
             string status,
             string tag,
-            JObject teamIdO,
             JObject teamStatSummaryO,
-            long? thirdLastJoinDateLong,
-            long timestampLong)
+            long? thirdLastJoinDateLong)
         {
             matchHistory = new List<MatchHistorySummary>();
             this.createDateLong = createDateLong;
             createDate = CreepScore.EpochToDateTime(createDateLong);
+            this.fullId = fullId;
             this.lastGameDateLong = lastGameDateLong;
             lastGameDate = CreepScore.EpochToDateTime(lastGameDateLong);
             this.lastJoinDateLong = lastJoinDateLong;
@@ -190,15 +180,12 @@ namespace CreepScoreAPI
             }
             this.status = status;
             this.tag = tag;
-            LoadTeamId(teamIdO);
             LoadTeamStatSummary(teamStatSummaryO);
             this.thirdLastJoinDateLong = thirdLastJoinDateLong;
             if (thirdLastJoinDateLong != null)
             {
                 thirdLastJoinDate = CreepScore.EpochToDateTime((long)thirdLastJoinDateLong);
             }
-            this.timestampLong = timestampLong;
-            timestamp = CreepScore.EpochToDateTime(timestampLong);
         }
 
         /// <summary>
@@ -212,7 +199,6 @@ namespace CreepScoreAPI
                 for (int i = 0; i < a.Count; i++)
                 {
                     matchHistory.Add(new MatchHistorySummary((int)a[i]["assists"],
-                        (long)a[i]["date"],
                         (int)a[i]["deaths"],
                         (long)a[i]["gameId"],
                         (string)a[i]["gameMode"],
@@ -252,18 +238,6 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
-        /// Loads the team ID
-        /// </summary>
-        /// <param name="o">json object representing the team ID</param>
-        void LoadTeamId(JObject o)
-        {
-            if (o != null)
-            {
-                teamId = new TeamId((string)o["fullId"]);
-            }
-        }
-
-        /// <summary>
         /// Loads the team stat summary
         /// </summary>
         /// <param name="o">json object representing the team stat summary</param>
@@ -271,7 +245,7 @@ namespace CreepScoreAPI
         {
             if (o != null)
             {
-                teamStatSummary = new TeamStatSummary((JObject)o["teamId"], (JArray)o["teamStatDetails"]);
+                teamStatSummary = new TeamStatSummary((string)o["fullId"], (JArray)o["teamStatDetails"]);
             }
         }
     }

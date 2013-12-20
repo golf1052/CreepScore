@@ -90,6 +90,16 @@ namespace CreepScoreAPI
         /// </summary>
         public CreepScore.Region region;
 
+        private string errorString;
+
+        public string ErrorString
+        {
+            get
+            {
+                return errorString;
+            }
+        }
+
         /// <summary>
         /// Full summoner constructor
         /// </summary>
@@ -146,7 +156,7 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.gamePart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.recentPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v1.2" + UrlConstants.gamePart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.recentPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -179,7 +189,7 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v2.1" + UrlConstants.leaguePart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v2.2" + UrlConstants.leaguePart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.apiKeyPart + CreepScore.apiKey);
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -212,7 +222,7 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.statsPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.summaryPart + "?season=" + CreepScore.GetSeason(season) + "&api_key=" + CreepScore.apiKey);
+                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v1.2" + UrlConstants.statsPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.summaryPart + "?season=" + CreepScore.GetSeason(season) + "&api_key=" + CreepScore.apiKey);
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -247,7 +257,7 @@ namespace CreepScoreAPI
                 {
                     if (summonerLevel == 30)
                     {
-                        Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.statsPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.rankedPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                        Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v1.2" + UrlConstants.statsPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.rankedPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
                         string responseString = await CreepScore.GetWebData(uri);
 
                         if (CreepScore.GoodStatusCode(responseString))
@@ -284,7 +294,7 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.summonerPart + "/" + id.ToString() + UrlConstants.masteriesPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/" + id.ToString() + UrlConstants.masteriesPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -316,7 +326,7 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + CreepScore.GetRegion(region) + "/" + "v1.1" + UrlConstants.summonerPart + "/" + id.ToString() + UrlConstants.runesPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/" + id.ToString() + UrlConstants.runesPart + UrlConstants.apiKeyPart + CreepScore.apiKey);
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -348,7 +358,7 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v2.1" + UrlConstants.teamPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.apiKeyPart + CreepScore.apiKey);
+                    Uri uri = new Uri(UrlConstants.baseUrl + "/" + CreepScore.GetRegion(region) + "/" + "v2.2" + UrlConstants.teamPart + UrlConstants.bySummonerPart + "/" + id.ToString() + UrlConstants.apiKeyPart + CreepScore.apiKey);
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -393,6 +403,7 @@ namespace CreepScoreAPI
             for (int i = 0; i < o["pages"].Count(); i++)
             {
                 masteryPages.Add(new MasteryPage((bool)o["pages"][i]["current"],
+                    (long)o["pages"][i]["id"],
                     (string)o["pages"][i]["name"],
                     (JArray)o["pages"][i]["talents"]));
             }
@@ -436,8 +447,7 @@ namespace CreepScoreAPI
                 league.Add(pair.Key, new League((JArray)pair.Value["entries"],
                     (string)pair.Value["name"],
                     (string)pair.Value["queue"],
-                    (string)pair.Value["tier"],
-                    (long)pair.Value["timestamp"]));
+                    (string)pair.Value["tier"]));
             }
         }
 
@@ -449,7 +459,7 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < o["playerStatSummaries"].Count(); i++)
             {
-                playerStatSummaries.Add(new PlayerStatsSummary((JArray)o["playerStatSummaries"][i]["aggregatedStats"],
+                playerStatSummaries.Add(new PlayerStatsSummary((JObject)o["playerStatSummaries"][i]["aggregatedStats"],
                     (int)o["playerStatSummaries"][i]["losses"],
                     (long)o["playerStatSummaries"][i]["modifyDate"],
                     (string)o["playerStatSummaries"][i]["playerStatSummaryType"],
@@ -478,6 +488,7 @@ namespace CreepScoreAPI
                 for (int i = 0; i < a.Count; i++)
                 {
                     teams.Add(new Team((long)a[i]["createDate"],
+                        (string)a[i]["fullId"],
                         (long)a[i]["lastGameDate"],
                         (long)a[i]["lastJoinDate"],
                         (long)a[i]["lastJoinedRankedTeamQueueDate"],
@@ -489,10 +500,8 @@ namespace CreepScoreAPI
                         (long?)a[i]["secondLastJoinDate"],
                         (string)a[i]["status"],
                         (string)a[i]["tag"],
-                        (JObject)a[i]["teamId"],
                         (JObject)a[i]["teamStatSummary"],
-                        (long?)a[i]["thirdLastJoinDate"],
-                        (long)a[i]["timestamp"]));
+                        (long?)a[i]["thirdLastJoinDate"]));
                 }
             }
         }

@@ -55,6 +55,16 @@ namespace CreepScoreAPI
             Season4
         }
 
+        private string errorString;
+
+        public string ErrorString
+        {
+            get
+            {
+                return errorString;
+            }
+        }
+
         /// <summary>
         /// CreepScore constructor
         /// </summary>
@@ -79,11 +89,11 @@ namespace CreepScoreAPI
 
             if (!freeToPlay)
             {
-                uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -95,6 +105,7 @@ namespace CreepScoreAPI
             }
             else
             {
+                errorString = responseString;
                 return null;
             }
         }
@@ -113,7 +124,7 @@ namespace CreepScoreAPI
         {
             if (!SummonerLoaded(summonerId) || force)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
+                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
                 string responseString = await GetWebData(uri);
 
                 if (GoodStatusCode(responseString))
@@ -127,6 +138,7 @@ namespace CreepScoreAPI
                 }
                 else
                 {
+                    errorString = responseString;
                     return null;
                 }
             }
@@ -148,7 +160,7 @@ namespace CreepScoreAPI
         {
             if (!SummonerLoaded(summonerName) || force)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
+                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
                 string responseString = await GetWebData(uri);
 
                 if (GoodStatusCode(responseString))
@@ -162,6 +174,7 @@ namespace CreepScoreAPI
                 }
                 else
                 {
+                    errorString = responseString;
                     return null;
                 }
             }
@@ -194,7 +207,7 @@ namespace CreepScoreAPI
                 }
             }
 
-            Uri uri = new Uri(UrlConstants.baseUrl + UrlConstants.lolPart + "/" + GetRegion(region) + "/" + "v1.1" + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
+            Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -212,6 +225,7 @@ namespace CreepScoreAPI
             }
             else
             {
+                errorString = responseString;
                 return null;
             }
         }

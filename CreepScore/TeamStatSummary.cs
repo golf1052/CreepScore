@@ -14,7 +14,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// Team ID
         /// </summary>
-        public TeamId teamId;
+        public string fullId;
 
         /// <summary>
         /// List of team stat details
@@ -26,20 +26,11 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="teamIdO">JObject representing team ID</param>
         /// <param name="teamStatDetailsA">JArray of team stat details</param>
-        public TeamStatSummary(JObject teamIdO, JArray teamStatDetailsA)
+        public TeamStatSummary(string fullId, JArray teamStatDetailsA)
         {
             teamStatDetails = new List<TeamStatDetail>();
-            LoadTeamId(teamIdO);
+            this.fullId = fullId;
             LoadTeamStatDetails(teamStatDetailsA);
-        }
-
-        /// <summary>
-        /// Loads the team ID
-        /// </summary>
-        /// <param name="o">json representing team id</param>
-        void LoadTeamId(JObject o)
-        {
-            teamId = new TeamId((string)o["fullId"]);
         }
 
         /// <summary>
@@ -52,10 +43,7 @@ namespace CreepScoreAPI
             {
                 teamStatDetails.Add(new TeamStatDetail((int)a[i]["averageGamesPlayed"],
                     (int)a[i]["losses"],
-                    (int?)a[i]["maxRating"],
-                    (int?)a[i]["rating"],
-                    (int?)a[i]["seedRating"],
-                    (JObject)a[i]["teamId"],
+                    (string)a[i]["fullId"],
                     (string)a[i]["teamStatType"],
                     (int)a[i]["wins"]));
             }

@@ -15,12 +15,7 @@ namespace CreepScoreAPI.Constants
         /// <summary>
         /// Base URL
         /// </summary>
-        public static string baseUrl = "https://prod.api.pvp.net/api";
-
-        /// <summary>
-        /// lol part of URL
-        /// </summary>
-        public static string lolPart = "/lol";
+        public static string baseUrl = "https://prod.api.pvp.net/api/lol";
 
         // one of: v1.1, v2.1
         //string versionPart = "";
