@@ -19,6 +19,14 @@ namespace CreepScoreAPI
     /// </summary>
     public class CreepScore
     {
+        string championAPIVersion = "v1.2";
+        string gameAPIVersion = "v1.3";
+        string leagueAPIVersion = "v2.3";
+        string lolStaticDataAPIVersion = "v1.1";
+        string statsAPIVersion = "v1.3";
+        string summonerAPIVersion = "v1.4";
+        string teamAPIVersion = "v2.2";
+
         /// <summary>
         /// API key
         /// </summary>
@@ -42,7 +50,11 @@ namespace CreepScoreAPI
             None,
             NA,
             EUW,
-            EUNE
+            EUNE,
+            BR,
+            LAN,
+            LAS,
+            OCE
         }
 
         /// <summary>
@@ -89,11 +101,11 @@ namespace CreepScoreAPI
 
             if (!freeToPlay)
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + championAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.1" + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + championAPIVersion + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -124,7 +136,7 @@ namespace CreepScoreAPI
         {
             if (!SummonerLoaded(summonerId) || force)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
+                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
                 string responseString = await GetWebData(uri);
 
                 if (GoodStatusCode(responseString))
@@ -160,7 +172,7 @@ namespace CreepScoreAPI
         {
             if (!SummonerLoaded(summonerName) || force)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
+                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
                 string responseString = await GetWebData(uri);
 
                 if (GoodStatusCode(responseString))
@@ -207,7 +219,7 @@ namespace CreepScoreAPI
                 }
             }
 
-            Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + "v1.2" + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
+            Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -523,15 +535,10 @@ namespace CreepScoreAPI
             for (int i = 0; i < o["champions"].Count(); i++)
             {
                 champions.Add(new Champion((bool)o["champions"][i]["active"],
-                    (int)o["champions"][i]["attackRank"],
                     (bool)o["champions"][i]["botEnabled"],
                     (bool)o["champions"][i]["botMmEnabled"],
-                    (int)o["champions"][i]["defenseRank"],
-                    (int)o["champions"][i]["difficultyRank"],
                     (bool)o["champions"][i]["freeToPlay"],
                     (long)o["champions"][i]["id"],
-                    (int)o["champions"][i]["magicRank"],
-                    (string)o["champions"][i]["name"],
                     (bool)o["champions"][i]["rankedPlayEnabled"]));
             }
 
