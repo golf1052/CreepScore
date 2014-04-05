@@ -199,6 +199,7 @@ namespace CreepScoreAPI
                 for (int i = 0; i < a.Count; i++)
                 {
                     matchHistory.Add(new MatchHistorySummary((int)a[i]["assists"],
+                        (long)a[i]["date"],
                         (int)a[i]["deaths"],
                         (long)a[i]["gameId"],
                         (string)a[i]["gameMode"],

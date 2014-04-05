@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -239,8 +239,8 @@ namespace CreepScoreAPI
             int? totalTurretsKilled,
             int? totalUnrealKills)
         {
-            this.averageAssists =  averageAssists;
-            this.averageChampionsKilled =  averageChampionsKilled;
+            this.averageAssists = averageAssists;
+            this.averageChampionsKilled = averageChampionsKilled;
             this.averageCombatPlayerScore = averageCombatPlayerScore;
             this.averageNodeCapture = averageNodeCapture;
             this.averageNodeCaptureAssist = averageNodeCaptureAssist;

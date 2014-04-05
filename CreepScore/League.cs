@@ -23,6 +23,11 @@ namespace CreepScoreAPI
         public string name;
 
         /// <summary>
+        /// ID of summoner as a string
+        /// </summary>
+        public string participantId;
+
+        /// <summary>
         /// Queue type as a string
         /// </summary>
         public string queueString;
@@ -49,11 +54,12 @@ namespace CreepScoreAPI
         /// <param name="name">Name of league</param>
         /// <param name="queueString">Queue type as a string</param>
         /// <param name="tierString">Tier type as a string</param>
-        public League(JArray entriesA, string name, string queueString, string tierString)
+        public League(JArray entriesA, string name, string participantId, string queueString, string tierString)
         {
             entries = new List<LeagueItem>();
             LoadEntries(entriesA);
             this.name = name;
+            this.participantId = participantId;
             this.queueString = queueString;
             queue = GameConstants.SetQueue(queueString);
             this.tierString = tierString;

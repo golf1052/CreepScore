@@ -19,14 +19,6 @@ namespace CreepScoreAPI
     /// </summary>
     public class CreepScore
     {
-        string championAPIVersion = "v1.2";
-        string gameAPIVersion = "v1.3";
-        string leagueAPIVersion = "v2.3";
-        string lolStaticDataAPIVersion = "v1.1";
-        string statsAPIVersion = "v1.3";
-        string summonerAPIVersion = "v1.4";
-        string teamAPIVersion = "v2.2";
-
         /// <summary>
         /// API key
         /// </summary>
@@ -101,11 +93,11 @@ namespace CreepScoreAPI
 
             if (!freeToPlay)
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + championAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + championAPIVersion + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -114,6 +106,22 @@ namespace CreepScoreAPI
             {
                 LoadChampions(JObject.Parse(responseString));
                 return champions;
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<Champion> RetrieveChampion(Region region, int id)
+        {
+            Uri uri;
+            uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion/" + id.ToString() + UrlConstants.apiKeyPart + apiKey);
+            string responseString = await GetWebData(uri);
+            if (GoodStatusCode(responseString))
+            {
+                return LoadChampion(JObject.Parse(responseString));
             }
             else
             {
@@ -136,7 +144,7 @@ namespace CreepScoreAPI
         {
             if (!SummonerLoaded(summonerId) || force)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
+                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
                 string responseString = await GetWebData(uri);
 
                 if (GoodStatusCode(responseString))
@@ -172,7 +180,7 @@ namespace CreepScoreAPI
         {
             if (!SummonerLoaded(summonerName) || force)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
+                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
                 string responseString = await GetWebData(uri);
 
                 if (GoodStatusCode(responseString))
@@ -219,7 +227,7 @@ namespace CreepScoreAPI
                 }
             }
 
-            Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
+            Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -349,7 +357,13 @@ namespace CreepScoreAPI
         /// <returns>If the status code was ok or not</returns>
         public static bool GoodStatusCode(string response)
         {
-            return response != "400" && response != "401" && response != "404" && response != "500" && response != "Unknown status code";
+            return response != "400" &&
+                response != "401" &&
+                response != "404" &&
+                response != "500" &&
+                response != "429" &&
+                response != "503" &&
+                response != "Unknown status code";
         }
 
         /// <summary>
@@ -512,13 +526,23 @@ namespace CreepScoreAPI
             }
             else if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                // 404 - Summoner not found
+                // 404 - Summoner not found/Game data not found/League not found/Team not found
                 return "404";
             }
             else if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 // 500 - Internal server error
                 return "500";
+            }
+            else if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                // 503 - Service unavalible
+                return "503";
+            }
+            else if ((int)response.StatusCode == 429)
+            {
+                // 429 - Rate limit exceeded
+                return "429";
             }
             else
             {
@@ -543,6 +567,16 @@ namespace CreepScoreAPI
             }
 
             return champions;
+        }
+
+        Champion LoadChampion(JObject o)
+        {
+            return new Champion((bool)o["active"],
+                (bool)o["botEnabled"],
+                (bool)o["botMmEnabled"],
+                (bool)o["freeToPlay"],
+                (long)o["id"],
+                (bool)o["rankedPlayEnabled"]);
         }
 
         /// <summary>
@@ -577,6 +611,22 @@ namespace CreepScoreAPI
             else if (region == Region.EUNE)
             {
                 return "eune";
+            }
+            else if (region == Region.BR)
+            {
+                return "br";
+            }
+            else if (region == Region.LAN)
+            {
+                return "lan";
+            }
+            else if (region == Region.LAS)
+            {
+                return "las";
+            }
+            else if (region == Region.OCE)
+            {
+                return "oce";
             }
             else
             {

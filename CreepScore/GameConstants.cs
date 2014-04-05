@@ -35,7 +35,9 @@ namespace CreepScoreAPI.Constants
             Classic,
             Dominion,
             Aram,
-            Tutorial
+            Tutorial,
+            OneForAll,
+            FirstBlood
         }
 
         /// <summary>
@@ -147,20 +149,45 @@ namespace CreepScoreAPI.Constants
         /// <summary>
         /// Game subType
         /// </summary>
-        /// <remarks>Not fully completed yet</remarks>
         public enum SubType
         {
             None,
             // NORMAL
             Normal,
-            // ARAM_UNRANKED_5x5
-            Aram,
-            // ODIN_UNRANKED
-            DominionUnranked,
             // BOT
             Coop,
             // RANKED_SOLO_5x5
-            RankedSolo5v5
+            RankedSolo5v5,
+            // RANKED_PREMADE_3x3
+            RankedPremade3v3,
+            // RANKED_PREMADE_5x5
+            RankedPremade5v5,
+            // ODIN_UNRANKED
+            DominionUnranked,
+            // RANKED_TEAM_3x3
+            RankedTeam3v3,
+            // RANKED_TEAM_5x5
+            RankedTeam5v5,
+            // NORMAL_3x3
+            Normal3v3,
+            // BOT_3x3
+            Coop3v3,
+            // CAP_5x5
+            Cap5v5,
+            // ARAM_UNRANKED_5x5
+            Aram,
+            // ONEFORALL_5x5
+            OneForAll,
+            // FIRSTBLOOD_1x1
+            Showdown1v1,
+            // FIRSTBLOOD_2x2
+            Showdown2v2,
+            // SR_6x6
+            Hexakill,
+            // URF
+            Urf,
+            // URF_BOT
+            UrfCoop
         }
 
         /// <summary>
@@ -441,7 +468,17 @@ namespace CreepScoreAPI.Constants
             // RANKED_TEAM_5x5
             RankedTeam5v5,
             // ODIN_TEAM_PREMADE
-            DominionPremade,
+            DominionPremade
+        }
+
+        /// <summary>
+        /// Team ID associated with a game
+        /// </summary>
+        public enum TeamID
+        {
+            Blue,
+            Purple,
+            Other
         }
 
         /// <summary>
@@ -797,20 +834,11 @@ namespace CreepScoreAPI.Constants
         /// </summary>
         /// <param name="subType">subType string</param>
         /// <returns>subType type</returns>
-        /// <remarks>Not fully completed yet</remarks>
         public static SubType SetSubType(string subType)
         {
             if (subType == "NORMAL")
             {
                 return SubType.Normal;
-            }
-            else if (subType == "ARAM_UNRANKED_5x5")
-            {
-                return SubType.Aram;
-            }
-            else if (subType == "ODIN_UNRANKED")
-            {
-                return SubType.DominionUnranked;
             }
             else if (subType == "BOT")
             {
@@ -819,6 +847,66 @@ namespace CreepScoreAPI.Constants
             else if (subType == "RANKED_SOLO_5x5")
             {
                 return SubType.RankedSolo5v5;
+            }
+            else if (subType == "RANKED_PREMADE_3x3")
+            {
+                return SubType.RankedPremade3v3;
+            }
+            else if (subType == "RANKED_PREMADE_5x5")
+            {
+                return SubType.RankedPremade5v5;
+            }
+            else if (subType == "ODIN_UNRANKED")
+            {
+                return SubType.DominionUnranked;
+            }
+            else if (subType == "RANKED_TEAM_3x3")
+            {
+                return SubType.RankedTeam3v3;
+            }
+            else if (subType == "RANKED_TEAM_5x5")
+            {
+                return SubType.RankedTeam5v5;
+            }
+            else if (subType == "NORMAL_3x3")
+            {
+                return SubType.Normal3v3;
+            }
+            else if (subType == "BOT_3x3")
+            {
+                return SubType.Coop3v3;
+            }
+            else if (subType == "CAP_5x5")
+            {
+                return SubType.Cap5v5;
+            }
+            else if (subType == "ARAM_UNRANKED_5x5")
+            {
+                return SubType.Aram;
+            }
+            else if (subType == "ONEFORALL_5x5")
+            {
+                return SubType.OneForAll;
+            }
+            else if (subType == "FIRSTBLOOD_1x1")
+            {
+                return SubType.Showdown1v1;
+            }
+            else if (subType == "FIRSTBLOOD_2x2")
+            {
+                return SubType.Showdown2v2;
+            }
+            else if (subType == "SR_6x6")
+            {
+                return SubType.Hexakill;
+            }
+            else if (subType == "URF")
+            {
+                return SubType.Urf;
+            }
+            else if (subType == "URF_BOT")
+            {
+                return SubType.UrfCoop;
             }
             else
             {
@@ -1064,6 +1152,22 @@ namespace CreepScoreAPI.Constants
             else
             {
                 return MasteryName.None;
+            }
+        }
+
+        public static TeamID SetTeamId(int teamId)
+        {
+            if (teamId == 100)
+            {
+                return TeamID.Blue;
+            }
+            else if (teamId == 200)
+            {
+                return TeamID.Purple;
+            }
+            else
+            {
+                return TeamID.Other;
             }
         }
     }

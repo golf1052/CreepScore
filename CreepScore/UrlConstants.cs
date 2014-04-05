@@ -17,8 +17,40 @@ namespace CreepScoreAPI.Constants
         /// </summary>
         public static string baseUrl = "https://prod.api.pvp.net/api/lol";
 
-        // one of: v1.1, v2.1
-        //string versionPart = "";
+        /// <summary>
+        /// Champion API version
+        /// </summary>
+        public static string championAPIVersion = "v1.2";
+
+        /// <summary>
+        /// Game API version
+        /// </summary>
+        public static string gameAPIVersion = "v1.3";
+
+        /// <summary>
+        /// League API version
+        /// </summary>
+        public static string leagueAPIVersion = "v2.3";
+
+        /// <summary>
+        /// LoL Static Data API version
+        /// </summary>
+        public static string lolStaticDataAPIVersion = "v1.1";
+
+        /// <summary>
+        /// Stats API version
+        /// </summary>
+        public static string statsAPIVersion = "v1.3";
+
+        /// <summary>
+        /// Summoner API version
+        /// </summary>
+        public static string summonerAPIVersion = "v1.4";
+
+        /// <summary>
+        /// Team API version
+        /// </summary>
+        public static string teamAPIVersion = "v2.2";
 
         /// <summary>
         /// Summoner part of url

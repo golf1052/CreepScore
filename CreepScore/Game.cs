@@ -63,6 +63,11 @@ namespace CreepScoreAPI
         public bool invalid;
 
         /// <summary>
+        /// IP earned
+        /// </summary>
+        public int ipEarned;
+
+        /// <summary>
         /// Level
         /// </summary>
         public int level;
@@ -100,17 +105,27 @@ namespace CreepScoreAPI
         /// <summary>
         /// List of statistics associated with the game for this summoner
         /// </summary>
-        public List<RawStat> statistics;
+        public RawStats stats;
 
         /// <summary>
-        ///  Game sub-type
+        /// Game sub-type string
         /// </summary>
         public string subTypeString;
 
         /// <summary>
+        /// Game sub-type
+        /// </summary>
+        public GameConstants.SubType subType;
+
+        /// <summary>
         /// Team ID associated with game
         /// </summary>
-        public int teamId;
+        public int teamIdInt;
+
+        /// <summary>
+        /// Team ID associated with game
+        /// </summary>
+        public GameConstants.TeamID teamId;
 
         /// <summary>
         /// Game constructor
@@ -123,10 +138,11 @@ namespace CreepScoreAPI
         /// <param name="gameTypeString">Game type as a string</param>
         /// <param name="invalid">Invalid flag</param>
         /// <param name="level">Level</param>
+        /// <param name="ipEarned">IP earned</param>
         /// <param name="mapId">Map ID number</param>
         /// <param name="spell1ID">ID of first summoner spell</param>
         /// <param name="spell2ID">ID of second summoner spell</param>
-        /// <param name="statisticsA">JArray of statistics associated with the game for this summoner</param>
+        /// <param name="statisticsO">JArray of statistics associated with the game for this summoner</param>
         /// <param name="subTypeString">Game sub-type</param>
         /// <param name="teamId">Team ID associated with game</param>
         public Game(int championId,
@@ -136,16 +152,16 @@ namespace CreepScoreAPI
             string gameModeString,
             string gameTypeString,
             bool invalid,
+            int ipEarned,
             int level,
             int mapId,
             int spell1ID,
             int spell2ID,
-            JArray statisticsA,
+            JObject statisticsO,
             string subTypeString,
-            int teamId)
+            int teamIdInt)
         {
             fellowPlayers = new List<Player>();
-            statistics = new List<RawStat>();
 
             this.championId = championId;
             this.createDateLong = createDateLong;
@@ -158,15 +174,18 @@ namespace CreepScoreAPI
             gameType = GameConstants.SetGameType(gameTypeString);
             this.invalid = invalid;
             this.level = level;
+            this.ipEarned = ipEarned;
             this.mapId = mapId;
             map = GameConstants.SetMap(mapId);
             this.spell1ID = spell1ID;
             this.spell2ID = spell2ID;
             spell1 = GameConstants.SetSpellType(spell1ID);
             spell2 = GameConstants.SetSpellType(spell2ID);
-            LoadStatistics(statisticsA);
+            LoadStatistics(statisticsO);
             this.subTypeString = subTypeString;
-            this.teamId = teamId;
+            subType = GameConstants.SetSubType(subTypeString);
+            this.teamIdInt = teamIdInt;
+            teamId = GameConstants.SetTeamId(teamIdInt);
         }
 
         /// <summary>
@@ -188,14 +207,85 @@ namespace CreepScoreAPI
         /// Loads the statistics list
         /// </summary>
         /// <param name="a">The json list of statistics</param>
-        void LoadStatistics(JArray a)
+        void LoadStatistics(JObject o)
         {
-            if (a != null)
+            if (o != null)
             {
-                for (int i = 0; i < a.Count; i++)
-                {
-                    statistics.Add(new RawStat((int)a[i]["id"], (string)a[i]["name"], (int)a[i]["value"]));
-                }
+                stats = new RawStats((int?)o["assists"],
+                    (int?)o["barracksKilled"],
+                    (int?)o["championsKilled"],
+                    (int?)o["combatPlayerScore"],
+                    (int?)o["consumablesPurchased"],
+                    (int?)o["damageDealtPlayer"],
+                    (int?)o["doubleKills"],
+                    (int?)o["firstBlood"],
+                    (int?)o["gold"],
+                    (int?)o["goldEarned"],
+                    (int?)o["goldSpent"],
+                    (int?)o["item0"],
+                    (int?)o["item1"],
+                    (int?)o["item2"],
+                    (int?)o["item3"],
+                    (int?)o["item4"],
+                    (int?)o["item5"],
+                    (int?)o["item6"],
+                    (int?)o["itemsPurchased"],
+                    (int?)o["killingSprees"],
+                    (int?)o["largestCriticalStrike"],
+                    (int?)o["largestKillingSpree"],
+                    (int?)o["largestMultiKill"],
+                    (int?)o["legendaryItemsCreated"],
+                    (int?)o["level"],
+                    (int?)o["magicDamageDealtPlayer"],
+                    (int?)o["magicDamageDealtToChampions"],
+                    (int?)o["magicDamageTaken"],
+                    (int?)o["minionsDenied"],
+                    (int?)o["minionsKilled"],
+                    (int?)o["neutralMinionsKilled"],
+                    (int?)o["neutralMinionsKilledEnemyJungle"],
+                    (int?)o["neutralMinionsKilledYourJungle"],
+                    (bool?)o["nexusKilled"],
+                    (int?)o["nodeCapture"],
+                    (int?)o["nodeCaptureAssist"],
+                    (int?)o["nodeNeutralizeAssist"],
+                    (int?)o["numDeaths"],
+                    (int?)o["numItemsBought"],
+                    (int?)o["objectivePlayerScore"],
+                    (int?)o["pentaKills"],
+                    (int?)o["physicalDamageDealtPlayer"],
+                    (int?)o["physicalDamageDealtToChampions"],
+                    (int?)o["physicalDamageTaken"],
+                    (int?)o["quadraKills"],
+                    (int?)o["sightWardsBought"],
+                    (int?)o["spell1Cast"],
+                    (int?)o["spell2Cast"],
+                    (int?)o["spell3Cast"],
+                    (int?)o["spell4Cast"],
+                    (int?)o["summonSpell1Cast"],
+                    (int?)o["summonSpell2Cast"],
+                    (int?)o["superMonsterKilled"],
+                    (int?)o["team"],
+                    (int?)o["teamObjective"],
+                    (int?)o["timePlayed"],
+                    (int?)o["totalDamageDealt"],
+                    (int?)o["totalDamageDealtToChampions"],
+                    (int?)o["totalDamageTaken"],
+                    (int?)o["totalHeal"],
+                    (int?)o["totalPlayerScore"],
+                    (int?)o["totalScoreRank"],
+                    (int?)o["totalTimeCrowdControlDealt"],
+                    (int?)o["totalUnitsHealed"],
+                    (int?)o["tripleKills"],
+                    (int?)o["trueDamageDealtPlayer"],
+                    (int?)o["trueDamageDealtToChampions"],
+                    (int?)o["trueDamageTaken"],
+                    (int?)o["turretsKilled"],
+                    (int?)o["unrealKills"],
+                    (int?)o["victoryPointTotal"],
+                    (int?)o["visionWardsBought"],
+                    (int?)o["wardKilled"],
+                    (int?)o["wardPlaced"],
+                    (bool?)o["win"]);
             }
         }
     }
