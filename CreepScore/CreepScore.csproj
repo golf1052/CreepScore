@@ -11,7 +11,7 @@
     <RootNamespace>CreepScoreAPI</RootNamespace>
     <AssemblyName>CreepScore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -41,6 +41,7 @@
     <Compile Include="League.cs" />
     <Compile Include="LeagueItem.cs" />
     <Compile Include="CreepScore.cs" />
+    <Compile Include="Mastery.cs" />
     <Compile Include="MasteryPage.cs" />
     <Compile Include="MatchHistorySummary.cs" />
     <Compile Include="MessageOfDay.cs" />
@@ -54,6 +55,21 @@
     <Compile Include="Rune.cs" />
     <Compile Include="RunePage.cs" />
     <Compile Include="RuneSlot.cs" />
+    <Compile Include="Static Data\Champion\BlockItemStatic.cs" />
+    <Compile Include="Static Data\Champion\BlockStatic.cs" />
+    <Compile Include="Static Data\Champion\ChampionListStatic.cs" />
+    <Compile Include="Static Data\Champion\ChampionSpellStatic.cs" />
+    <Compile Include="Static Data\Champion\ChampionStatic.cs" />
+    <Compile Include="Static Data\Champion\ImageStatic.cs" />
+    <Compile Include="Static Data\Champion\InfoStatic.cs" />
+    <Compile Include="Static Data\Champion\LevelTipStatic.cs" />
+    <Compile Include="Static Data\Champion\PassiveStatic.cs" />
+    <Compile Include="Static Data\Champion\RecommendedStatic.cs" />
+    <Compile Include="Static Data\Champion\SkinStatic.cs" />
+    <Compile Include="Static Data\Champion\SpellVarsStatic.cs" />
+    <Compile Include="Static Data\Champion\StaticDataConstants.cs" />
+    <Compile Include="Static Data\Champion\StatsStatic.cs" />
+    <Compile Include="Static Data\RealmStatic.cs" />
     <Compile Include="Summoner.cs" />
     <Compile Include="Talent.cs" />
     <Compile Include="Team.cs" />

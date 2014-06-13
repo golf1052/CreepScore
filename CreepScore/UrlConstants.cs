@@ -35,7 +35,7 @@ namespace CreepScoreAPI.Constants
         /// <summary>
         /// LoL Static Data API version
         /// </summary>
-        public static string lolStaticDataAPIVersion = "v1.1";
+        public static string staticDataAPIVersion = "v1.2";
 
         /// <summary>
         /// Stats API version
@@ -111,5 +111,10 @@ namespace CreepScoreAPI.Constants
         /// Team part of url
         /// </summary>
         public static string teamPart = "/team";
+
+        /// <summary>
+        /// Static data part of url
+        /// </summary>
+        public static string staticDataPart = "/static-data";
     }
 }

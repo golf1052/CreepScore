@@ -25,16 +25,6 @@ namespace CreepScoreAPI
         public static string apiKey = "";
 
         /// <summary>
-        /// The list of champion information
-        /// </summary>
-        public List<Champion> champions;
-
-        /// <summary>
-        /// List of loaded summoners
-        /// </summary>
-        public List<Summoner> summoners;
-
-        /// <summary>
         /// Region types
         /// </summary>
         public enum Region
@@ -75,8 +65,6 @@ namespace CreepScoreAPI
         /// <param name="key">Your API key</param>
         public CreepScore(string key)
         {
-            champions = new List<Champion>();
-            summoners = new List<Summoner>();
             apiKey = key;
         }
 
@@ -104,8 +92,7 @@ namespace CreepScoreAPI
 
             if (GoodStatusCode(responseString))
             {
-                LoadChampions(JObject.Parse(responseString));
-                return champions;
+                return LoadChampions(JObject.Parse(responseString));
             }
             else
             {
@@ -130,6 +117,31 @@ namespace CreepScoreAPI
             }
         }
 
+        public async Task<ChampionListStatic> RetrieveStaticChampions(Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
+        {
+            Uri uri;
+            if (champData == StaticDataConstants.ChampData.None)
+            {
+                uri = new Uri(UrlConstants.baseUrl + UrlConstants.staticDataPart + "/" + GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
+            }
+            else
+            {
+                uri = new Uri(UrlConstants.baseUrl + UrlConstants.staticDataPart + "/" + GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion?champData=" + StaticDataConstants.GetChampData(champData) + "&api_key=" + apiKey);
+            }
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return LoadChampionListStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
         /// <summary>
         /// Retrieves a summoner by its ID and returns it
         /// </summary>
@@ -140,30 +152,54 @@ namespace CreepScoreAPI
         /// <remarks>This function implements mild caching. When the program is running all loaded champions will be loaded into the
         /// field champions which is a list. If a call for a summoner is made and it is already in that list the summoner data will
         /// be pulled from that list. If force is called that summoner's data will be updated.</remarks>
-        public async Task<Summoner> RetrieveSummoner(Region region, long summonerId, bool force)
+        public async Task<List<Summoner>> RetrieveSummoners(Region region, List<long> summonerIds)
         {
-            if (!SummonerLoaded(summonerId) || force)
+            string ids = "";
+            if (summonerIds.Count > 40)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerId.ToString() + UrlConstants.apiKeyPart + apiKey);
-                string responseString = await GetWebData(uri);
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
 
-                if (GoodStatusCode(responseString))
+            for (int i = 0; i < summonerIds.Count; i++)
+            {
+                if (i != summonerIds.Count - 1)
                 {
-                    summoners.Add(new Summoner(JObject.Parse(responseString), region));
-
-                    if (force)
-                    {
-                        summoners.Remove(GetSummoner(summonerId));
-                    }
+                    ids += summonerIds[i].ToString() + ",";
                 }
                 else
                 {
-                    errorString = responseString;
-                    return null;
+                    ids += summonerIds[i].ToString();
                 }
             }
 
-            return GetSummoner(summonerId);
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + ids + UrlConstants.apiKeyPart + apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of summoner ids";
+                return null;
+            }
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                List<Summoner> summoners = new List<Summoner>();
+                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
+                foreach (KeyValuePair<string, JObject> value in values)
+                {
+                    summoners.Add(new Summoner(value.Value, region));
+                }
+                return summoners;
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
         }
 
         /// <summary>
@@ -176,30 +212,55 @@ namespace CreepScoreAPI
         /// <remarks>This function implements mild caching. When the program is running all loaded champions will be loaded into the
         /// field champions which is a list. If a call for a summoner is made and it is already in that list the summoner data will
         /// be pulled from that list. If force is called that summoner's data will be updated.</remarks>
-        public async Task<Summoner> RetrieveSummoner(Region region, string summonerName, bool force)
+        public async Task<List<Summoner>> RetrieveSummoners(Region region, List<string> summonerNames)
         {
-            if (!SummonerLoaded(summonerName) || force)
+            string names = "";
+            if (summonerNames.Count > 40)
             {
-                Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + summonerName + UrlConstants.apiKeyPart + apiKey);
-                string responseString = await GetWebData(uri);
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
 
-                if (GoodStatusCode(responseString))
+            for (int i = 0; i < summonerNames.Count; i++)
+            {
+                if (i != summonerNames.Count - 1)
                 {
-                    summoners.Add(new Summoner(JObject.Parse(responseString), region));
-
-                    if (force)
-                    {
-                        summoners.Remove(GetSummoner(summonerName));
-                    }
+                    names += summonerNames[i] + ",";
                 }
                 else
                 {
-                    errorString = responseString;
-                    return null;
+                    names += summonerNames[i];
                 }
             }
 
-            return GetSummoner(summonerName);
+            Uri uri;
+            if (names != "")
+            {
+                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + names + UrlConstants.apiKeyPart + apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of summoner names";
+                return null;
+            }
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                List<Summoner> summoners = new List<Summoner>();
+                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
+                foreach (KeyValuePair<string, JObject> value in values)
+                {
+                    summoners.Add(new Summoner(value.Value, region));
+                }
+                return summoners;
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
         }
 
         /// <summary>
@@ -212,7 +273,7 @@ namespace CreepScoreAPI
         /// loaded here to the field summoners. Instead it creates a new list and returns that.
         /// If you want the complete data for each summoner take the IDs/names that you load from here
         /// and feed them into one of the other RetrieveSummoner methods</remarks>
-        public async Task<List<Summoner>> RetrieveSummoner(Region region, List<long> summonerIds)
+        public async Task<List<Summoner>> RetrieveSummonerNames(Region region, List<long> summonerIds)
         {
             string summonerIdsPart = "";
             for (int i = 0; i < summonerIds.Count; i++)
@@ -232,13 +293,12 @@ namespace CreepScoreAPI
 
             if (GoodStatusCode(responseString))
             {
-                JObject littleSummonersO = JObject.Parse(responseString);
-
+                Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
                 List<Summoner> littleSummoners = new List<Summoner>();
 
-                for (int i = 0; i < littleSummonersO["summoners"].Count(); i++)
+                foreach (KeyValuePair<string, string> value in values)
                 {
-                    littleSummoners.Add(new Summoner((long)littleSummonersO["summoners"][i]["id"], (string)littleSummonersO["summoners"][i]["name"], region));
+                    littleSummoners.Add(new Summoner(long.Parse(value.Key), value.Value, region));
                 }
 
                 return littleSummoners;
@@ -260,15 +320,16 @@ namespace CreepScoreAPI
         /// <remarks>If the summoner is not found null will be returned.</remarks>
         public async Task<Summoner> RetrieveSummonerWithRunesAndMasteries(Region region, long summonerId, bool force)
         {
-            Summoner summoner = await RetrieveSummoner(region, summonerId, force);
+            //Summoner summoner = await RetrieveSummoners(region, summonerId, force);
 
-            if (summoner != null)
-            {
-                await summoner.RetrieveRunePages(force);
-                await summoner.RetrieveMasteryPages(force);
-            }
+            //if (summoner != null)
+            //{
+            //    await summoner.RetrieveRunePages(force);
+            //    await summoner.RetrieveMasteryPages(force);
+            //}
 
-            return summoner;
+            //return summoner;
+            return null;
         }
 
         /// <summary>
@@ -281,15 +342,16 @@ namespace CreepScoreAPI
         /// <remarks>If the summoner is not found null will be returned.</remarks>
         public async Task<Summoner> RetrieveSummonerWithRunesAndMasteries(Region region, string summonerName, bool force)
         {
-            Summoner summoner = await RetrieveSummoner(region, summonerName, force);
+            //Summoner summoner = await RetrieveSummoners(region, summonerName, force);
 
-            if (summoner != null)
-            {
-                await summoner.RetrieveRunePages(force);
-                await summoner.RetrieveMasteryPages(force);
-            }
+            //if (summoner != null)
+            //{
+            //    await summoner.RetrieveRunePages(force);
+            //    await summoner.RetrieveMasteryPages(force);
+            //}
 
-            return summoner;
+            //return summoner;
+            return null;
         }
 
         /// <summary>
@@ -350,6 +412,23 @@ namespace CreepScoreAPI
             return summoner;
         }
 
+        public async Task<RealmStatic> RetrieveRealmData(Region region)
+        {
+            Uri uri;
+            uri = new Uri(UrlConstants.baseUrl + UrlConstants.staticDataPart + "/" + GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/realm" + UrlConstants.apiKeyPart + apiKey);
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return LoadRealmData(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
         /// <summary>
         /// Checks to see if the status code returned was 200.
         /// </summary>
@@ -364,136 +443,6 @@ namespace CreepScoreAPI
                 response != "429" &&
                 response != "503" &&
                 response != "Unknown status code";
-        }
-
-        /// <summary>
-        /// Checks to see if a summoner is loaded in the field summoners
-        /// </summary>
-        /// <param name="summonerId">The summoner ID to look for</param>
-        /// <returns>If the summoner is loaded or not</returns>
-        public bool SummonerLoaded(long summonerId)
-        {
-            foreach (Summoner summoner in summoners)
-            {
-                if (summoner.id == summonerId)
-                {
-                    // summoner already loaded
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Checks to see if a summoner is loaded in the field summoners
-        /// </summary>
-        /// <param name="summonerName">The summoner name to look for</param>
-        /// <returns>If the summoner is loaded or not</returns>
-        public bool SummonerLoaded(string summonerName)
-        {
-            foreach (Summoner summoner in summoners)
-            {
-                if (summoner.name == summonerName)
-                {
-                    // summoner already loaded
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the specified summoner from the field summoners
-        /// </summary>
-        /// <param name="summonerId">The summoner ID</param>
-        /// <returns>The summoner</returns>
-        /// <remarks>You should really use TryGetSummoner()</remarks>
-        public Summoner GetSummoner(long summonerId)
-        {
-            if (SummonerLoaded(summonerId))
-            {
-                foreach (Summoner s in summoners)
-                {
-                    if (summonerId == s.id)
-                    {
-                        return s;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the specified summoner from the field summoners
-        /// </summary>
-        /// <param name="summonerName">The summoner name</param>
-        /// <returns>The summoner</returns>
-        /// <remarks>You should really use TryGetSummoner()</remarks>
-        public Summoner GetSummoner(string summonerName)
-        {
-            if (SummonerLoaded(summonerName))
-            {
-                foreach (Summoner s in summoners)
-                {
-                    if (summonerName == s.name)
-                    {
-                        return s;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Tries to find a specified summoner in the field summoners. If the summoner isn't there this will return false.
-        /// </summary>
-        /// <param name="summonerId">The ID of the summoner</param>
-        /// <param name="summoner">The summoner to put out</param>
-        /// <returns>Whether or not the summoner was found</returns>
-        public bool TryGetSummoner(long summonerId, out Summoner summoner)
-        {
-            if (SummonerLoaded(summonerId))
-            {
-                foreach (Summoner s in summoners)
-                {
-                    if (summonerId == s.id)
-                    {
-                        summoner = s;
-                        return true;
-                    }
-                }
-            }
-
-            summoner = null;
-            return false;
-        }
-
-        /// <summary>
-        /// Tries to find a specified summoner in the field summoners. If the summoner isn't there this will return false.
-        /// </summary>
-        /// <param name="summonerName">The name of the summoner</param>
-        /// <param name="summoner">The summoner to put out</param>
-        /// <returns>Whether or not the summoner was found</returns>
-        public bool TryGetSummoner(string summonerName, out Summoner summoner)
-        {
-            if (SummonerLoaded(summonerName))
-            {
-                foreach (Summoner s in summoners)
-                {
-                    if (summonerName == s.name)
-                    {
-                        summoner = s;
-                        return true;
-                    }
-                }
-            }
-
-            summoner = null;
-            return false;
         }
 
         /// <summary>
@@ -556,6 +505,7 @@ namespace CreepScoreAPI
         /// <param name="o">json object representing a champion</param>
         List<Champion> LoadChampions(JObject o)
         {
+            List<Champion> champions = new List<Champion>();
             for (int i = 0; i < o["champions"].Count(); i++)
             {
                 champions.Add(new Champion((bool)o["champions"][i]["active"],
@@ -577,6 +527,29 @@ namespace CreepScoreAPI
                 (bool)o["freeToPlay"],
                 (long)o["id"],
                 (bool)o["rankedPlayEnabled"]);
+        }
+
+        public ChampionListStatic LoadChampionListStatic(JObject o)
+        {
+            return new ChampionListStatic(((JObject)o["data"]).ToString(),
+                (string)o["format"],
+                ((JObject)o["keys"]).ToString(),
+                (string)o["type"],
+                (string)o["version"],
+                o);
+        }
+
+        RealmStatic LoadRealmData(JObject o)
+        {
+            return new RealmStatic((string)o["cdn"],
+                (string)o["css"],
+                (string)o["dd"],
+                (string)o["l"],
+                (string)o["lg"],
+                (JObject)o["n"],
+                (int)o["profileiconmax"],
+                (string)o["store"],
+                (string)o["v"]);
         }
 
         /// <summary>
