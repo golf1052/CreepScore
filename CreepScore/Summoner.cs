@@ -88,7 +88,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// The region this summoner was loaded in
         /// </summary>
-        public CreepScore.Region region;
+        public UrlConstants.Region region;
 
         private string errorString;
 
@@ -104,7 +104,7 @@ namespace CreepScoreAPI
         /// Full summoner constructor
         /// </summary>
         /// <param name="summonerO">JObject representing summoner</param>
-        public Summoner(JObject summonerO, CreepScore.Region region)
+        public Summoner(JObject summonerO, UrlConstants.Region region)
         {
             runePages = new List<RunePage>();
             masteryPages = new List<MasteryPage>();
@@ -127,7 +127,7 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="id">Summoner ID</param>
         /// <param name="name">Summoner Name</param>
-        public Summoner(long id, string name, CreepScore.Region region)
+        public Summoner(long id, string name, UrlConstants.Region region)
         {
             this.id = id;
             this.name = name;
@@ -156,8 +156,8 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                        CreepScore.GetRegion(region) + "/" +
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
                         UrlConstants.gameAPIVersion +
                         UrlConstants.gamePart +
                         UrlConstants.bySummonerPart + "/" +
@@ -198,8 +198,8 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                        CreepScore.GetRegion(region) + "/" +
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
                         UrlConstants.leagueAPIVersion +
                         UrlConstants.leaguePart +
                         UrlConstants.bySummonerPart + "/" +
@@ -232,8 +232,8 @@ namespace CreepScoreAPI
             if (!isLittleSummoner)
             {
                 Uri uri;
-                uri = new Uri(UrlConstants.baseUrl + "/" +
-                    CreepScore.GetRegion(region) + "/" +
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
                     UrlConstants.leagueAPIVersion +
                     UrlConstants.leaguePart +
                     UrlConstants.bySummonerPart + "/" +
@@ -271,8 +271,8 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                        CreepScore.GetRegion(region) + "/" +
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
                         "v1.2" +
                         UrlConstants.statsPart +
                         UrlConstants.bySummonerPart + "/" +
@@ -317,8 +317,8 @@ namespace CreepScoreAPI
                 {
                     if (summonerLevel == 30)
                     {
-                        Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                            CreepScore.GetRegion(region) + "/" +
+                        Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                            UrlConstants.GetRegion(region) + "/" +
                             "v1.2" +
                             UrlConstants.statsPart +
                             UrlConstants.bySummonerPart + "/" +
@@ -363,8 +363,8 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                        CreepScore.GetRegion(region) + "/" +
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
                         "v1.2" +
                         UrlConstants.summonerPart + "/"
                         + id.ToString() +
@@ -403,8 +403,8 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                        CreepScore.GetRegion(region) + "/" +
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
                         "v1.2" +
                         UrlConstants.summonerPart + "/" +
                         id.ToString() +
@@ -443,8 +443,8 @@ namespace CreepScoreAPI
             {
                 if (!isLittleSummoner)
                 {
-                    Uri uri = new Uri(UrlConstants.baseUrl + "/" +
-                        CreepScore.GetRegion(region) + "/" +
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
                         UrlConstants.teamAPIVersion +
                         UrlConstants.teamPart +
                         UrlConstants.bySummonerPart + "/" +

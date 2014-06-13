@@ -25,21 +25,6 @@ namespace CreepScoreAPI
         public static string apiKey = "";
 
         /// <summary>
-        /// Region types
-        /// </summary>
-        public enum Region
-        {
-            None,
-            NA,
-            EUW,
-            EUNE,
-            BR,
-            LAN,
-            LAS,
-            OCE
-        }
-
-        /// <summary>
         /// Season enum. Used to get stats for a specific season
         /// </summary>
         public enum Season
@@ -75,17 +60,17 @@ namespace CreepScoreAPI
         /// <param name="freeToPlay">Retrive only the free to play champs</param>
         /// <returns>A list of champions.
         /// If it could not retrieve the champions it returns null</returns>
-        public async Task<List<Champion>> RetrieveChampions(Region region, bool freeToPlay)
+        public async Task<List<Champion>> RetrieveChampions(UrlConstants.Region region, bool freeToPlay)
         {
             Uri uri;
 
             if (!freeToPlay)
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -101,10 +86,10 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Champion> RetrieveChampion(Region region, int id)
+        public async Task<Champion> RetrieveChampion(UrlConstants.Region region, int id)
         {
             Uri uri;
-            uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion/" + id.ToString() + UrlConstants.apiKeyPart + apiKey);
+            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion/" + id.ToString() + UrlConstants.apiKeyPart + apiKey);
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
             {
@@ -117,16 +102,16 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<ChampionListStatic> RetrieveStaticChampions(Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
+        public async Task<ChampionListStatic> RetrieveStaticChampions(UrlConstants.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
             Uri uri;
             if (champData == StaticDataConstants.ChampData.None)
             {
-                uri = new Uri(UrlConstants.baseUrl + UrlConstants.staticDataPart + "/" + GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + UrlConstants.staticDataPart + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.baseUrl + UrlConstants.staticDataPart + "/" + GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion?champData=" + StaticDataConstants.GetChampData(champData) + "&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + UrlConstants.staticDataPart + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion?champData=" + StaticDataConstants.GetChampData(champData) + "&api_key=" + apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -152,7 +137,7 @@ namespace CreepScoreAPI
         /// <remarks>This function implements mild caching. When the program is running all loaded champions will be loaded into the
         /// field champions which is a list. If a call for a summoner is made and it is already in that list the summoner data will
         /// be pulled from that list. If force is called that summoner's data will be updated.</remarks>
-        public async Task<List<Summoner>> RetrieveSummoners(Region region, List<long> summonerIds)
+        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<long> summonerIds)
         {
             string ids = "";
             if (summonerIds.Count > 40)
@@ -176,7 +161,7 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + ids + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + ids + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
@@ -212,7 +197,7 @@ namespace CreepScoreAPI
         /// <remarks>This function implements mild caching. When the program is running all loaded champions will be loaded into the
         /// field champions which is a list. If a call for a summoner is made and it is already in that list the summoner data will
         /// be pulled from that list. If force is called that summoner's data will be updated.</remarks>
-        public async Task<List<Summoner>> RetrieveSummoners(Region region, List<string> summonerNames)
+        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<string> summonerNames)
         {
             string names = "";
             if (summonerNames.Count > 40)
@@ -236,7 +221,7 @@ namespace CreepScoreAPI
             Uri uri;
             if (names != "")
             {
-                uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + names + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + names + UrlConstants.apiKeyPart + apiKey);
             }
             else
             {
@@ -273,7 +258,7 @@ namespace CreepScoreAPI
         /// loaded here to the field summoners. Instead it creates a new list and returns that.
         /// If you want the complete data for each summoner take the IDs/names that you load from here
         /// and feed them into one of the other RetrieveSummoner methods</remarks>
-        public async Task<List<Summoner>> RetrieveSummonerNames(Region region, List<long> summonerIds)
+        public async Task<List<Summoner>> RetrieveSummonerNames(UrlConstants.Region region, List<long> summonerIds)
         {
             string summonerIdsPart = "";
             for (int i = 0; i < summonerIds.Count; i++)
@@ -288,7 +273,7 @@ namespace CreepScoreAPI
                 }
             }
 
-            Uri uri = new Uri(UrlConstants.baseUrl + "/" + GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
+            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -318,7 +303,7 @@ namespace CreepScoreAPI
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The summoner with its runes and masteries loaded</returns>
         /// <remarks>If the summoner is not found null will be returned.</remarks>
-        public async Task<Summoner> RetrieveSummonerWithRunesAndMasteries(Region region, long summonerId, bool force)
+        public async Task<Summoner> RetrieveSummonerWithRunesAndMasteries(UrlConstants.Region region, long summonerId, bool force)
         {
             //Summoner summoner = await RetrieveSummoners(region, summonerId, force);
 
@@ -340,7 +325,7 @@ namespace CreepScoreAPI
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The summoner with its runes and masteries loaded</returns>
         /// <remarks>If the summoner is not found null will be returned.</remarks>
-        public async Task<Summoner> RetrieveSummonerWithRunesAndMasteries(Region region, string summonerName, bool force)
+        public async Task<Summoner> RetrieveSummonerWithRunesAndMasteries(UrlConstants.Region region, string summonerName, bool force)
         {
             //Summoner summoner = await RetrieveSummoners(region, summonerName, force);
 
@@ -363,7 +348,7 @@ namespace CreepScoreAPI
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The summoner</returns>
         /// <remarks>In total this method will make 8 calls to the API</remarks>
-        public async Task<Summoner> RetrieveCompleteSummoner(Region region, Season season, long summonerId, bool force)
+        public async Task<Summoner> RetrieveCompleteSummoner(UrlConstants.Region region, Season season, long summonerId, bool force)
         {
             Summoner summoner = await RetrieveSummonerWithRunesAndMasteries(region, summonerId, force);
 
@@ -392,7 +377,7 @@ namespace CreepScoreAPI
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The summoner</returns>
         /// <remarks>In total this method will make 8 calls to the API</remarks>
-        public async Task<Summoner> RetrieveCompleteSummoner(Region region, Season season, string summonerName, bool force)
+        public async Task<Summoner> RetrieveCompleteSummoner(UrlConstants.Region region, Season season, string summonerName, bool force)
         {
             Summoner summoner = await RetrieveSummonerWithRunesAndMasteries(region, summonerName, force);
 
@@ -412,10 +397,10 @@ namespace CreepScoreAPI
             return summoner;
         }
 
-        public async Task<RealmStatic> RetrieveRealmData(Region region)
+        public async Task<RealmStatic> RetrieveRealmData(UrlConstants.Region region)
         {
             Uri uri;
-            uri = new Uri(UrlConstants.baseUrl + UrlConstants.staticDataPart + "/" + GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/realm" + UrlConstants.apiKeyPart + apiKey);
+            uri = new Uri(UrlConstants.GetBaseUrl(region) + UrlConstants.staticDataPart + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/realm" + UrlConstants.apiKeyPart + apiKey);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -560,51 +545,6 @@ namespace CreepScoreAPI
         public static DateTime EpochToDateTime(long date)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(date);
-        }
-
-        /// <summary>
-        /// Gets the region
-        /// </summary>
-        /// <param name="region">Region</param>
-        /// <returns>Returns a string representing a region</returns>
-        public static string GetRegion(Region region)
-        {
-            if (region == Region.None)
-            {
-                return "none";
-            }
-            else if (region == Region.NA)
-            {
-                return "na";
-            }
-            else if (region == Region.EUW)
-            {
-                return "euw";
-            }
-            else if (region == Region.EUNE)
-            {
-                return "eune";
-            }
-            else if (region == Region.BR)
-            {
-                return "br";
-            }
-            else if (region == Region.LAN)
-            {
-                return "lan";
-            }
-            else if (region == Region.LAS)
-            {
-                return "las";
-            }
-            else if (region == Region.OCE)
-            {
-                return "oce";
-            }
-            else
-            {
-                return "other";
-            }
         }
 
         /// <summary>

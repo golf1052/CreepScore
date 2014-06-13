@@ -4,7 +4,6 @@ C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\b
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.dll
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.pdb
-C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.csproj.App.config
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\CreepScore.dll.config
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\System.Net.Http.dll
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\System.Net.Http.Extensions.dll
@@ -13,3 +12,4 @@ C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\b
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\System.Net.Http.Extensions.xml
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\bin\Debug\System.Net.Http.Primitives.xml
 C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.csprojResolveAssemblyReference.cache
+C:\Users\Sanders\SkyDrive\Projects\League Of Legends API\CreepScore\CreepScore\obj\Debug\CreepScore.csproj.App.config

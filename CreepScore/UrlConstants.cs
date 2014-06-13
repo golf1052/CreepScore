@@ -13,9 +13,80 @@ namespace CreepScoreAPI.Constants
     public class UrlConstants
     {
         /// <summary>
-        /// Base URL
+        /// Region types
         /// </summary>
-        public static string baseUrl = "https://prod.api.pvp.net/api/lol";
+        public enum Region
+        {
+            None,
+            NA,
+            EUW,
+            EUNE,
+            BR,
+            LAN,
+            LAS,
+            OCE,
+            KR,
+            TR,
+            RU
+        }
+
+        /// <summary>
+        /// Base url
+        /// </summary>
+        /// <param name="region">Region data is coming from</param>
+        /// <returns>Base url string</returns>
+        public static string GetBaseUrl(Region region)
+        {
+            if (region == Region.NA)
+            {
+                return "https://na.api.pvp.net/api/lol";
+            }
+            else if (region == Region.EUW)
+            {
+                return "https://euw.api.pvp.net/api/lol";
+            }
+            else if (region == Region.EUNE)
+            {
+                return "https://eune.api.pvp.net/api/lol";
+            }
+            else if (region == Region.BR)
+            {
+                return "https://br.api.pvp.net/api/lol";
+            }
+            else if (region == Region.LAN)
+            {
+                return "https://lan.api.pvp.net/api/lol";
+            }
+            else if (region == Region.LAS)
+            {
+                return "https://las.api.pvp.net/api/lol";
+            }
+            else if (region == Region.OCE)
+            {
+                return "https://oce.api.pvp.net/api/lol";
+            }
+            else if (region == Region.KR)
+            {
+                return "https://kr.api.pvp.net/api/lol";
+            }
+            else if (region == Region.TR)
+            {
+                return "https://tr.api.pvp.net/api/lol";
+            }
+            else if (region == Region.RU)
+            {
+                return "https://ru.api.pvp.net/api/lol";
+            }
+            else
+            {
+                return "https://global.api.pvp.net/api/lol";
+            }
+        }
+
+        /// <summary>
+        /// Global base URL
+        /// </summary>
+        public static string globalBaseUrl = "https://global.api.pvp.net/api/lol";
 
         /// <summary>
         /// Champion API version
@@ -116,5 +187,58 @@ namespace CreepScoreAPI.Constants
         /// Static data part of url
         /// </summary>
         public static string staticDataPart = "/static-data";
+
+        /// <summary>
+        /// Gets the region
+        /// </summary>
+        /// <param name="region">Region</param>
+        /// <returns>Returns a string representing a region</returns>
+        public static string GetRegion(Region region)
+        {
+            if (region == Region.NA)
+            {
+                return "na";
+            }
+            else if (region == Region.EUW)
+            {
+                return "euw";
+            }
+            else if (region == Region.EUNE)
+            {
+                return "eune";
+            }
+            else if (region == Region.BR)
+            {
+                return "br";
+            }
+            else if (region == Region.LAN)
+            {
+                return "lan";
+            }
+            else if (region == Region.LAS)
+            {
+                return "las";
+            }
+            else if (region == Region.OCE)
+            {
+                return "oce";
+            }
+            else if (region == Region.KR)
+            {
+                return "kr";
+            }
+            else if (region == Region.TR)
+            {
+                return "tr";
+            }
+            else if (region == Region.RU)
+            {
+                return "ru";
+            }
+            else
+            {
+                return "none";
+            }
+        }
     }
 }
