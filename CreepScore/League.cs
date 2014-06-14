@@ -15,7 +15,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// List of LeagueItem entries
         /// </summary>
-        public List<LeagueItem> entries;
+        public List<LeagueEntry> entries;
 
         /// <summary>
         /// Name of league
@@ -56,7 +56,7 @@ namespace CreepScoreAPI
         /// <param name="tierString">Tier type as a string</param>
         public League(JArray entriesA, string name, string participantId, string queueString, string tierString)
         {
-            entries = new List<LeagueItem>();
+            entries = new List<LeagueEntry>();
             LoadEntries(entriesA);
             this.name = name;
             this.participantId = participantId;
@@ -74,19 +74,15 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < a.Count; i++)
             {
-                entries.Add(new LeagueItem((bool)a[i]["isFreshBlood"],
+                entries.Add(new LeagueEntry((string)a[i]["division"],
+                    (bool)a[i]["isFreshBlood"],
                     (bool)a[i]["isHotStreak"],
                     (bool)a[i]["isInactive"],
                     (bool)a[i]["isVeteran"],
-                    (long)a[i]["lastPlayed"],
-                    (string)a[i]["leagueName"],
                     (int)a[i]["leaguePoints"],
                     (JObject)a[i]["miniSeries"],
                     (string)a[i]["playerOrTeamId"],
                     (string)a[i]["playerOrTeamName"],
-                    (string)a[i]["queueType"],
-                    (string)a[i]["rank"],
-                    (string)a[i]["tier"],
                     (int)a[i]["wins"]));
             }
         }

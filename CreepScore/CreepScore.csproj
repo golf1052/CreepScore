@@ -39,7 +39,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="League.cs" />
-    <Compile Include="LeagueItem.cs" />
+    <Compile Include="LeagueEntry.cs" />
     <Compile Include="CreepScore.cs" />
     <Compile Include="Mastery.cs" />
     <Compile Include="MasteryPage.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RankedStats.cs" />
     <Compile Include="RawStats.cs" />
+    <Compile Include="RecentGames.cs" />
     <Compile Include="Roster.cs" />
     <Compile Include="Rune.cs" />
     <Compile Include="RunePage.cs" />

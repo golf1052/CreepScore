@@ -28,7 +28,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// ID of the summoner icon associated with the summoner
         /// </summary>
-        public int profileIconID;
+        public int profileIconId;
 
         /// <summary>
         /// Date the summoner was last modified specified as epoch milliseconds
@@ -54,16 +54,6 @@ namespace CreepScoreAPI
         /// List of mastery pages associated associated with this summoner
         /// </summary>
         public List<MasteryPage> masteryPages;
-
-        /// <summary>
-        /// List of recent games played (max fetchable is 10)
-        /// </summary>
-        public List<Game> recentGames;
-
-        /// <summary>
-        /// Dictionary of leagues, key is TeamID or summonerID, value is League data
-        /// </summary>
-        public Dictionary<string, League> league;
 
         /// <summary>
         /// List of player stats summaries associated with this summoner
@@ -108,13 +98,11 @@ namespace CreepScoreAPI
         {
             runePages = new List<RunePage>();
             masteryPages = new List<MasteryPage>();
-            recentGames = new List<Game>();
-            league = new Dictionary<string, League>();
             playerStatSummaries = new List<PlayerStatsSummary>();
             teams = new List<Team>();
             id = (long)summonerO["id"];
             name = (string)summonerO["name"];
-            profileIconID = (int)summonerO["profileIconId"];
+            profileIconId = (int)summonerO["profileIconId"];
             revisionDateLong = (long)summonerO["revisionDate"];
             SetRevisionDate(revisionDateLong);
             summonerLevel = (long)summonerO["summonerLevel"];
@@ -150,40 +138,35 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The recent games list</returns>
-        public async Task<List<Game>> RetrieveRecentGames(bool force)
+        public async Task<RecentGames> RetrieveRecentGames()
         {
-            if (recentGames.Count == 0 || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.gameAPIVersion +
+                    UrlConstants.gamePart +
+                    UrlConstants.bySummonerPart + "/" +
+                    id.ToString() +
+                    UrlConstants.recentPart +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+
+                string responseString = await CreepScore.GetWebData(uri);
+
+                if (CreepScore.GoodStatusCode(responseString))
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) + "/" +
-                        UrlConstants.gameAPIVersion +
-                        UrlConstants.gamePart +
-                        UrlConstants.bySummonerPart + "/" +
-                        id.ToString() +
-                        UrlConstants.recentPart +
-                        UrlConstants.apiKeyPart +
-                        CreepScore.apiKey);
-
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        LoadRecentGames(JObject.Parse(responseString));
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return LoadRecentGames(JObject.Parse(responseString));
                 }
                 else
                 {
                     return null;
                 }
             }
-
-            return recentGames;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -192,42 +175,37 @@ namespace CreepScoreAPI
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The league data dictionary</returns>
         /// <remarks>If the summoner is less than level 30 this will not work</remarks>
-        public async Task<Dictionary<string, League>> RetrieveLeague(bool force)
+        public async Task<Dictionary<string, List<League>>> RetrieveLeague()
         {
-            if (league.Count == 0 || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.leagueAPIVersion +
+                    UrlConstants.leaguePart +
+                    UrlConstants.bySummonerPart + "/" +
+                    id.ToString() +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+
+                string responseString = await CreepScore.GetWebData(uri);
+
+                if (CreepScore.GoodStatusCode(responseString))
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) + "/" +
-                        UrlConstants.leagueAPIVersion +
-                        UrlConstants.leaguePart +
-                        UrlConstants.bySummonerPart + "/" +
-                        id.ToString() +
-                        UrlConstants.apiKeyPart +
-                        CreepScore.apiKey);
-
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        LoadLeague(responseString);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return LoadLeague(responseString);
                 }
                 else
                 {
                     return null;
                 }
             }
-
-            return league;
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<List<LeagueItem>> RetrieveLeagueEntry()
+        public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry()
         {
             if (!isLittleSummoner)
             {
@@ -246,7 +224,7 @@ namespace CreepScoreAPI
 
                 if (CreepScore.GoodStatusCode(responseString))
                 {
-                    return LoadEntry(JArray.Parse(responseString));
+                    return LoadLeague(responseString);
                 }
                 else
                 {
@@ -502,48 +480,37 @@ namespace CreepScoreAPI
             }
         }
 
-        /// <summary>
-        /// Loads the recent games
-        /// </summary>
-        /// <param name="o">JObject representing recent games</param>
-        public void LoadRecentGames(JObject o)
+        RecentGames LoadRecentGames(JObject o)
         {
-            for (int i = 0; i < o["games"].Count(); i++)
-            {
-                recentGames.Add(new Game((int)o["games"][i]["championId"],
-                    (long)o["games"][i]["createDate"],
-                    (JArray)o["games"][i]["fellowPlayers"],
-                    (long)o["games"][i]["gameId"],
-                    (string)o["games"][i]["gameMode"],
-                    (string)o["games"][i]["gameType"],
-                    (bool)o["games"][i]["invalid"],
-                    (int)o["games"][i]["level"],
-                    (int)o["games"][i]["ipEarned"],
-                    (int)o["games"][i]["mapId"],
-                    (int)o["games"][i]["spell1"],
-                    (int)o["games"][i]["spell2"],
-                    (JObject)o["games"][i]["stats"],
-                    (string)o["games"][i]["subType"],
-                    (int)o["games"][i]["teamId"]));
-            }
+            return new RecentGames((JArray)o["games"], (long)o["summonerId"]);
         }
 
         /// <summary>
         /// Loads the leagues
         /// </summary>
         /// <param name="s">json string representing league data</param>
-        public void LoadLeague(string s)
+        public Dictionary<string, List<League>> LoadLeague(string s)
         {
-            Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(s);
+            Dictionary<string, JArray> values = JsonConvert.DeserializeObject<Dictionary<string, JArray>>(s);
+            Dictionary<string, List<League>> leagueData = new Dictionary<string, List<League>>();
 
-            foreach (KeyValuePair<string, JObject> pair in values)
+            foreach (KeyValuePair<string, JArray> pair in values)
             {
-                league.Add(pair.Key, new League((JArray)pair.Value["entries"],
-                    (string)pair.Value["name"],
-                    (string)pair.Value["participantId"],
-                    (string)pair.Value["queue"],
-                    (string)pair.Value["tier"]));
+                List<League> leagues = new List<League>();
+
+                foreach (JObject league in pair.Value)
+                {
+                    leagues.Add(new League((JArray)league["entries"],
+                        (string)league["name"],
+                        (string)league["participantId"],
+                        (string)league["queue"],
+                        (string)league["tier"]));
+                }
+
+                leagueData.Add(pair.Key, leagues);
             }
+
+            return leagueData;
         }
 
         /// <summary>
@@ -605,25 +572,21 @@ namespace CreepScoreAPI
         /// Return an entry list
         /// </summary>
         /// <param name="a">The json list of entries</param>
-        List<LeagueItem> LoadEntry(JArray a)
+        List<LeagueEntry> LoadEntry(JArray a)
         {
-            List<LeagueItem> entries = new List<LeagueItem>();
+            List<LeagueEntry> entries = new List<LeagueEntry>();
 
             for (int i = 0; i < a.Count; i++)
             {
-                entries.Add(new LeagueItem((bool)a[i]["isFreshBlood"],
+                entries.Add(new LeagueEntry((string)a[i]["division"],
+                    (bool)a[i]["isFreshBlood"],
                     (bool)a[i]["isHotStreak"],
                     (bool)a[i]["isInactive"],
                     (bool)a[i]["isVeteran"],
-                    (long)a[i]["lastPlayed"],
-                    (string)a[i]["leagueName"],
                     (int)a[i]["leaguePoints"],
                     (JObject)a[i]["miniSeries"],
                     (string)a[i]["playerOrTeamId"],
                     (string)a[i]["playerOrTeamName"],
-                    (string)a[i]["queueType"],
-                    (string)a[i]["rank"],
-                    (string)a[i]["tier"],
                     (int)a[i]["wins"]));
             }
 

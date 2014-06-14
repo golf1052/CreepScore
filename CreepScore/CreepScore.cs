@@ -60,17 +60,27 @@ namespace CreepScoreAPI
         /// <param name="freeToPlay">Retrive only the free to play champs</param>
         /// <returns>A list of champions.
         /// If it could not retrieve the champions it returns null</returns>
-        public async Task<List<Champion>> RetrieveChampions(UrlConstants.Region region, bool freeToPlay)
+        public async Task<List<Champion>> RetrieveChampions(UrlConstants.Region region, bool freeToPlay = false)
         {
             Uri uri;
 
             if (!freeToPlay)
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.championAPIVersion +
+                    "/champion" +
+                    UrlConstants.apiKeyPart +
+                    apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion" + "?freeToPlay=true&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.championAPIVersion +
+                    "/champion" +
+                    "?freeToPlay=true&api_key=" +
+                    apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -89,7 +99,14 @@ namespace CreepScoreAPI
         public async Task<Champion> RetrieveChampion(UrlConstants.Region region, int id)
         {
             Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.championAPIVersion + "/champion/" + id.ToString() + UrlConstants.apiKeyPart + apiKey);
+            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.championAPIVersion +
+                "/champion/" +
+                id.ToString() +
+                UrlConstants.apiKeyPart +
+                apiKey);
+
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
             {
@@ -107,11 +124,24 @@ namespace CreepScoreAPI
             Uri uri;
             if (champData == StaticDataConstants.ChampData.None)
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + UrlConstants.staticDataPart + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion" + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) +
+                    UrlConstants.staticDataPart + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.staticDataAPIVersion +
+                    "/champion" +
+                    UrlConstants.apiKeyPart +
+                    apiKey);
             }
             else
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + UrlConstants.staticDataPart + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/champion?champData=" + StaticDataConstants.GetChampData(champData) + "&api_key=" + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) +
+                    UrlConstants.staticDataPart + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.staticDataAPIVersion +
+                    "/champion?champData=" +
+                    StaticDataConstants.GetChampData(champData) +
+                    "&api_key=" +
+                    apiKey);
             }
 
             string responseString = await GetWebData(uri);
@@ -161,7 +191,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + ids + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.summonerAPIVersion +
+                    UrlConstants.summonerPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    apiKey);
             }
             else
             {
@@ -221,7 +257,14 @@ namespace CreepScoreAPI
             Uri uri;
             if (names != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/by-name" + "/" + names + UrlConstants.apiKeyPart + apiKey);
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.summonerAPIVersion +
+                    UrlConstants.summonerPart +
+                    "/by-name" + "/" +
+                    names +
+                    UrlConstants.apiKeyPart +
+                    apiKey);
             }
             else
             {
@@ -261,6 +304,12 @@ namespace CreepScoreAPI
         public async Task<List<Summoner>> RetrieveSummonerNames(UrlConstants.Region region, List<long> summonerIds)
         {
             string summonerIdsPart = "";
+            if (summonerIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
             for (int i = 0; i < summonerIds.Count; i++)
             {
                 if (i != summonerIds.Count - 1)
@@ -273,7 +322,15 @@ namespace CreepScoreAPI
                 }
             }
 
-            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.summonerAPIVersion + UrlConstants.summonerPart + "/" + summonerIdsPart + "/name" + UrlConstants.apiKeyPart + apiKey);
+            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.summonerAPIVersion +
+                UrlConstants.summonerPart + "/" +
+                summonerIdsPart +
+                "/name" +
+                UrlConstants.apiKeyPart +
+                apiKey);
+
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -356,12 +413,12 @@ namespace CreepScoreAPI
             {
                 if (summoner.summonerLevel == 30)
                 {
-                    await summoner.RetrieveLeague(force);
+                    await summoner.RetrieveLeague();
                     await summoner.RetrieveRankedStats(season, force);
                     await summoner.RetrieveTeams(force);
                 }
 
-                await summoner.RetrieveRecentGames(force);
+                await summoner.RetrieveRecentGames();
                 await summoner.RetrievePlayerStatsSummaries(season, force);
             }
 
@@ -385,12 +442,12 @@ namespace CreepScoreAPI
             {
                 if (summoner.summonerLevel == 30)
                 {
-                    await summoner.RetrieveLeague(force);
+                    await summoner.RetrieveLeague();
                     await summoner.RetrieveRankedStats(season, force);
                     await summoner.RetrieveTeams(force);
                 }
 
-                await summoner.RetrieveRecentGames(force);
+                await summoner.RetrieveRecentGames();
                 await summoner.RetrievePlayerStatsSummaries(season, force);
             }
 
@@ -400,7 +457,13 @@ namespace CreepScoreAPI
         public async Task<RealmStatic> RetrieveRealmData(UrlConstants.Region region)
         {
             Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) + UrlConstants.staticDataPart + "/" + UrlConstants.GetRegion(region) + "/" + UrlConstants.staticDataAPIVersion + "/realm" + UrlConstants.apiKeyPart + apiKey);
+            uri = new Uri(UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.staticDataAPIVersion +
+                "/realm" +
+                UrlConstants.apiKeyPart +
+                apiKey);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
