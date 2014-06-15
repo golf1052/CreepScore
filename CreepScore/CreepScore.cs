@@ -572,7 +572,7 @@ namespace CreepScoreAPI
             string ids = "";
             if (teamIds.Count > 40)
             {
-                errorString = "Cannot retrieve more than 40 summoners at once";
+                errorString = "Cannot retrieve more than 40 teams at once";
                 return null;
             }
 
@@ -609,6 +609,109 @@ namespace CreepScoreAPI
             if (CreepScore.GoodStatusCode(responseString))
             {
                 return HelperMethods.LoadTeam(responseString);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Dictionary<string, List<League>>> RetrieveLeague(UrlConstants.Region region, List<string> teamIds)
+        {
+            string ids = "";
+            if (teamIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 teams at once";
+                return null;
+            }
+
+            for (int i = 0; i < teamIds.Count; i++)
+            {
+                if (i != teamIds.Count - 1)
+                {
+                    ids += teamIds[i] + ",";
+                }
+                else
+                {
+                    ids += teamIds[i];
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.leagueAPIVersion +
+                    UrlConstants.leaguePart +
+                    UrlConstants.byTeamPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of team ids";
+                return null;
+            }
+
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadLeague(responseString);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry(UrlConstants.Region region, List<string> teamIds)
+        {
+            string ids = "";
+            if (teamIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 teams at once";
+                return null;
+            }
+
+            for (int i = 0; i < teamIds.Count; i++)
+            {
+                if (i != teamIds.Count - 1)
+                {
+                    ids += teamIds[i] + ",";
+                }
+                else
+                {
+                    ids += teamIds[i];
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.leagueAPIVersion +
+                    UrlConstants.leaguePart +
+                    UrlConstants.byTeamPart + "/" +
+                    ids +
+                    "/entry" +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of team ids";
+                return null;
+            }
+
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadLeague(responseString);
             }
             else
             {

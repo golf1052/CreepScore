@@ -248,5 +248,25 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal("HFGs", teamData["TEAM-15f3bb30-a987-11e2-be8d-782bcb4d1861"].tag);
         }
+
+        [Fact]
+        public async void RetrieveTeamLeagueTest()
+        {
+            List<string> teamIds = new List<string>();
+            teamIds.Add("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861");
+            Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeague(UrlConstants.Region.NA, teamIds);
+
+            Assert.Equal(GameConstants.Queue.Team5, leagueData["TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861"][0].queue);
+        }
+
+        [Fact]
+        public async void RetrieveTeamLeagueEntryTest()
+        {
+            List<string> teamIds = new List<string>();
+            teamIds.Add("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861");
+            Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeagueEntry(UrlConstants.Region.NA, teamIds);
+
+            Assert.Equal("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861", leagueData["TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861"][0].entries[0].playerOrTeamId);
+        }
     }
 }

@@ -70,5 +70,33 @@ namespace CreepScoreAPI
 
             return teamsData;
         }
+
+        /// <summary>
+        /// Loads the leagues
+        /// </summary>
+        /// <param name="s">json string representing league data</param>
+        public static Dictionary<string, List<League>> LoadLeague(string s)
+        {
+            Dictionary<string, JArray> values = JsonConvert.DeserializeObject<Dictionary<string, JArray>>(s);
+            Dictionary<string, List<League>> leagueData = new Dictionary<string, List<League>>();
+
+            foreach (KeyValuePair<string, JArray> pair in values)
+            {
+                List<League> leagues = new List<League>();
+
+                foreach (JObject league in pair.Value)
+                {
+                    leagues.Add(new League((JArray)league["entries"],
+                        (string)league["name"],
+                        (string)league["participantId"],
+                        (string)league["queue"],
+                        (string)league["tier"]));
+                }
+
+                leagueData.Add(pair.Key, leagues);
+            }
+
+            return leagueData;
+        }
     }
 }

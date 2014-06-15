@@ -134,6 +134,11 @@ namespace CreepScoreAPI.Constants
         public static string bySummonerPart = "/by-summoner";
 
         /// <summary>
+        /// By team part of url
+        /// </summary>
+        public static string byTeamPart = "/by-team";
+
+        /// <summary>
         /// Api key part of url
         /// </summary>
         public static string apiKeyPart = "?api_key=";
