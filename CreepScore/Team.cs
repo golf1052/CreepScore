@@ -62,12 +62,6 @@ namespace CreepScoreAPI
         public List<MatchHistorySummary> matchHistory;
 
         /// <summary>
-        /// If not null the message of the day
-        /// </summary>
-        /// <remarks>Seems to be always null</remarks>
-        public MessageOfDay messageOfDay;
-
-        /// <summary>
         /// Date this team was last modified specified as epoch milliseconds
         /// </summary>
         public long modifyDateLong;
@@ -108,9 +102,9 @@ namespace CreepScoreAPI
         public string tag;
 
         /// <summary>
-        /// Team stat summary
+        /// Team stat details
         /// </summary>
-        public TeamStatSummary teamStatSummary;
+        public List<TeamStatDetail> teamStatDetails;
 
         /// <summary>
         /// Third to last summoner join date specified as epoch milliseconds
@@ -130,7 +124,6 @@ namespace CreepScoreAPI
         /// <param name="lastJoinDateLong">Date when summoner last joined the team specified as epoch milliseconds</param>
         /// <param name="lastJoinedRankedTeamQueueDateLong">Date when this team last joined queue specified as epoch milliseconds</param>
         /// <param name="matchHistoryA">JArray of match history summaries</param>
-        /// <param name="messageOfDayO">JObject representing the message of the day</param>
         /// <param name="modifyDateLong">Date this team was last modified specified as epoch milliseconds</param>
         /// <param name="name">Name of the team</param>
         /// <param name="rosterO">JObject representing the team roster</param>
@@ -138,25 +131,24 @@ namespace CreepScoreAPI
         /// <param name="status">Team status</param>
         /// <param name="tag">Team tag</param>
         /// <param name="teamIdO">JObject representing the team ID</param>
-        /// <param name="teamStatSummaryO">JObject representing the team stat summary</param>
+        /// <param name="teamStatDetailsA">JArray representing the team stat details</param>
         /// <param name="thirdLastJoinDateLong">Third to last summoner join date specified as epoch milliseconds</param>
-        /// <param name="timestampLong">Timestamp specified as epoch milliseconds</param>
         public Team(long createDateLong,
             string fullId,
             long lastGameDateLong,
             long lastJoinDateLong,
             long lastJoinedRankedTeamQueueDateLong,
             JArray matchHistoryA,
-            JObject messageOfDayO,
             long modifyDateLong,
             string name,
             JObject rosterO,
             long? secondLastJoinDateLong,
             string status,
             string tag,
-            JObject teamStatSummaryO,
+            JArray teamStatDetailsA,
             long? thirdLastJoinDateLong)
         {
+            teamStatDetails = new List<TeamStatDetail>();
             matchHistory = new List<MatchHistorySummary>();
             this.createDateLong = createDateLong;
             createDate = CreepScore.EpochToDateTime(createDateLong);
@@ -168,7 +160,6 @@ namespace CreepScoreAPI
             this.lastJoinedRankedTeamQueueDateLong = lastJoinedRankedTeamQueueDateLong;
             lastJoinedRankedTeamQueueDate = CreepScore.EpochToDateTime(lastJoinedRankedTeamQueueDateLong);
             LoadMatchHistory(matchHistoryA);
-            LoadMessageOfDay(messageOfDayO);
             this.modifyDateLong = modifyDateLong;
             modifyDate = CreepScore.EpochToDateTime(modifyDateLong);
             this.name = name;
@@ -180,7 +171,7 @@ namespace CreepScoreAPI
             }
             this.status = status;
             this.tag = tag;
-            LoadTeamStatSummary(teamStatSummaryO);
+            LoadTeamStatDetails(teamStatDetailsA);
             this.thirdLastJoinDateLong = thirdLastJoinDateLong;
             if (thirdLastJoinDateLong != null)
             {
@@ -214,19 +205,6 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
-        /// Loads the message of the day
-        /// </summary>
-        /// <param name="o">json object representing the message of the day</param>
-        /// <remarks>Seems to be always null</remarks>
-        void LoadMessageOfDay(JObject o)
-        {
-            if (o != null)
-            {
-                messageOfDay = new MessageOfDay((long)o["createDate"], (string)o["message"], (int)o["version"]);
-            }
-        }
-
-        /// <summary>
         /// Loads the roster
         /// </summary>
         /// <param name="o">json object representing the roster</param>
@@ -238,15 +216,14 @@ namespace CreepScoreAPI
             }
         }
 
-        /// <summary>
-        /// Loads the team stat summary
-        /// </summary>
-        /// <param name="o">json object representing the team stat summary</param>
-        void LoadTeamStatSummary(JObject o)
+        void LoadTeamStatDetails(JArray a)
         {
-            if (o != null)
+            for (int i = 0; i < a.Count(); i++)
             {
-                teamStatSummary = new TeamStatSummary((string)o["fullId"], (JArray)o["teamStatDetails"]);
+                teamStatDetails.Add(new TeamStatDetail((int)a[i]["averageGamesPlayed"],
+                    (int)a[i]["losses"],
+                    (string)a[i]["teamStatType"],
+                    (int)a[i]["wins"]));
             }
         }
     }

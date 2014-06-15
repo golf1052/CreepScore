@@ -104,5 +104,13 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal("ADC", runes["26040955"].pages[0].name);
         }
+
+        [Fact]
+        public async void RetrieveTeamsTest()
+        {
+            Dictionary<string, List<Team>> teams = await golf1052.RetrieveTeams();
+
+            Assert.Equal("HFGs", teams["26040955"][0].tag);
+        }
     }
 }

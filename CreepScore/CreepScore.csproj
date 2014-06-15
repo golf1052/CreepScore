@@ -38,6 +38,7 @@
     <Compile Include="ChampionStats.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameConstants.cs" />
+    <Compile Include="HelperMethods.cs" />
     <Compile Include="League.cs" />
     <Compile Include="LeagueEntry.cs" />
     <Compile Include="CreepScore.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="TeamMemberInfo.cs" />
     <Compile Include="TeamStatDetail.cs" />
     <Compile Include="TeamStatSummary.cs" />
-    <Compile Include="TestStrings.cs" />
     <Compile Include="UrlConstants.cs" />
   </ItemGroup>
   <ItemGroup>

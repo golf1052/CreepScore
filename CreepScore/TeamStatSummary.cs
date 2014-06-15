@@ -43,7 +43,6 @@ namespace CreepScoreAPI
             {
                 teamStatDetails.Add(new TeamStatDetail((int)a[i]["averageGamesPlayed"],
                     (int)a[i]["losses"],
-                    (string)a[i]["fullId"],
                     (string)a[i]["teamStatType"],
                     (int)a[i]["wins"]));
             }

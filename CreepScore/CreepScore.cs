@@ -421,7 +421,7 @@ namespace CreepScoreAPI
                 {
                     await summoner.RetrieveLeague();
                     await summoner.RetrieveRankedStats(season, force);
-                    await summoner.RetrieveTeams(force);
+                    await summoner.RetrieveTeams();
                 }
 
                 await summoner.RetrieveRecentGames();
@@ -450,7 +450,7 @@ namespace CreepScoreAPI
                 {
                     await summoner.RetrieveLeague();
                     await summoner.RetrieveRankedStats(season, force);
-                    await summoner.RetrieveTeams(force);
+                    await summoner.RetrieveTeams();
                 }
 
                 await summoner.RetrieveRecentGames();
@@ -505,6 +505,113 @@ namespace CreepScoreAPI
             else
             {
                 errorString = responseString;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the teams the given summoners are on
+        /// </summary>
+        /// <returns>The list of teams</returns>
+        public async Task<Dictionary<string, List<Team>>> RetrieveTeams(UrlConstants.Region region, List<long> summonerIds)
+        {
+            string ids = "";
+            if (summonerIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
+            for (int i = 0; i < summonerIds.Count; i++)
+            {
+                if (i != summonerIds.Count - 1)
+                {
+                    ids += summonerIds[i].ToString() + ",";
+                }
+                else
+                {
+                    ids += summonerIds[i].ToString();
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.teamAPIVersion +
+                    UrlConstants.teamPart +
+                    UrlConstants.bySummonerPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of summoner ids";
+                return null;
+            }
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadTeams(responseString);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the teams the given summoners are on
+        /// </summary>
+        /// <returns>The list of teams</returns>
+        public async Task<Dictionary<string, Team>> RetrieveTeam(UrlConstants.Region region, List<string> teamIds)
+        {
+            string ids = "";
+            if (teamIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
+            for (int i = 0; i < teamIds.Count; i++)
+            {
+                if (i != teamIds.Count - 1)
+                {
+                    ids += teamIds[i] + ",";
+                }
+                else
+                {
+                    ids += teamIds[i];
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.teamAPIVersion +
+                    UrlConstants.teamPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of team ids";
+                return null;
+            }
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadTeam(responseString);
+            }
+            else
+            {
                 return null;
             }
         }

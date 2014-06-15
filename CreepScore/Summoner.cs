@@ -56,11 +56,6 @@ namespace CreepScoreAPI
         public RankedStats rankedStats;
 
         /// <summary>
-        /// List of teams player is on
-        /// </summary>
-        public List<Team> teams;
-
-        /// <summary>
         /// Flag to check if all summoner fields are loaded (not including runes, masteries, etc)
         /// </summary>
         public bool isLittleSummoner;
@@ -87,7 +82,6 @@ namespace CreepScoreAPI
         public Summoner(JObject summonerO, UrlConstants.Region region)
         {
             playerStatSummaries = new List<PlayerStatsSummary>();
-            teams = new List<Team>();
             id = (long)summonerO["id"];
             name = (string)summonerO["name"];
             profileIconId = (int)summonerO["profileIconId"];
@@ -391,41 +385,35 @@ namespace CreepScoreAPI
         /// <summary>
         /// Retrieves the teams this player is on
         /// </summary>
-        /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The list of teams</returns>
-        public async Task<List<Team>> RetrieveTeams(bool force)
+        public async Task<Dictionary<string, List<Team>>> RetrieveTeams()
         {
-            if (teams.Count == 0 || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.teamAPIVersion +
+                    UrlConstants.teamPart +
+                    UrlConstants.bySummonerPart + "/" +
+                    id.ToString() +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+
+                string responseString = await CreepScore.GetWebData(uri);
+
+                if (CreepScore.GoodStatusCode(responseString))
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) + "/" +
-                        UrlConstants.teamAPIVersion +
-                        UrlConstants.teamPart +
-                        UrlConstants.bySummonerPart + "/" +
-                        id.ToString() +
-                        UrlConstants.apiKeyPart +
-                        CreepScore.apiKey);
-
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        LoadTeams(JArray.Parse(responseString));
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return HelperMethods.LoadTeams(responseString);
                 }
                 else
                 {
                     return null;
                 }
             }
-
-            return teams;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -496,6 +484,12 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
+        /// Loads the teams
+        /// </summary>
+        /// <param name="a">json string respresenting teams data</param>
+
+
+        /// <summary>
         /// Loads the player stat summaries
         /// </summary>
         /// <param name="o">JObject representing player stat summaries</param>
@@ -519,35 +513,6 @@ namespace CreepScoreAPI
         public void LoadRankedStats(JObject o, CreepScore.Season season)
         {
             rankedStats = new RankedStats((JArray)o["champions"], (long)o["modifyDate"], season);
-        }
-
-        /// <summary>
-        /// Loads the teams
-        /// </summary>
-        /// <param name="a">JArray list of teams</param>
-        public void LoadTeams(JArray a)
-        {
-            if (a != null)
-            {
-                for (int i = 0; i < a.Count; i++)
-                {
-                    teams.Add(new Team((long)a[i]["createDate"],
-                        (string)a[i]["fullId"],
-                        (long)a[i]["lastGameDate"],
-                        (long)a[i]["lastJoinDate"],
-                        (long)a[i]["lastJoinedRankedTeamQueueDate"],
-                        (JArray)a[i]["matchHistory"],
-                        (JObject)a[i]["messageOfDay"],
-                        (long)a[i]["modifyDate"],
-                        (string)a[i]["name"],
-                        (JObject)a[i]["roster"],
-                        (long?)a[i]["secondLastJoinDate"],
-                        (string)a[i]["status"],
-                        (string)a[i]["tag"],
-                        (JObject)a[i]["teamStatSummary"],
-                        (long?)a[i]["thirdLastJoinDate"]));
-                }
-            }
         }
     }
 }

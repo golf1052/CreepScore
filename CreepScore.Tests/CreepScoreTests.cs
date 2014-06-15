@@ -227,5 +227,26 @@ namespace CreepScoreAPI.Tests
             Assert.Equal("Turtle the Cat", wildTurtle.playerOrTeamName);
             Assert.Equal("I", wildTurtle.division);
         }
+
+        [Fact]
+        public async void RetrieveSummonersTeamsTest()
+        {
+            List<long> summonerIds = new List<long>();
+            summonerIds.Add(26040955);
+            summonerIds.Add(7460);
+            Dictionary<string, List<Team>> teamsData = await creepScore.RetrieveTeams(UrlConstants.Region.NA, summonerIds);
+
+            Assert.Equal("HFGs", teamsData["26040955"][0].tag);
+        }
+
+        [Fact]
+        public async void RetrieveTeamsTest()
+        {
+            List<string> teamIds = new List<string>();
+            teamIds.Add("TEAM-15f3bb30-a987-11e2-be8d-782bcb4d1861");
+            Dictionary<string, Team> teamData = await creepScore.RetrieveTeam(UrlConstants.Region.NA, teamIds);
+
+            Assert.Equal("HFGs", teamData["TEAM-15f3bb30-a987-11e2-be8d-782bcb4d1861"].tag);
+        }
     }
 }
