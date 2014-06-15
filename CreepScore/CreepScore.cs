@@ -158,15 +158,11 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
-        /// Retrieves a summoner by its ID and returns it
+        /// Retrieves summoners by their IDs and returns them
         /// </summary>
         /// <param name="region">The region where to retrive the data</param>
-        /// <param name="summonerId">The ID of the summoner</param>
-        /// <param name="force">Whether to force load the data from online</param>
-        /// <returns>The summoner</returns>
-        /// <remarks>This function implements mild caching. When the program is running all loaded champions will be loaded into the
-        /// field champions which is a list. If a call for a summoner is made and it is already in that list the summoner data will
-        /// be pulled from that list. If force is called that summoner's data will be updated.</remarks>
+        /// <param name="summonerIds">The IDs of the summoners</param>
+        /// <returns>The summoners</returns>
         public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<long> summonerIds)
         {
             string ids = "";
@@ -223,16 +219,28 @@ namespace CreepScoreAPI
             }
         }
 
+        public async Task<Summoner> RetrieveSummoner(UrlConstants.Region region, string summonerName)
+        {
+            List<string> temp = new List<string>();
+            temp.Add(summonerName);
+            List<Summoner> returnedList = await RetrieveSummoners(region, temp);
+
+            if (returnedList != null)
+            {
+                return returnedList[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
-        /// Retrives a summoner by its name and returns it
+        /// Retrives summoners by their names and returns them
         /// </summary>
         /// <param name="region">The region where to retrive the data</param>
-        /// <param name="summonerName">The name of the summoner</param>
-        /// <param name="force">Whether to force load the data from online</param>
-        /// <returns>The summoner</returns>
-        /// <remarks>This function implements mild caching. When the program is running all loaded champions will be loaded into the
-        /// field champions which is a list. If a call for a summoner is made and it is already in that list the summoner data will
-        /// be pulled from that list. If force is called that summoner's data will be updated.</remarks>
+        /// <param name="summonerName">The names of the summoners</param>
+        /// <returns>The summoners</returns>
         public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<string> summonerNames)
         {
             string names = "";
@@ -297,9 +305,7 @@ namespace CreepScoreAPI
         /// <param name="region">The region where to retrive the data</param>
         /// <param name="summonerIds">The list of summoner IDs to load.</param>
         /// <returns>A list of partially loaded summoners</returns>
-        /// <remarks>Unlike the other RetriveSummoner methods this method does not add the summoners
-        /// loaded here to the field summoners. Instead it creates a new list and returns that.
-        /// If you want the complete data for each summoner take the IDs/names that you load from here
+        /// <remarks>If you want the complete data for each summoner take the IDs/names that you load from here
         /// and feed them into one of the other RetrieveSummoner methods</remarks>
         public async Task<List<Summoner>> RetrieveSummonerNames(UrlConstants.Region region, List<long> summonerIds)
         {
@@ -464,11 +470,37 @@ namespace CreepScoreAPI
                 "/realm" +
                 UrlConstants.apiKeyPart +
                 apiKey);
+
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
             {
                 return LoadRealmData(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<League> RetrieveChallengerLeague(UrlConstants.Region region, GameConstants.Queue queue)
+        {
+            Uri uri;
+            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+            UrlConstants.GetRegion(region) + "/" +
+            UrlConstants.leagueAPIVersion +
+            UrlConstants.leaguePart +
+            "/challenger?type=" +
+            GameConstants.GetQueue(queue) +
+            "&api_key=" +
+            apiKey);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return LoadLeague(JObject.Parse(responseString));
             }
             else
             {
@@ -598,6 +630,15 @@ namespace CreepScoreAPI
                 (int)o["profileiconmax"],
                 (string)o["store"],
                 (string)o["v"]);
+        }
+
+        League LoadLeague(JObject o)
+        {
+            return new League((JArray)o["entries"],
+                        (string)o["name"],
+                        (string)o["participantId"],
+                        (string)o["queue"],
+                        (string)o["tier"]);
         }
 
         /// <summary>

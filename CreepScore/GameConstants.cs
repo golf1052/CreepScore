@@ -575,6 +575,26 @@ namespace CreepScoreAPI.Constants
             }
         }
 
+        public static string GetQueue(Queue queue)
+        {
+            if (queue == Queue.Solo5)
+            {
+                return "RANKED_SOLO_5x5";
+            }
+            else if (queue == Queue.Team3)
+            {
+                return "RANKED_TEAM_3x3";
+            }
+            else if (queue == Queue.Team5)
+            {
+                return "RANKED_TEAM_5x5";
+            }
+            else
+            {
+                return "NONE";
+            }
+        }
+
         /// <summary>
         /// Set the Tier field
         /// </summary>

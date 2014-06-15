@@ -46,16 +46,6 @@ namespace CreepScoreAPI
         public long summonerLevel;
 
         /// <summary>
-        /// List of rune pages associated with the summoner
-        /// </summary>
-        public List<RunePage> runePages;
-
-        /// <summary>
-        /// List of mastery pages associated associated with this summoner
-        /// </summary>
-        public List<MasteryPage> masteryPages;
-
-        /// <summary>
         /// List of player stats summaries associated with this summoner
         /// </summary>
         public List<PlayerStatsSummary> playerStatSummaries;
@@ -96,8 +86,6 @@ namespace CreepScoreAPI
         /// <param name="summonerO">JObject representing summoner</param>
         public Summoner(JObject summonerO, UrlConstants.Region region)
         {
-            runePages = new List<RunePage>();
-            masteryPages = new List<MasteryPage>();
             playerStatSummaries = new List<PlayerStatsSummary>();
             teams = new List<Team>();
             id = (long)summonerO["id"];
@@ -335,39 +323,34 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The mastery pages list</returns>
-        public async Task<List<MasteryPage>> RetrieveMasteryPages(bool force)
+        public async Task<Dictionary<string, MasteryPages>> RetrieveMasteryPages()
         {
-            if (masteryPages.Count == 0 || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.summonerAPIVersion +
+                    UrlConstants.summonerPart + "/"
+                    + id.ToString() +
+                    UrlConstants.masteriesPart +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+
+                string responseString = await CreepScore.GetWebData(uri);
+
+                if (CreepScore.GoodStatusCode(responseString))
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) + "/" +
-                        "v1.2" +
-                        UrlConstants.summonerPart + "/"
-                        + id.ToString() +
-                        UrlConstants.masteriesPart +
-                        UrlConstants.apiKeyPart +
-                        CreepScore.apiKey);
-
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        LoadMasteryPages(JObject.Parse(responseString));
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return LoadMasteryPages(responseString);
                 }
                 else
                 {
                     return null;
                 }
             }
-
-            return masteryPages;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -375,39 +358,34 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The rune pages list</returns>
-        public async Task<List<RunePage>> RetrieveRunePages(bool force)
+        public async Task<Dictionary<string, RunePages>> RetrieveRunePages()
         {
-            if (runePages.Count == 0 || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.summonerAPIVersion +
+                    UrlConstants.summonerPart + "/" +
+                    id.ToString() +
+                    UrlConstants.runesPart +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+
+                string responseString = await CreepScore.GetWebData(uri);
+
+                if (CreepScore.GoodStatusCode(responseString))
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) + "/" +
-                        "v1.2" +
-                        UrlConstants.summonerPart + "/" +
-                        id.ToString() +
-                        UrlConstants.runesPart +
-                        UrlConstants.apiKeyPart +
-                        CreepScore.apiKey);
-
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        LoadRunePages(JObject.Parse(responseString));
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return LoadRunePages(responseString);
                 }
                 else
                 {
                     return null;
                 }
             }
-
-            return runePages;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -454,30 +432,34 @@ namespace CreepScoreAPI
         /// Loads the rune pages
         /// </summary>
         /// <param name="o">JObject representing rune pages</param>
-        public void LoadRunePages(JObject o)
+        Dictionary<string, RunePages> LoadRunePages(string s)
         {
-            for (int i = 0; i < o["pages"].Count(); i++)
+            Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(s);
+            Dictionary<string, RunePages> runes = new Dictionary<string, RunePages>();
+
+            foreach (KeyValuePair<string, JObject> pair in values)
             {
-                runePages.Add(new RunePage((bool)o["pages"][i]["current"],
-                    (long)o["pages"][i]["id"],
-                    (string)o["pages"][i]["name"],
-                    (JArray)o["pages"][i]["slots"]));
+                runes.Add(pair.Key, new RunePages((JArray)pair.Value["pages"], (long)pair.Value["summonerId"]));
             }
+
+            return runes;
         }
 
         /// <summary>
         /// Loads the mastery pages
         /// </summary>
         /// <param name="o">JObject representing mastery pages</param>
-        public void LoadMasteryPages(JObject o)
+        Dictionary<string, MasteryPages> LoadMasteryPages(string s)
         {
-            for (int i = 0; i < o["pages"].Count(); i++)
+            Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(s);
+            Dictionary<string, MasteryPages> masteries = new Dictionary<string, MasteryPages>();
+
+            foreach (KeyValuePair<string, JObject> pair in values)
             {
-                masteryPages.Add(new MasteryPage((bool)o["pages"][i]["current"],
-                    (long)o["pages"][i]["id"],
-                    (string)o["pages"][i]["name"],
-                    (JArray)o["pages"][i]["talents"]));
+                masteries.Add(pair.Key, new MasteryPages((JArray)pair.Value["pages"], (long)pair.Value["summonerId"]));
             }
+
+            return masteries;
         }
 
         RecentGames LoadRecentGames(JObject o)
@@ -489,7 +471,7 @@ namespace CreepScoreAPI
         /// Loads the leagues
         /// </summary>
         /// <param name="s">json string representing league data</param>
-        public Dictionary<string, List<League>> LoadLeague(string s)
+        Dictionary<string, List<League>> LoadLeague(string s)
         {
             Dictionary<string, JArray> values = JsonConvert.DeserializeObject<Dictionary<string, JArray>>(s);
             Dictionary<string, List<League>> leagueData = new Dictionary<string, List<League>>();
@@ -566,31 +548,6 @@ namespace CreepScoreAPI
                         (long?)a[i]["thirdLastJoinDate"]));
                 }
             }
-        }
-
-        /// <summary>
-        /// Return an entry list
-        /// </summary>
-        /// <param name="a">The json list of entries</param>
-        List<LeagueEntry> LoadEntry(JArray a)
-        {
-            List<LeagueEntry> entries = new List<LeagueEntry>();
-
-            for (int i = 0; i < a.Count; i++)
-            {
-                entries.Add(new LeagueEntry((string)a[i]["division"],
-                    (bool)a[i]["isFreshBlood"],
-                    (bool)a[i]["isHotStreak"],
-                    (bool)a[i]["isInactive"],
-                    (bool)a[i]["isVeteran"],
-                    (int)a[i]["leaguePoints"],
-                    (JObject)a[i]["miniSeries"],
-                    (string)a[i]["playerOrTeamId"],
-                    (string)a[i]["playerOrTeamName"],
-                    (int)a[i]["wins"]));
-            }
-
-            return entries;
         }
     }
 }

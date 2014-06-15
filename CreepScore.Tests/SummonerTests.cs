@@ -87,5 +87,22 @@ namespace CreepScoreAPI.Tests
             Assert.Equal("I", league.entries[0].division);
             Assert.Equal("golf1052", league.entries[0].playerOrTeamName);
         }
+
+        [Fact]
+        public async void RetrieveMasteryPagesTest()
+        {
+            Dictionary<string, MasteryPages> masteries = await golf1052.RetrieveMasteryPages();
+
+            Assert.Equal("Build-A-Page", masteries["26040955"].pages[0].name);
+            Assert.True(masteries["26040955"].pages[0].current);
+        }
+
+        [Fact]
+        public async void RetrieveRunePagesTest()
+        {
+            Dictionary<string, RunePages> runes = await golf1052.RetrieveRunePages();
+
+            Assert.Equal("ADC", runes["26040955"].pages[0].name);
+        }
     }
 }

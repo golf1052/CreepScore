@@ -82,6 +82,14 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveSummonerByNameTest()
+        {
+            Summoner golf1052 = await creepScore.RetrieveSummoner(UrlConstants.Region.NA, "golf1052");
+
+            Assert.Equal(26040955, golf1052.id);
+        }
+
+        [Fact]
         public async void RetrieveSummonersByNameTest()
         {
             List<string> summonerNames = new List<string>();
@@ -200,6 +208,24 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal("4.9.1", realmData.v);
             Assert.Equal("en_US", realmData.l);
+        }
+
+        [Fact]
+        public async void RetrieveChallengerLeagueTest()
+        {
+            League challenger = await creepScore.RetrieveChallengerLeague(UrlConstants.Region.NA, GameConstants.Queue.Solo5);
+            LeagueEntry wildTurtle = null;
+            foreach (LeagueEntry entry in challenger.entries)
+            {
+                if (entry.playerOrTeamName == "Turtle the Cat")
+                {
+                    wildTurtle = entry;
+                    break;
+                }
+            }
+
+            Assert.Equal("Turtle the Cat", wildTurtle.playerOrTeamName);
+            Assert.Equal("I", wildTurtle.division);
         }
     }
 }

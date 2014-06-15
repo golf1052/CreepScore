@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
 
 namespace CreepScoreAPI
@@ -57,7 +55,7 @@ namespace CreepScoreAPI
             {
                 for (int i = 0; i < a.Count; i++)
                 {
-                    slots.Add(new RuneSlot((JObject)a[i]["rune"], (int)a[i]["runeSlotId"]));
+                    slots.Add(new RuneSlot((int)a[i]["runeId"], (int)a[i]["runeSlotId"]));
                 }
             }
         }
