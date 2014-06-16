@@ -134,6 +134,11 @@ namespace CreepScoreAPI.Constants
         public static string freeToPlayPart = "?freeToPlay=";
 
         /// <summary>
+        /// Item part of url
+        /// </summary>
+        public static string itemPart = "/item";
+
+        /// <summary>
         /// Summoner part of url
         /// </summary>
         public static string summonerPart = "/summoner";
@@ -227,6 +232,8 @@ namespace CreepScoreAPI.Constants
         /// Static data part of url
         /// </summary>
         public static string staticDataPart = "/static-data";
+
+        public static string versionsPart = "/versions";
 
         /// <summary>
         /// Gets the region

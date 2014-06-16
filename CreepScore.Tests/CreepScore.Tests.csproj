@@ -39,6 +39,7 @@
     <Compile Include="ApiKey.cs" />
     <Compile Include="CreepScoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticDataTests.cs" />
     <Compile Include="SummonerTests.cs" />
   </ItemGroup>
   <ItemGroup>

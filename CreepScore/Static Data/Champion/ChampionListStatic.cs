@@ -16,7 +16,7 @@ namespace CreepScoreAPI
 
         public ChampionListStatic(string data,
             string format,
-            string keys,
+            JObject keys,
             string type,
             string version,
             JObject originalObject)
@@ -25,7 +25,10 @@ namespace CreepScoreAPI
             this.keys = new Dictionary<string, string>();
             LoadData(data);
             this.format = format;
-            this.keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(keys);
+            if (keys != null)
+            {
+                this.keys = JsonConvert.DeserializeObject<Dictionary<string, string>>(keys.ToString());
+            }
             this.type = type;
             this.version = version;
             this.originalObject = originalObject;
@@ -36,23 +39,7 @@ namespace CreepScoreAPI
             Dictionary<string, JObject> tmp = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(s);
             foreach (KeyValuePair<string, JObject> t in tmp)
             {
-                data.Add(t.Key, new ChampionStatic((JArray)t.Value["allytips"],
-                    (string)t.Value["blurb"],
-                    (JArray)t.Value["enemytips"],
-                    (int)t.Value["id"],
-                    (JObject)t.Value["image"],
-                    (JObject)t.Value["info"],
-                    (string)t.Value["key"],
-                    (string)t.Value["lore"],
-                    (string)t.Value["name"],
-                    (string)t.Value["partype"],
-                    (JObject)t.Value["passive"],
-                    (JArray)t.Value["recommended"],
-                    (JArray)t.Value["skins"],
-                    (JArray)t.Value["spells"],
-                    (JObject)t.Value["stats"],
-                    (JArray)t.Value["tags"],
-                    (string)t.Value["title"]));
+                data.Add(t.Key, HelperMethods.LoadChampionStatic(t.Value));
             }
         }
 

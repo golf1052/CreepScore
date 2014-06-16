@@ -98,5 +98,81 @@ namespace CreepScoreAPI
 
             return leagueData;
         }
+
+        public static ChampionStatic LoadChampionStatic(JObject o)
+        {
+            return new ChampionStatic((JArray)o["allytips"],
+                (string)o["blurb"],
+                (JArray)o["enemytips"],
+                (int)o["id"],
+                (JObject)o["image"],
+                (JObject)o["info"],
+                (string)o["key"],
+                (string)o["lore"],
+                (string)o["name"],
+                (string)o["partype"],
+                (JObject)o["passive"],
+                (JArray)o["recommended"],
+                (JArray)o["skins"],
+                (JArray)o["spells"],
+                (JObject)o["stats"],
+                (JArray)o["tags"],
+                (string)o["title"]);
+        }
+
+        public static ImageStatic LoadImageStatic(JObject o)
+        {
+            return new ImageStatic((string)o["full"],
+                (string)o["group"],
+                (int)o["h"],
+                (string)o["sprite"],
+                (int)o["w"],
+                (int)o["x"],
+                (int)o["y"]);
+        }
+
+        public static MetaDataStatic LoadMetaDataStatic(JObject o)
+        {
+            return new MetaDataStatic((bool?)o["isRune"],
+                (string)o["tier"],
+                (string)o["type"]);
+        }
+
+        public static ItemListStatic LoadItemsStatic(JObject o)
+        {
+            return new ItemListStatic((JObject)o["basic"],
+                (JObject)o["data"],
+                (JArray)o["groups"],
+                (JArray)o["tree"],
+                (string)o["type"],
+                (string)o["version"]);
+        }
+
+        public static ItemStatic LoadItemStatic(JObject o)
+        {
+            return new ItemStatic((string)o["colloq"],
+                    (bool?)o["consumeOnFull"],
+                    (bool?)o["consumed"],
+                    (int?)o["depth"],
+                    (string)o["description"],
+                    (JArray)o["from"],
+                    (JObject)o["gold"],
+                    (string)o["group"],
+                    (bool?)o["hideFromAll"],
+                    (int)o["id"],
+                    (JObject)o["image"],
+                    (bool?)o["inStore"],
+                    (JArray)o["into"],
+                    (JObject)o["maps"],
+                    (string)o["name"],
+                    (string)o["plaintext"],
+                    (string)o["requiredChampion"],
+                    (JObject)o["rune"],
+                    (string)o["sanitizedDescription"],
+                    (int?)o["specialRecipe"],
+                    (int?)o["stacks"],
+                    (JObject)o["stats"],
+                    (JArray)o["tags"]);
+        }
     }
 }

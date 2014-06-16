@@ -48,22 +48,52 @@ namespace CreepScoreAPI
             skins = new List<SkinStatic>();
             spells = new List<ChampionSpellStatic>();
             tags = new List<string>();
-            LoadAllyTips(allyTipsA);
+            if (allyTipsA != null)
+            {
+                LoadAllyTips(allyTipsA);
+            }
             this.blurb = blurb;
-            LoadEnemyTips(enemyTipsA);
+            if (enemyTipsA != null)
+            {
+                LoadEnemyTips(enemyTipsA);
+            }
             this.id = id;
-            this.image = LoadImage(imageO);
-            this.info = LoadInfo(infoO);
+            if (imageO != null)
+            {
+                this.image = HelperMethods.LoadImageStatic(imageO);
+            }
+            if (infoO != null)
+            {
+                this.info = LoadInfo(infoO);
+            }
             this.key = key;
             this.lore = lore;
             this.name = name;
             this.parType = parType;
-            this.passive = LoadPassive(passiveO);
-            LoadRecommended(recommendedA);
-            LoadSkins(skinsA);
-            LoadSpells(spellsA);
-            this.stats = LoadStats(statsO);
-            LoadTags(tagsA);
+            if (passiveO != null)
+            {
+                this.passive = LoadPassive(passiveO);
+            }
+            if (recommendedA != null)
+            {
+                LoadRecommended(recommendedA);
+            }
+            if (skinsA != null)
+            {
+                LoadSkins(skinsA);
+            }
+            if (spellsA != null)
+            {
+                LoadSpells(spellsA);
+            }
+            if (statsO != null)
+            {
+                this.stats = LoadStats(statsO);
+            }
+            if (tagsA != null)
+            {
+                LoadTags(tagsA);
+            }
             this.title = title;
         }
 
@@ -81,17 +111,6 @@ namespace CreepScoreAPI
             {
                 enemyTips.Add((string)a[i]);
             }
-        }
-
-        ImageStatic LoadImage(JObject o)
-        {
-            return new ImageStatic((string)o["full"],
-                (string)o["group"],
-                (int)o["h"],
-                (string)o["sprite"],
-                (int)o["w"],
-                (int)o["x"],
-                (int)o["y"]);
         }
 
         InfoStatic LoadInfo(JObject o)

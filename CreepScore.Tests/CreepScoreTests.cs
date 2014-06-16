@@ -50,38 +50,6 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
-        public async void RetrieveStaticChampionsTest()
-        {
-            ChampionListStatic champions = await creepScore.RetrieveStaticChampions(UrlConstants.Region.NA, StaticDataConstants.ChampData.All);
-            ChampionStatic karma = null;
-            int karmaKey = -1;
-
-            foreach (KeyValuePair<string, string> champion in champions.keys)
-            {
-                if (champion.Value == "Karma")
-                {
-                    karmaKey = int.Parse(champion.Key);
-                }
-            }
-
-            foreach (KeyValuePair<string, ChampionStatic> champion in champions.data)
-            {
-                if (champion.Key == "Karma")
-                {
-                    karma = champion.Value;
-                    break;
-                }
-            }
-
-            Assert.NotNull(karma);
-            Assert.NotEqual(-1, karmaKey);
-            Assert.Equal("Mage", karma.tags[0]);
-            Assert.Equal(525, karma.stats.attackRange);
-            Assert.Equal(7, karma.info.defense);
-            Assert.Equal(43, karma.id);
-        }
-
-        [Fact]
         public async void RetrieveSummonerByNameTest()
         {
             Summoner golf1052 = await creepScore.RetrieveSummoner(UrlConstants.Region.NA, "golf1052");
@@ -199,15 +167,6 @@ namespace CreepScoreAPI.Tests
             List<Summoner> summoners3 = await creepScore.RetrieveSummonerNames(UrlConstants.Region.NA, summonerIds3);
 
             Assert.Null(summoners3);
-        }
-
-        [Fact]
-        public async void RetrieveRealmDataTest()
-        {
-            RealmStatic realmData = await creepScore.RetrieveRealmData(UrlConstants.Region.NA);
-
-            Assert.Equal("4.9.1", realmData.v);
-            Assert.Equal("en_US", realmData.l);
         }
 
         [Fact]

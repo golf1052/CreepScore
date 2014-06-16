@@ -54,7 +54,7 @@ namespace CreepScoreAPI
         {
             if (a != null)
             {
-                for (int i = 0; i < a.Count(); i++)
+                for (int i = 0; i < a.Count; i++)
                 {
                     masteries.Add(new Mastery((int)a[i]["id"], (int)a[i]["rank"]));
                 }

@@ -35,7 +35,7 @@ namespace CreepScoreAPI
 
         void LoadPlayerStatSummaries(JArray a)
         {
-            for (int i = 0; i < a.Count(); i++)
+            for (int i = 0; i < a.Count; i++)
             {
                 playerStatSummaries.Add(new PlayerStatsSummary((JObject)a[i]["aggregatedStats"],
                     (int?)a[i]["losses"],

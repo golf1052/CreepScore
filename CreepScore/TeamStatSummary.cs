@@ -39,7 +39,7 @@ namespace CreepScoreAPI
         /// <param name="a">json list of team stat details</param>
         void LoadTeamStatDetails(JArray a)
         {
-            for (int i = 0; i < a.Count(); i++)
+            for (int i = 0; i < a.Count; i++)
             {
                 teamStatDetails.Add(new TeamStatDetail((int)a[i]["averageGamesPlayed"],
                     (int)a[i]["losses"],
