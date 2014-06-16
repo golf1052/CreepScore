@@ -20,7 +20,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// Number of losses for this queue type. Returned only for ranked queue types only. Always 0 for normal queues
         /// </summary>
-        public int losses;
+        public int? losses;
 
         /// <summary>
         /// Date stats were last modified specified as epoch milliseconds
@@ -48,11 +48,6 @@ namespace CreepScoreAPI
         public int wins;
 
         /// <summary>
-        /// Season these stats are for
-        /// </summary>
-        public CreepScore.Season season;
-
-        /// <summary>
         /// PlayerStatsSummary constructor
         /// </summary>
         /// <param name="aggregatedStatsO">JArray of aggregated stats</param>
@@ -61,7 +56,11 @@ namespace CreepScoreAPI
         /// <param name="playerStatSummaryTypeString">Player stats summary type as a string</param>
         /// <param name="wins">Number of wins for this queue type</param>
         /// <param name="season">The season that this day represents</param>
-        public PlayerStatsSummary(JObject aggregatedStatsO, int losses, long modifyDateLong, string playerStatSummaryTypeString, int wins, CreepScore.Season season)
+        public PlayerStatsSummary(JObject aggregatedStatsO,
+            int? losses,
+            long modifyDateLong,
+            string playerStatSummaryTypeString,
+            int wins)
         {
             LoadAggregatedStats(aggregatedStatsO);
             this.losses = losses;
@@ -70,7 +69,6 @@ namespace CreepScoreAPI
             this.playerStatSummaryTypeString = playerStatSummaryTypeString;
             playerStatSummaryType = GameConstants.SetPlayerStatSummaryType(playerStatSummaryTypeString);
             this.wins = wins;
-            this.season = season;
         }
 
         /// <summary>
@@ -101,6 +99,7 @@ namespace CreepScoreAPI
                 (int?)o["maxNodeCaptureAssist"],
                 (int?)o["maxNodeNeutralize"],
                 (int?)o["maxNodeNeutralizeAssist"],
+                (int?)o["maxNumDeaths"],
                 (int?)o["maxObjectivePlayerScore"],
                 (int?)o["maxTeamObjective"],
                 (int?)o["maxTimePlayed"],
@@ -115,6 +114,7 @@ namespace CreepScoreAPI
                 (int?)o["totalChampionKills"],
                 (int?)o["totalDamageDealt"],
                 (int?)o["totalDamageTaken"],
+                (int?)o["totalDeathsPerSession"],
                 (int?)o["totalDoubleKills"],
                 (int?)o["totalFirstBlood"],
                 (int?)o["totalGoldEarned"],

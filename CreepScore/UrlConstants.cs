@@ -124,6 +124,16 @@ namespace CreepScoreAPI.Constants
         public static string teamAPIVersion = "v2.3";
 
         /// <summary>
+        /// Champion part of url
+        /// </summary>
+        public static string championPart = "/champion";
+
+        /// <summary>
+        /// Free to play part of url
+        /// </summary>
+        public static string freeToPlayPart = "?freeToPlay=";
+
+        /// <summary>
         /// Summoner part of url
         /// </summary>
         public static string summonerPart = "/summoner";
@@ -134,6 +144,16 @@ namespace CreepScoreAPI.Constants
         public static string bySummonerPart = "/by-summoner";
 
         /// <summary>
+        /// By name part of url
+        /// </summary>
+        public static string byNamePart = "/by-name";
+
+        /// <summary>
+        /// Name part of url
+        /// </summary>
+        public static string namePart = "/name";
+
+        /// <summary>
         /// By team part of url
         /// </summary>
         public static string byTeamPart = "/by-team";
@@ -142,6 +162,11 @@ namespace CreepScoreAPI.Constants
         /// Api key part of url
         /// </summary>
         public static string apiKeyPart = "?api_key=";
+
+        /// <summary>
+        /// And api key part of url
+        /// </summary>
+        public static string andApiKeyPart = "&api_key=";
 
         /// <summary>
         /// Masteries part of url
@@ -182,6 +207,16 @@ namespace CreepScoreAPI.Constants
         /// Ranked part of url
         /// </summary>
         public static string rankedPart = "/ranked";
+
+        /// <summary>
+        /// Season part of url
+        /// </summary>
+        public static string seasonPart = "?season=";
+
+        /// <summary>
+        /// Entry part of url
+        /// </summary>
+        public static string entryPart = "/entry";
 
         /// <summary>
         /// Team part of url

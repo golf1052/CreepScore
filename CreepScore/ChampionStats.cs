@@ -14,12 +14,8 @@ namespace CreepScoreAPI
         /// <summary>
         /// Champion ID
         /// </summary>
+        /// <remarks>0 represents the combined stats for all champions</remarks>
         public int id;
-
-        /// <summary>
-        /// Champion name
-        /// </summary>
-        public string name;
 
         /// <summary>
         /// List of stats associated with the champion
@@ -32,10 +28,9 @@ namespace CreepScoreAPI
         /// <param name="id">Champion ID</param>
         /// <param name="name">Champion name</param>
         /// <param name="statsO">JArray of stats associated with the champion</param>
-        public ChampionStats(int id, string name, JObject statsO)
+        public ChampionStats(int id, JObject statsO)
         {
             this.id = id;
-            this.name = name;
             LoadStats(statsO);
         }
 
@@ -67,6 +62,7 @@ namespace CreepScoreAPI
                 (int?)o["maxNodeCaptureAssist"],
                 (int?)o["maxNodeNeutralize"],
                 (int?)o["maxNodeNeutralizeAssist"],
+                (int?)o["maxNumDeaths"],
                 (int?)o["maxObjectivePlayerScore"],
                 (int?)o["maxTeamObjective"],
                 (int?)o["maxTimePlayed"],
@@ -81,6 +77,7 @@ namespace CreepScoreAPI
                 (int?)o["totalChampionKills"],
                 (int?)o["totalDamageDealt"],
                 (int?)o["totalDamageTaken"],
+                (int?)o["totalDeathsPerSession"],
                 (int?)o["totalDoubleKills"],
                 (int?)o["totalFirstBlood"],
                 (int?)o["totalGoldEarned"],

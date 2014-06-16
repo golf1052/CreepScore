@@ -89,6 +89,33 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveRankedStatsTest()
+        {
+            RankedStats rankedStats = await golf1052.RetrieveRankedStats(CreepScore.Season.Season3);
+
+            Assert.Equal(26040955, rankedStats.summonerId);
+        }
+
+        [Fact]
+        public async void RetrievePlayerStatsSummaryTest()
+        {
+            PlayerStatsSummaryList playerStats = await golf1052.RetrievePlayerStatsSummaries(CreepScore.Season.Season3);
+            PlayerStatsSummary normalStats = null;
+
+            foreach (PlayerStatsSummary stats in playerStats.playerStatSummaries)
+            {
+                if (stats.playerStatSummaryType == GameConstants.PlayerStatSummaryType.Unranked5)
+                {
+                    normalStats = stats;
+                    break;
+                }
+            }
+
+            Assert.Equal(26040955, playerStats.summonerId);
+            Assert.Equal(483, normalStats.wins);
+        }
+
+        [Fact]
         public async void RetrieveMasteryPagesTest()
         {
             Dictionary<string, MasteryPages> masteries = await golf1052.RetrieveMasteryPages();

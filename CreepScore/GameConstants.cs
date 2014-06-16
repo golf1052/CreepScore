@@ -86,7 +86,8 @@ namespace CreepScoreAPI.Constants
         {
             None,
             UnrankedAram,
-            CoOp,
+            CoOp5,
+            CoOp3,
             UnrankedDominion,
             RankedPremade3,
             RankedPremade5,
@@ -97,7 +98,11 @@ namespace CreepScoreAPI.Constants
             Unranked3,
             OneForAll5,
             FirstBlood1,
-            FirstBlood2
+            FirstBlood2,
+            Hexakill,
+            TeamBuilder5,
+            Urf,
+            UrfBots
         }
 
         /// <summary>
@@ -671,7 +676,11 @@ namespace CreepScoreAPI.Constants
             }
             else if (playerStatSummaryTypeStr == "CoopVsAI")
             {
-                return PlayerStatSummaryType.CoOp;
+                return PlayerStatSummaryType.CoOp5;
+            }
+            else if (playerStatSummaryTypeStr == "CoopVsAI3x3")
+            {
+                return PlayerStatSummaryType.CoOp3;
             }
             else if (playerStatSummaryTypeStr == "OdinUnranked")
             {
@@ -704,6 +713,34 @@ namespace CreepScoreAPI.Constants
             else if (playerStatSummaryTypeStr == "Unranked3x3")
             {
                 return PlayerStatSummaryType.Unranked3;
+            }
+            else if (playerStatSummaryTypeStr == "OneForAll5x5")
+            {
+                return PlayerStatSummaryType.OneForAll5;
+            }
+            else if (playerStatSummaryTypeStr == "FirstBlood1x1")
+            {
+                return PlayerStatSummaryType.FirstBlood1;
+            }
+            else if (playerStatSummaryTypeStr == "FirstBlood2x2")
+            {
+                return PlayerStatSummaryType.FirstBlood2;
+            }
+            else if (playerStatSummaryTypeStr == "SummonersRift6x6")
+            {
+                return PlayerStatSummaryType.Hexakill;
+            }
+            else if (playerStatSummaryTypeStr == "CAP5x5")
+            {
+                return PlayerStatSummaryType.TeamBuilder5;
+            }
+            else if (playerStatSummaryTypeStr == "URF")
+            {
+                return PlayerStatSummaryType.Urf;
+            }
+            else if (playerStatSummaryTypeStr == "URFBots")
+            {
+                return PlayerStatSummaryType.UrfBots;
             }
             else
             {

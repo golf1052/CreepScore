@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using CreepScoreAPI.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using CreepScoreAPI.Constants;
 
 namespace CreepScoreAPI
 {
@@ -46,16 +44,6 @@ namespace CreepScoreAPI
         public long summonerLevel;
 
         /// <summary>
-        /// List of player stats summaries associated with this summoner
-        /// </summary>
-        public List<PlayerStatsSummary> playerStatSummaries;
-
-        /// <summary>
-        /// Ranked stats field
-        /// </summary>
-        public RankedStats rankedStats;
-
-        /// <summary>
         /// Flag to check if all summoner fields are loaded (not including runes, masteries, etc)
         /// </summary>
         public bool isLittleSummoner;
@@ -81,7 +69,6 @@ namespace CreepScoreAPI
         /// <param name="summonerO">JObject representing summoner</param>
         public Summoner(JObject summonerO, UrlConstants.Region region)
         {
-            playerStatSummaries = new List<PlayerStatsSummary>();
             id = (long)summonerO["id"];
             name = (string)summonerO["name"];
             profileIconId = (int)summonerO["profileIconId"];
@@ -198,7 +185,7 @@ namespace CreepScoreAPI
                     UrlConstants.leaguePart +
                     UrlConstants.bySummonerPart + "/" +
                     id.ToString() +
-                    "/entry" +
+                    UrlConstants.entryPart +
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
@@ -225,42 +212,37 @@ namespace CreepScoreAPI
         /// <param name="season">The season from which to load the data</param>
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The player stat summaries list</returns>
-        public async Task<List<PlayerStatsSummary>> RetrievePlayerStatsSummaries(CreepScore.Season season, bool force)
+        public async Task<PlayerStatsSummaryList> RetrievePlayerStatsSummaries(CreepScore.Season season)
         {
-            if (playerStatSummaries.Count == 0 || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.statsAPIVersion +
+                    UrlConstants.statsPart +
+                    UrlConstants.bySummonerPart + "/" +
+                    id.ToString() +
+                    UrlConstants.summaryPart +
+                    UrlConstants.seasonPart +
+                    CreepScore.GetSeason(season) +
+                    UrlConstants.andApiKeyPart +
+                    CreepScore.apiKey);
+
+                string responseString = await CreepScore.GetWebData(uri);
+
+                if (CreepScore.GoodStatusCode(responseString))
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) + "/" +
-                        "v1.2" +
-                        UrlConstants.statsPart +
-                        UrlConstants.bySummonerPart + "/" +
-                        id.ToString() +
-                        UrlConstants.summaryPart +
-                        "?season=" +
-                        CreepScore.GetSeason(season) +
-                        "&api_key=" +
-                        CreepScore.apiKey);
-
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        LoadPlayerStatSummaries(JObject.Parse(responseString), season);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return LoadPlayerStatSummariesList(JObject.Parse(responseString), season);
                 }
                 else
                 {
                     return null;
                 }
             }
-
-            return playerStatSummaries;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -269,34 +251,29 @@ namespace CreepScoreAPI
         /// <param name="season">The season from which to load the data</param>
         /// <param name="force">Whether to force load the data from online</param>
         /// <returns>The ranked stats</returns>
-        public async Task<RankedStats> RetrieveRankedStats(CreepScore.Season season, bool force)
+        public async Task<RankedStats> RetrieveRankedStats(CreepScore.Season season)
         {
-            if (rankedStats == null || force)
+            if (!isLittleSummoner)
             {
-                if (!isLittleSummoner)
+                if (summonerLevel == 30)
                 {
-                    if (summonerLevel == 30)
+                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                        UrlConstants.GetRegion(region) + "/" +
+                        UrlConstants.statsAPIVersion +
+                        UrlConstants.statsPart +
+                        UrlConstants.bySummonerPart + "/" +
+                        id.ToString() +
+                        UrlConstants.rankedPart +
+                        UrlConstants.seasonPart +
+                        CreepScore.GetSeason(season) +
+                        UrlConstants.andApiKeyPart +
+                        CreepScore.apiKey);
+
+                    string responseString = await CreepScore.GetWebData(uri);
+
+                    if (CreepScore.GoodStatusCode(responseString))
                     {
-                        Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                            UrlConstants.GetRegion(region) + "/" +
-                            "v1.2" +
-                            UrlConstants.statsPart +
-                            UrlConstants.bySummonerPart + "/" +
-                            id.ToString() +
-                            UrlConstants.rankedPart +
-                            UrlConstants.apiKeyPart +
-                            CreepScore.apiKey);
-
-                        string responseString = await CreepScore.GetWebData(uri);
-
-                        if (CreepScore.GoodStatusCode(responseString))
-                        {
-                            LoadRankedStats(JObject.Parse(responseString), season);
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                        return LoadRankedStats(JObject.Parse(responseString), season);
                     }
                     else
                     {
@@ -308,8 +285,10 @@ namespace CreepScoreAPI
                     return null;
                 }
             }
-
-            return rankedStats;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -455,36 +434,14 @@ namespace CreepScoreAPI
             return new RecentGames((JArray)o["games"], (long)o["summonerId"]);
         }
 
-        /// <summary>
-        /// Loads the teams
-        /// </summary>
-        /// <param name="a">json string respresenting teams data</param>
-
-
-        /// <summary>
-        /// Loads the player stat summaries
-        /// </summary>
-        /// <param name="o">JObject representing player stat summaries</param>
-        public void LoadPlayerStatSummaries(JObject o, CreepScore.Season season)
+        PlayerStatsSummaryList LoadPlayerStatSummariesList(JObject o, CreepScore.Season season)
         {
-            for (int i = 0; i < o["playerStatSummaries"].Count(); i++)
-            {
-                playerStatSummaries.Add(new PlayerStatsSummary((JObject)o["playerStatSummaries"][i]["aggregatedStats"],
-                    (int)o["playerStatSummaries"][i]["losses"],
-                    (long)o["playerStatSummaries"][i]["modifyDate"],
-                    (string)o["playerStatSummaries"][i]["playerStatSummaryType"],
-                    (int)o["playerStatSummaries"][i]["wins"],
-                    season));
-            }
+            return new PlayerStatsSummaryList((JArray)o["playerStatSummaries"], (long)o["summonerId"], season);
         }
 
-        /// <summary>
-        /// Loads the ranked stats
-        /// </summary>
-        /// <param name="o">JObject representing the ranked stats</param>
-        public void LoadRankedStats(JObject o, CreepScore.Season season)
+        RankedStats LoadRankedStats(JObject o, CreepScore.Season season)
         {
-            rankedStats = new RankedStats((JArray)o["champions"], (long)o["modifyDate"], season);
+            return new RankedStats((JArray)o["champions"], (long)o["modifyDate"], (long)o["summonerId"], season);
         }
     }
 }

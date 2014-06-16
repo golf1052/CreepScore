@@ -27,7 +27,12 @@ namespace CreepScoreAPI
         public DateTime modifyDate;
 
         /// <summary>
-        /// The season which these stats are for
+        /// Summoner ID
+        /// </summary>
+        public long summonerId;
+
+        /// <summary>
+        /// Season for the data
         /// </summary>
         public CreepScore.Season season;
 
@@ -36,13 +41,15 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="championsA">JArray of champions</param>
         /// <param name="modifyDateLong">Date stats were last modified specified as epoch milliseconds</param>
+        /// <param name="summonerId">Summoner ID</param>
         /// <param name="season">The season that represents this data</param>
-        public RankedStats(JArray championsA, long modifyDateLong, CreepScore.Season season)
+        public RankedStats(JArray championsA, long modifyDateLong, long summonerId, CreepScore.Season season)
         {
             champions = new List<ChampionStats>();
             LoadChampions(championsA);
             this.modifyDateLong = modifyDateLong;
             modifyDate = CreepScore.EpochToDateTime(modifyDateLong);
+            this.summonerId = summonerId;
             this.season = season;
         }
 
@@ -54,7 +61,7 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < a.Count; i++)
             {
-                champions.Add(new ChampionStats((int)a[i]["id"], (string)a[i]["name"], (JObject)a[i]["stats"]));
+                champions.Add(new ChampionStats((int)a[i]["id"], (JObject)a[i]["stats"]));
             }
         }
     }

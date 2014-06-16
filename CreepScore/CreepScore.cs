@@ -63,25 +63,14 @@ namespace CreepScoreAPI
         public async Task<List<Champion>> RetrieveChampions(UrlConstants.Region region, bool freeToPlay = false)
         {
             Uri uri;
-
-            if (!freeToPlay)
-            {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
-                    UrlConstants.championAPIVersion +
-                    "/champion" +
-                    UrlConstants.apiKeyPart +
-                    apiKey);
-            }
-            else
-            {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
-                    UrlConstants.championAPIVersion +
-                    "/champion" +
-                    "?freeToPlay=true&api_key=" +
-                    apiKey);
-            }
+            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.championAPIVersion +
+                UrlConstants.championPart +
+                UrlConstants.freeToPlayPart + 
+                freeToPlay.ToString() +
+                UrlConstants.andApiKeyPart +
+                apiKey);
 
             string responseString = await GetWebData(uri);
 
@@ -102,7 +91,7 @@ namespace CreepScoreAPI
             uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
                 UrlConstants.GetRegion(region) + "/" +
                 UrlConstants.championAPIVersion +
-                "/champion/" +
+                UrlConstants.championPart + "/" +
                 id.ToString() +
                 UrlConstants.apiKeyPart +
                 apiKey);
@@ -128,7 +117,7 @@ namespace CreepScoreAPI
                     UrlConstants.staticDataPart + "/" +
                     UrlConstants.GetRegion(region) + "/" +
                     UrlConstants.staticDataAPIVersion +
-                    "/champion" +
+                    UrlConstants.championPart +
                     UrlConstants.apiKeyPart +
                     apiKey);
             }
@@ -138,9 +127,10 @@ namespace CreepScoreAPI
                     UrlConstants.staticDataPart + "/" +
                     UrlConstants.GetRegion(region) + "/" +
                     UrlConstants.staticDataAPIVersion +
-                    "/champion?champData=" +
+                    UrlConstants.championPart +
+                    "?champData=" +
                     StaticDataConstants.GetChampData(champData) +
-                    "&api_key=" +
+                    UrlConstants.andApiKeyPart +
                     apiKey);
             }
 
@@ -269,7 +259,7 @@ namespace CreepScoreAPI
                     UrlConstants.GetRegion(region) + "/" +
                     UrlConstants.summonerAPIVersion +
                     UrlConstants.summonerPart +
-                    "/by-name" + "/" +
+                    UrlConstants.byNamePart + "/" +
                     names +
                     UrlConstants.apiKeyPart +
                     apiKey);
@@ -333,7 +323,7 @@ namespace CreepScoreAPI
                 UrlConstants.summonerAPIVersion +
                 UrlConstants.summonerPart + "/" +
                 summonerIdsPart +
-                "/name" +
+                UrlConstants.namePart +
                 UrlConstants.apiKeyPart +
                 apiKey);
 
@@ -420,12 +410,12 @@ namespace CreepScoreAPI
                 if (summoner.summonerLevel == 30)
                 {
                     await summoner.RetrieveLeague();
-                    await summoner.RetrieveRankedStats(season, force);
+                    await summoner.RetrieveRankedStats(season);
                     await summoner.RetrieveTeams();
                 }
 
                 await summoner.RetrieveRecentGames();
-                await summoner.RetrievePlayerStatsSummaries(season, force);
+                await summoner.RetrievePlayerStatsSummaries(season);
             }
 
             return summoner;
@@ -449,12 +439,12 @@ namespace CreepScoreAPI
                 if (summoner.summonerLevel == 30)
                 {
                     await summoner.RetrieveLeague();
-                    await summoner.RetrieveRankedStats(season, force);
+                    await summoner.RetrieveRankedStats(season);
                     await summoner.RetrieveTeams();
                 }
 
                 await summoner.RetrieveRecentGames();
-                await summoner.RetrievePlayerStatsSummaries(season, force);
+                await summoner.RetrievePlayerStatsSummaries(season);
             }
 
             return summoner;
@@ -697,7 +687,7 @@ namespace CreepScoreAPI
                     UrlConstants.leaguePart +
                     UrlConstants.byTeamPart + "/" +
                     ids +
-                    "/entry" +
+                    UrlConstants.entryPart +
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
             }

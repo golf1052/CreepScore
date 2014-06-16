@@ -106,6 +106,11 @@ namespace CreepScoreAPI
         public int? maxNodeNeutralizeAssist;
 
         /// <summary>
+        /// Only returned for ranked stats
+        /// </summary>
+        public int? maxNumDeaths;
+
+        /// <summary>
         /// Dominion only
         /// </summary>
         public int? maxObjectivePlayerScore;
@@ -141,6 +146,11 @@ namespace CreepScoreAPI
         public int? totalDamageDealt;
 
         public int? totalDamageTaken;
+
+        /// <summary>
+        /// Only returned for ranked stats
+        /// </summary>
+        public int? totalDeathsPerSession;
 
         public int? totalDoubleKills;
 
@@ -206,6 +216,7 @@ namespace CreepScoreAPI
             int? maxNodeCaptureAssist,
             int? maxNodeNeutralize,
             int? maxNodeNeutralizeAssist,
+            int? maxNumDeaths,
             int? maxObjectivePlayerScore,
             int? maxTeamObjective,
             int? maxTimePlayed,
@@ -220,6 +231,7 @@ namespace CreepScoreAPI
             int? totalChampionKills,
             int? totalDamageDealt,
             int? totalDamageTaken,
+            int? totalDeathsPerSession,
             int? totalDoubleKills,
             int? totalFirstBlood,
             int? totalGoldEarned,
@@ -261,6 +273,7 @@ namespace CreepScoreAPI
             this.maxNodeCaptureAssist = maxNodeCaptureAssist;
             this.maxNodeNeutralize = maxNodeNeutralize;
             this.maxNodeNeutralizeAssist = maxNodeNeutralizeAssist;
+            this.maxNumDeaths = maxNumDeaths;
             this.maxObjectivePlayerScore = maxObjectivePlayerScore;
             this.maxTeamObjective = maxTeamObjective;
             this.maxTimePlayed = maxTimePlayed;
@@ -275,6 +288,7 @@ namespace CreepScoreAPI
             this.totalChampionKills = totalChampionKills;
             this.totalDamageDealt = totalDamageDealt;
             this.totalDamageTaken = totalDamageTaken;
+            this.totalDeathsPerSession = totalDeathsPerSession;
             this.totalDoubleKills = totalDoubleKills;
             this.totalFirstBlood = totalFirstBlood;
             this.totalGoldEarned = totalGoldEarned;

@@ -50,6 +50,7 @@
     <Compile Include="MiniSeries.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerStatsSummary.cs" />
+    <Compile Include="PlayerStatsSummaryList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RankedStats.cs" />
     <Compile Include="RawStats.cs" />
