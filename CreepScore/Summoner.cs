@@ -50,7 +50,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// The region this summoner was loaded in
         /// </summary>
-        public UrlConstants.Region region;
+        public CreepScore.Region region;
 
         private string errorString;
 
@@ -66,7 +66,7 @@ namespace CreepScoreAPI
         /// Full summoner constructor
         /// </summary>
         /// <param name="summonerO">JObject representing summoner</param>
-        public Summoner(JObject summonerO, UrlConstants.Region region)
+        public Summoner(JObject summonerO, CreepScore.Region region)
         {
             id = (long)summonerO["id"];
             name = (string)summonerO["name"];
@@ -83,7 +83,7 @@ namespace CreepScoreAPI
         /// </summary>
         /// <param name="id">Summoner ID</param>
         /// <param name="name">Summoner Name</param>
-        public Summoner(long id, string name, UrlConstants.Region region)
+        public Summoner(long id, string name, CreepScore.Region region)
         {
             this.id = id;
             this.name = name;

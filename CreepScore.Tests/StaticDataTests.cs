@@ -24,7 +24,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticChampionsNoneTest()
         {
-            ChampionListStatic champions = await creepScore.RetrieveChampionsData(UrlConstants.Region.NA, StaticDataConstants.ChampData.None);
+            ChampionListStatic champions = await creepScore.RetrieveChampionsData(CreepScore.Region.NA, StaticDataConstants.ChampData.None);
             ChampionStatic karma = null;
 
             foreach (KeyValuePair<string, ChampionStatic> champion in champions.data)
@@ -42,7 +42,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticChampionsTest()
         {
-            ChampionListStatic champions = await creepScore.RetrieveChampionsData(UrlConstants.Region.NA, StaticDataConstants.ChampData.All);
+            ChampionListStatic champions = await creepScore.RetrieveChampionsData(CreepScore.Region.NA, StaticDataConstants.ChampData.All);
             ChampionStatic karma = null;
             int karmaKey = -1;
 
@@ -74,7 +74,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticChampionTest()
         {
-            ChampionStatic karma = await creepScore.RetrieveChampionData(UrlConstants.Region.NA, 43, StaticDataConstants.ChampData.None);
+            ChampionStatic karma = await creepScore.RetrieveChampionData(CreepScore.Region.NA, 43, StaticDataConstants.ChampData.None);
 
             Assert.Equal("the Enlightened One", karma.title);
         }
@@ -82,7 +82,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticItemsNoneTest()
         {
-            ItemListStatic items = await creepScore.RetrieveItemsData(UrlConstants.Region.NA, StaticDataConstants.ItemListData.None);
+            ItemListStatic items = await creepScore.RetrieveItemsData(CreepScore.Region.NA, StaticDataConstants.ItemListData.None);
 
             Assert.Equal("item", items.type);
         }
@@ -90,7 +90,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticItemsTest()
         {
-            ItemListStatic items = await creepScore.RetrieveItemsData(UrlConstants.Region.NA, StaticDataConstants.ItemListData.All);
+            ItemListStatic items = await creepScore.RetrieveItemsData(CreepScore.Region.NA, StaticDataConstants.ItemListData.All);
 
             Assert.Equal("item", items.type);
         }
@@ -98,7 +98,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticItemTest()
         {
-            ItemStatic trinityForce = await creepScore.RetrieveItemData(UrlConstants.Region.NA, 3078, StaticDataConstants.ItemListData.None);
+            ItemStatic trinityForce = await creepScore.RetrieveItemData(CreepScore.Region.NA, 3078, StaticDataConstants.ItemListData.None);
 
             Assert.Equal("Tons of Damage", trinityForce.plainText);
         }
@@ -106,7 +106,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveMasteriesDataNoneTest()
         {
-            MasteryListStatic masteriesData = await creepScore.RetrieveMasteriesData(UrlConstants.Region.NA, StaticDataConstants.MasteryListData.None);
+            MasteryListStatic masteriesData = await creepScore.RetrieveMasteriesData(CreepScore.Region.NA, StaticDataConstants.MasteryListData.None);
 
             Assert.Equal("mastery", masteriesData.type);
         }
@@ -114,7 +114,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveMasteryDataTest()
         {
-            MasteryStatic havoc = await creepScore.RetrieveMasteryData(UrlConstants.Region.NA, 4162, StaticDataConstants.MasteryListData.None);
+            MasteryStatic havoc = await creepScore.RetrieveMasteryData(CreepScore.Region.NA, 4162, StaticDataConstants.MasteryListData.None);
 
             Assert.Equal("Havoc", havoc.name);
         }
@@ -122,7 +122,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveRunesDataNoneTest()
         {
-            RuneListStatic runesData = await creepScore.RetrieveRunesData(UrlConstants.Region.NA, StaticDataConstants.RuneListData.None);
+            RuneListStatic runesData = await creepScore.RetrieveRunesData(CreepScore.Region.NA, StaticDataConstants.RuneListData.None);
 
             Assert.Equal("rune", runesData.type);
         }
@@ -130,7 +130,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveRuneDataTest()
         {
-            RuneStatic lifeSteal = await creepScore.RetrieveRuneData(UrlConstants.Region.NA, 5412, StaticDataConstants.RuneListData.None);
+            RuneStatic lifeSteal = await creepScore.RetrieveRuneData(CreepScore.Region.NA, 5412, StaticDataConstants.RuneListData.None);
 
             Assert.Equal("Greater Quintessence of Life Steal", lifeSteal.name);
         }
@@ -138,7 +138,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveSummonerSpellsDataNoneTest()
         {
-            SummonerSpellListStatic summonerSpellsData = await creepScore.RetrieveSummonerSpellsData(UrlConstants.Region.NA, StaticDataConstants.SpellData.None);
+            SummonerSpellListStatic summonerSpellsData = await creepScore.RetrieveSummonerSpellsData(CreepScore.Region.NA, StaticDataConstants.SpellData.None);
 
             Assert.Equal("summoner", summonerSpellsData.type);
         }
@@ -146,7 +146,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveSummonerSpellDataTest()
         {
-            SummonerSpellStatic ignite = await creepScore.RetrieveSummonerSpellData(UrlConstants.Region.NA, 14, StaticDataConstants.SpellData.None);
+            SummonerSpellStatic ignite = await creepScore.RetrieveSummonerSpellData(CreepScore.Region.NA, 14, StaticDataConstants.SpellData.None);
 
             Assert.Equal("Ignite", ignite.name);
         }
@@ -154,7 +154,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveRealmDataTest()
         {
-            RealmStatic realmData = await creepScore.RetrieveRealmData(UrlConstants.Region.NA);
+            RealmStatic realmData = await creepScore.RetrieveRealmData(CreepScore.Region.NA);
 
             Assert.Equal("4.9.1", realmData.v);
             Assert.Equal("en_US", realmData.l);
@@ -163,7 +163,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveVersionsTest()
         {
-            List<string> versions = await creepScore.RetrieveVersions(UrlConstants.Region.NA);
+            List<string> versions = await creepScore.RetrieveVersions(CreepScore.Region.NA);
 
             Assert.Equal("4.9.1", versions[2]);
         }

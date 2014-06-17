@@ -25,7 +25,7 @@ namespace CreepScoreAPI.Tests
             List<string> summonerNames = new List<string>();
             summonerNames.Add("golf1052");
             List<Summoner> summoners = new List<Summoner>();
-            Task task = Task.Run(async () => { summoners = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerNames); });
+            Task task = Task.Run(async () => { summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames); });
             task.Wait();
             golf1052 = summoners[0];
         }
@@ -44,7 +44,7 @@ namespace CreepScoreAPI.Tests
             List<string> summonerNames = new List<string>();
             summonerNames.Add("HentaiGoddess");
             List<Summoner> summoners = new List<Summoner>();
-            summoners = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerNames);
+            summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames);
             Dictionary<string, List<League>> teamData = await summoners[0].RetrieveLeague();
 
             Assert.Equal("TEAM-13196110-a348-11e3-8e2c-782bcb4d0bb2", teamData["35788975"][1].participantId);

@@ -12,68 +12,52 @@ namespace CreepScoreAPI.Constants
     /// <remarks>For url making stuff</remarks>
     public class UrlConstants
     {
-        /// <summary>
-        /// Region types
-        /// </summary>
-        public enum Region
-        {
-            None,
-            NA,
-            EUW,
-            EUNE,
-            BR,
-            LAN,
-            LAS,
-            OCE,
-            KR,
-            TR,
-            RU
-        }
+        
 
         /// <summary>
         /// Base url
         /// </summary>
         /// <param name="region">Region data is coming from</param>
         /// <returns>Base url string</returns>
-        public static string GetBaseUrl(Region region)
+        public static string GetBaseUrl(CreepScore.Region region)
         {
-            if (region == Region.NA)
+            if (region == CreepScore.Region.NA)
             {
                 return "https://na.api.pvp.net/api/lol";
             }
-            else if (region == Region.EUW)
+            else if (region == CreepScore.Region.EUW)
             {
                 return "https://euw.api.pvp.net/api/lol";
             }
-            else if (region == Region.EUNE)
+            else if (region == CreepScore.Region.EUNE)
             {
                 return "https://eune.api.pvp.net/api/lol";
             }
-            else if (region == Region.BR)
+            else if (region == CreepScore.Region.BR)
             {
                 return "https://br.api.pvp.net/api/lol";
             }
-            else if (region == Region.LAN)
+            else if (region == CreepScore.Region.LAN)
             {
                 return "https://lan.api.pvp.net/api/lol";
             }
-            else if (region == Region.LAS)
+            else if (region == CreepScore.Region.LAS)
             {
                 return "https://las.api.pvp.net/api/lol";
             }
-            else if (region == Region.OCE)
+            else if (region == CreepScore.Region.OCE)
             {
                 return "https://oce.api.pvp.net/api/lol";
             }
-            else if (region == Region.KR)
+            else if (region == CreepScore.Region.KR)
             {
                 return "https://kr.api.pvp.net/api/lol";
             }
-            else if (region == Region.TR)
+            else if (region == CreepScore.Region.TR)
             {
                 return "https://tr.api.pvp.net/api/lol";
             }
-            else if (region == Region.RU)
+            else if (region == CreepScore.Region.RU)
             {
                 return "https://ru.api.pvp.net/api/lol";
             }
@@ -263,45 +247,45 @@ namespace CreepScoreAPI.Constants
         /// </summary>
         /// <param name="region">Region</param>
         /// <returns>Returns a string representing a region</returns>
-        public static string GetRegion(Region region)
+        public static string GetRegion(CreepScore.Region region)
         {
-            if (region == Region.NA)
+            if (region == CreepScore.Region.NA)
             {
                 return "na";
             }
-            else if (region == Region.EUW)
+            else if (region == CreepScore.Region.EUW)
             {
                 return "euw";
             }
-            else if (region == Region.EUNE)
+            else if (region == CreepScore.Region.EUNE)
             {
                 return "eune";
             }
-            else if (region == Region.BR)
+            else if (region == CreepScore.Region.BR)
             {
                 return "br";
             }
-            else if (region == Region.LAN)
+            else if (region == CreepScore.Region.LAN)
             {
                 return "lan";
             }
-            else if (region == Region.LAS)
+            else if (region == CreepScore.Region.LAS)
             {
                 return "las";
             }
-            else if (region == Region.OCE)
+            else if (region == CreepScore.Region.OCE)
             {
                 return "oce";
             }
-            else if (region == Region.KR)
+            else if (region == CreepScore.Region.KR)
             {
                 return "kr";
             }
-            else if (region == Region.TR)
+            else if (region == CreepScore.Region.TR)
             {
                 return "tr";
             }
-            else if (region == Region.RU)
+            else if (region == CreepScore.Region.RU)
             {
                 return "ru";
             }

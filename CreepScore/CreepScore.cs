@@ -21,6 +21,24 @@ namespace CreepScoreAPI
         public static string apiKey = "";
 
         /// <summary>
+        /// Region types
+        /// </summary>
+        public enum Region
+        {
+            None,
+            NA,
+            EUW,
+            EUNE,
+            BR,
+            LAN,
+            LAS,
+            OCE,
+            KR,
+            TR,
+            RU
+        }
+
+        /// <summary>
         /// Season enum. Used to get stats for a specific season
         /// </summary>
         public enum Season
@@ -49,7 +67,7 @@ namespace CreepScoreAPI
             apiKey = key;
         }
 
-        public async Task<ChampionListStatic> RetrieveChampionsData(UrlConstants.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
+        public async Task<ChampionListStatic> RetrieveChampionsData(CreepScore.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -97,7 +115,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<ChampionStatic> RetrieveChampionData(UrlConstants.Region region, int id, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
+        public async Task<ChampionStatic> RetrieveChampionData(CreepScore.Region region, int id, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -146,7 +164,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<ItemListStatic> RetrieveItemsData(UrlConstants.Region region, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
+        public async Task<ItemListStatic> RetrieveItemsData(CreepScore.Region region, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -192,7 +210,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<ItemStatic> RetrieveItemData(UrlConstants.Region region, int id, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
+        public async Task<ItemStatic> RetrieveItemData(CreepScore.Region region, int id, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -239,7 +257,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<MasteryListStatic> RetrieveMasteriesData(UrlConstants.Region region, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
+        public async Task<MasteryListStatic> RetrieveMasteriesData(CreepScore.Region region, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -285,7 +303,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<MasteryStatic> RetrieveMasteryData(UrlConstants.Region region, int id, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
+        public async Task<MasteryStatic> RetrieveMasteryData(CreepScore.Region region, int id, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -332,7 +350,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<RealmStatic> RetrieveRealmData(UrlConstants.Region region)
+        public async Task<RealmStatic> RetrieveRealmData(CreepScore.Region region)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) +
@@ -356,7 +374,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<RuneListStatic> RetrieveRunesData(UrlConstants.Region region, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
+        public async Task<RuneListStatic> RetrieveRunesData(CreepScore.Region region, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -402,7 +420,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<RuneStatic> RetrieveRuneData(UrlConstants.Region region, int id, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
+        public async Task<RuneStatic> RetrieveRuneData(CreepScore.Region region, int id, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -449,7 +467,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<SummonerSpellListStatic> RetrieveSummonerSpellsData(UrlConstants.Region region, StaticDataConstants.SpellData spellData, string locale = "", string version = "", bool dataById = false)
+        public async Task<SummonerSpellListStatic> RetrieveSummonerSpellsData(CreepScore.Region region, StaticDataConstants.SpellData spellData, string locale = "", string version = "", bool dataById = false)
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -497,7 +515,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<SummonerSpellStatic> RetrieveSummonerSpellData(UrlConstants.Region region, int id, StaticDataConstants.SpellData spellData, string locale = "", string version = "")
+        public async Task<SummonerSpellStatic> RetrieveSummonerSpellData(CreepScore.Region region, int id, StaticDataConstants.SpellData spellData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
@@ -544,7 +562,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<List<string>> RetrieveVersions(UrlConstants.Region region)
+        public async Task<List<string>> RetrieveVersions(CreepScore.Region region)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) +
@@ -568,7 +586,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<List<Champion>> RetrieveChampions(UrlConstants.Region region, bool freeToPlay = false)
+        public async Task<List<Champion>> RetrieveChampions(CreepScore.Region region, bool freeToPlay = false)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
@@ -593,7 +611,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Champion> RetrieveChampion(UrlConstants.Region region, int id)
+        public async Task<Champion> RetrieveChampion(CreepScore.Region region, int id)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
@@ -616,7 +634,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Dictionary<string, List<League>>> RetrieveLeague(UrlConstants.Region region, List<string> teamIds)
+        public async Task<Dictionary<string, List<League>>> RetrieveLeague(CreepScore.Region region, List<string> teamIds)
         {
             string ids = "";
             if (teamIds.Count > 40)
@@ -667,7 +685,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry(UrlConstants.Region region, List<string> teamIds)
+        public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry(CreepScore.Region region, List<string> teamIds)
         {
             string ids = "";
             if (teamIds.Count > 40)
@@ -719,7 +737,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<League> RetrieveChallengerLeague(UrlConstants.Region region, GameConstants.Queue queue)
+        public async Task<League> RetrieveChallengerLeague(CreepScore.Region region, GameConstants.Queue queue)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
@@ -744,7 +762,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Summoner> RetrieveSummoner(UrlConstants.Region region, string summonerName)
+        public async Task<Summoner> RetrieveSummoner(CreepScore.Region region, string summonerName)
         {
             List<string> temp = new List<string>();
             temp.Add(summonerName);
@@ -760,7 +778,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<string> summonerNames)
+        public async Task<List<Summoner>> RetrieveSummoners(CreepScore.Region region, List<string> summonerNames)
         {
             string names = "";
             if (summonerNames.Count > 40)
@@ -818,7 +836,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<long> summonerIds)
+        public async Task<List<Summoner>> RetrieveSummoners(CreepScore.Region region, List<long> summonerIds)
         {
             string ids = "";
             if (summonerIds.Count > 40)
@@ -874,7 +892,7 @@ namespace CreepScoreAPI
             }
         } 
 
-        public async Task<List<Summoner>> RetrieveSummonerNames(UrlConstants.Region region, List<long> summonerIds)
+        public async Task<List<Summoner>> RetrieveSummonerNames(CreepScore.Region region, List<long> summonerIds)
         {
             string summonerIdsPart = "";
             if (summonerIds.Count > 40)
@@ -925,7 +943,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Dictionary<string, List<Team>>> RetrieveTeams(UrlConstants.Region region, List<long> summonerIds)
+        public async Task<Dictionary<string, List<Team>>> RetrieveTeams(CreepScore.Region region, List<long> summonerIds)
         {
             string ids = "";
             if (summonerIds.Count > 40)
@@ -975,7 +993,7 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<Dictionary<string, Team>> RetrieveTeam(UrlConstants.Region region, List<string> teamIds)
+        public async Task<Dictionary<string, Team>> RetrieveTeam(CreepScore.Region region, List<string> teamIds)
         {
             string ids = "";
             if (teamIds.Count > 40)

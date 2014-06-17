@@ -26,7 +26,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveChampionsTest()
         {
-            List<Champion> champions = await creepScore.RetrieveChampions(UrlConstants.Region.NA);
+            List<Champion> champions = await creepScore.RetrieveChampions(CreepScore.Region.NA);
             Champion karma = null;
             foreach (Champion champion in champions)
             {
@@ -45,14 +45,14 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveChampionTest()
         {
-            Champion champion = await creepScore.RetrieveChampion(UrlConstants.Region.NA, 48);
+            Champion champion = await creepScore.RetrieveChampion(CreepScore.Region.NA, 48);
             Assert.True(champion.active);
         }
 
         [Fact]
         public async void RetrieveSummonerByNameTest()
         {
-            Summoner golf1052 = await creepScore.RetrieveSummoner(UrlConstants.Region.NA, "golf1052");
+            Summoner golf1052 = await creepScore.RetrieveSummoner(CreepScore.Region.NA, "golf1052");
 
             Assert.Equal(26040955, golf1052.id);
         }
@@ -62,7 +62,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> summonerNames = new List<string>();
             summonerNames.Add("golf1052");
-            List<Summoner> summoners = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerNames);
+            List<Summoner> summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames);
 
             Assert.Equal(26040955, summoners[0].id);
             Assert.Equal("golf1052", summoners[0].name);
@@ -74,7 +74,7 @@ namespace CreepScoreAPI.Tests
             summonerNames2.Add("golf1052");
             summonerNames2.Add("Chaox");
             summonerNames2.Add("Fresh Yolo Swag");
-            List<Summoner> summoners2 = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerNames2);
+            List<Summoner> summoners2 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames2);
             Summoner golf1052 = null;
             Summoner chaox = null;
             Summoner freshYoloSwag = null;
@@ -104,7 +104,7 @@ namespace CreepScoreAPI.Tests
             {
                 summonerNames3.Add("");
             }
-            List<Summoner> summoners3 = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerNames3);
+            List<Summoner> summoners3 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames3);
 
             Assert.Null(summoners3);
         }
@@ -114,7 +114,7 @@ namespace CreepScoreAPI.Tests
         {
             List<long> summonerIds = new List<long>();
             summonerIds.Add(26040955);
-            List<Summoner> summoners = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerIds);
+            List<Summoner> summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerIds);
 
             Assert.Equal(26040955, summoners[0].id);
             Assert.Equal("golf1052", summoners[0].name);
@@ -125,7 +125,7 @@ namespace CreepScoreAPI.Tests
             List<long> summonerIds2 = new List<long>();
             summonerIds2.Add(26040955);
             summonerIds2.Add(7460);
-            List<Summoner> summoners2 = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerIds2);
+            List<Summoner> summoners2 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerIds2);
 
             Assert.Equal("golf1052", summoners2[1].name);
             Assert.Equal("Chaox", summoners2[0].name);
@@ -135,7 +135,7 @@ namespace CreepScoreAPI.Tests
             {
                 summonerIds3.Add(0);
             }
-            List<Summoner> summoners3 = await creepScore.RetrieveSummoners(UrlConstants.Region.NA, summonerIds3);
+            List<Summoner> summoners3 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerIds3);
 
             Assert.Null(summoners3);
         }
@@ -145,7 +145,7 @@ namespace CreepScoreAPI.Tests
         {
             List<long> summonerIds = new List<long>();
             summonerIds.Add(26040955);
-            List<Summoner> summoners = await creepScore.RetrieveSummonerNames(UrlConstants.Region.NA, summonerIds);
+            List<Summoner> summoners = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds);
 
             Assert.Equal(26040955, summoners[0].id);
             Assert.Equal("golf1052", summoners[0].name);
@@ -154,7 +154,7 @@ namespace CreepScoreAPI.Tests
             List<long> summonerIds2 = new List<long>();
             summonerIds2.Add(26040955);
             summonerIds2.Add(7460);
-            List<Summoner> summoners2 = await creepScore.RetrieveSummonerNames(UrlConstants.Region.NA, summonerIds2);
+            List<Summoner> summoners2 = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds2);
 
             Assert.Equal("golf1052", summoners2[1].name);
             Assert.Equal("Chaox", summoners2[0].name);
@@ -164,7 +164,7 @@ namespace CreepScoreAPI.Tests
             {
                 summonerIds3.Add(0);
             }
-            List<Summoner> summoners3 = await creepScore.RetrieveSummonerNames(UrlConstants.Region.NA, summonerIds3);
+            List<Summoner> summoners3 = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds3);
 
             Assert.Null(summoners3);
         }
@@ -172,7 +172,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveChallengerLeagueTest()
         {
-            League challenger = await creepScore.RetrieveChallengerLeague(UrlConstants.Region.NA, GameConstants.Queue.Solo5);
+            League challenger = await creepScore.RetrieveChallengerLeague(CreepScore.Region.NA, GameConstants.Queue.Solo5);
             LeagueEntry wildTurtle = null;
             foreach (LeagueEntry entry in challenger.entries)
             {
@@ -193,7 +193,7 @@ namespace CreepScoreAPI.Tests
             List<long> summonerIds = new List<long>();
             summonerIds.Add(26040955);
             summonerIds.Add(7460);
-            Dictionary<string, List<Team>> teamsData = await creepScore.RetrieveTeams(UrlConstants.Region.NA, summonerIds);
+            Dictionary<string, List<Team>> teamsData = await creepScore.RetrieveTeams(CreepScore.Region.NA, summonerIds);
 
             Assert.Equal("HFGs", teamsData["26040955"][0].tag);
         }
@@ -203,7 +203,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> teamIds = new List<string>();
             teamIds.Add("TEAM-15f3bb30-a987-11e2-be8d-782bcb4d1861");
-            Dictionary<string, Team> teamData = await creepScore.RetrieveTeam(UrlConstants.Region.NA, teamIds);
+            Dictionary<string, Team> teamData = await creepScore.RetrieveTeam(CreepScore.Region.NA, teamIds);
 
             Assert.Equal("HFGs", teamData["TEAM-15f3bb30-a987-11e2-be8d-782bcb4d1861"].tag);
         }
@@ -213,7 +213,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> teamIds = new List<string>();
             teamIds.Add("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861");
-            Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeague(UrlConstants.Region.NA, teamIds);
+            Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeague(CreepScore.Region.NA, teamIds);
 
             Assert.Equal(GameConstants.Queue.Team5, leagueData["TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861"][0].queue);
         }
@@ -223,7 +223,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> teamIds = new List<string>();
             teamIds.Add("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861");
-            Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeagueEntry(UrlConstants.Region.NA, teamIds);
+            Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeagueEntry(CreepScore.Region.NA, teamIds);
 
             Assert.Equal("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861", leagueData["TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861"][0].entries[0].playerOrTeamId);
         }
