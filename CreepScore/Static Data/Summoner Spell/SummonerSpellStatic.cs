@@ -5,9 +5,8 @@ using Newtonsoft.Json.Linq;
 
 namespace CreepScoreAPI
 {
-    public class ChampionSpellStatic
+    public class SummonerSpellStatic
     {
-        public List<ImageStatic> altImages;
         public List<double> cooldown;
         public string cooldownBurn;
         public List<int> cost;
@@ -16,10 +15,12 @@ namespace CreepScoreAPI
         public string description;
         public List<List<int>> effect;
         public List<string> effectBurn;
+        public int id;
         public ImageStatic image;
         public string key;
         public LevelTipStatic levelTip;
-        public int maxRank;
+        public int? maxRank;
+        public List<string> modes;
         public string name;
         // This can either be a list of integers or a string >.>
         public List<int> rangeList;
@@ -28,11 +29,11 @@ namespace CreepScoreAPI
         public string resource;
         public string sanitizedDescription;
         public string sanitizedTooltip;
+        public int? summonerLevel;
         public string tooltip;
         public List<SpellVarsStatic> vars;
 
-        public ChampionSpellStatic(JArray altImagesA,
-            JArray cooldownA,
+        public SummonerSpellStatic(JArray cooldownA,
             string cooldownBurn,
             JArray costA,
             string costBurn,
@@ -40,33 +41,38 @@ namespace CreepScoreAPI
             string description,
             JArray effectA,
             JArray effectBurnA,
+            int id,
             JObject imageO,
             string key,
             JObject levelTipO,
-            int maxRank,
+            int? maxRank,
+            JArray modesA,
             string name,
             object range,
             string rangeBurn,
             string resource,
             string sanitizedDescription,
             string sanitizedTooltip,
+            int? summonerLevel,
             string tooltip,
             JArray varsA)
         {
-            altImages = new List<ImageStatic>();
             cooldown = new List<double>();
             cost = new List<int>();
             effect = new List<List<int>>();
             effectBurn = new List<string>();
+            modes = new List<string>();
             rangeList = new List<int>();
             vars = new List<SpellVarsStatic>();
-            if (altImagesA != null)
+            if (cooldownA != null)
             {
-                LoadAltImages(altImagesA);
+                LoadCooldowns(cooldownA);
             }
-            LoadCooldowns(cooldownA);
             this.cooldownBurn = cooldownBurn;
-            LoadCosts(costA);
+            if (costA != null)
+            {
+                LoadCosts(costA);
+            }
             this.costBurn = costBurn;
             this.costType = costType;
             this.description = description;
@@ -78,41 +84,42 @@ namespace CreepScoreAPI
             {
                 this.effectBurn = HelperMethods.LoadStrings(effectBurnA);
             }
-            this.image = LoadImage(imageO);
-            this.key = key;
-            this.levelTip = LoadLevelTip(levelTipO);
-            this.maxRank = maxRank;
-            this.name = name;
-            if (range.GetType() == typeof(JValue))
+            this.id = id;
+            if (imageO != null)
             {
-                rangeString = ((JValue)range).ToString();
+                this.image = LoadImage(imageO);
             }
-            else
+            this.key = key;
+            if (levelTipO != null)
             {
-                LoadRanges((JArray)range);
+                this.levelTip = LoadLevelTip(levelTipO);
+            }
+            this.maxRank = maxRank;
+            if (modesA != null)
+            {
+                this.modes = HelperMethods.LoadStrings(modesA);
+            }
+            this.name = name;
+            if (range != null)
+            {
+                if (range.GetType() == typeof(JValue))
+                {
+                    rangeString = ((JValue)range).ToString();
+                }
+                else
+                {
+                    LoadRanges((JArray)range);
+                }
             }
             this.rangeBurn = rangeBurn;
             this.resource = resource;
             this.sanitizedDescription = sanitizedDescription;
             this.sanitizedTooltip = sanitizedTooltip;
+            this.summonerLevel = summonerLevel;
             this.tooltip = tooltip;
             if (varsA != null)
             {
                 LoadVars(varsA);
-            }
-        }
-
-        void LoadAltImages(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                altImages.Add(new ImageStatic((string)a[i]["full"],
-                (string)a[i]["group"],
-                (int)a[i]["h"],
-                (string)a[i]["sprite"],
-                (int)a[i]["w"],
-                (int)a[i]["x"],
-                (int)a[i]["y"]));
             }
         }
 
