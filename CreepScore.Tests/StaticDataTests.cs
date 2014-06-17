@@ -24,7 +24,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticChampionsNoneTest()
         {
-            ChampionListStatic champions = await creepScore.RetrieveStaticChampions(UrlConstants.Region.NA, StaticDataConstants.ChampData.None);
+            ChampionListStatic champions = await creepScore.RetrieveChampionsData(UrlConstants.Region.NA, StaticDataConstants.ChampData.None);
             ChampionStatic karma = null;
 
             foreach (KeyValuePair<string, ChampionStatic> champion in champions.data)
@@ -42,7 +42,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticChampionsTest()
         {
-            ChampionListStatic champions = await creepScore.RetrieveStaticChampions(UrlConstants.Region.NA, StaticDataConstants.ChampData.All);
+            ChampionListStatic champions = await creepScore.RetrieveChampionsData(UrlConstants.Region.NA, StaticDataConstants.ChampData.All);
             ChampionStatic karma = null;
             int karmaKey = -1;
 
@@ -74,7 +74,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticChampionTest()
         {
-            ChampionStatic karma = await creepScore.RetrieveStaticChampion(UrlConstants.Region.NA, StaticDataConstants.ChampData.None, 43);
+            ChampionStatic karma = await creepScore.RetrieveChampionData(UrlConstants.Region.NA, 43, StaticDataConstants.ChampData.None);
 
             Assert.Equal("the Enlightened One", karma.title);
         }
@@ -82,7 +82,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticItemsNoneTest()
         {
-            ItemListStatic items = await creepScore.RetrieveStaticItems(UrlConstants.Region.NA, StaticDataConstants.ItemListData.None);
+            ItemListStatic items = await creepScore.RetrieveItemsData(UrlConstants.Region.NA, StaticDataConstants.ItemListData.None);
 
             Assert.Equal("item", items.type);
         }
@@ -90,7 +90,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticItemsTest()
         {
-            ItemListStatic items = await creepScore.RetrieveStaticItems(UrlConstants.Region.NA, StaticDataConstants.ItemListData.All);
+            ItemListStatic items = await creepScore.RetrieveItemsData(UrlConstants.Region.NA, StaticDataConstants.ItemListData.All);
 
             Assert.Equal("item", items.type);
         }
@@ -98,7 +98,7 @@ namespace CreepScoreAPI.Tests
         [Fact]
         public async void RetrieveStaticItemTest()
         {
-            ItemStatic trinityForce = await creepScore.RetrieveStaticItem(UrlConstants.Region.NA, StaticDataConstants.ItemListData.None, 3078);
+            ItemStatic trinityForce = await creepScore.RetrieveItemData(UrlConstants.Region.NA, 3078, StaticDataConstants.ItemListData.None);
 
             Assert.Equal("Tons of Damage", trinityForce.plainText);
         }

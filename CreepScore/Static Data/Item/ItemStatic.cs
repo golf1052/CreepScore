@@ -69,7 +69,7 @@ namespace CreepScoreAPI
             this.description = description;
             if (fromA != null)
             {
-                LoadFrom(fromA);
+                from = HelperMethods.LoadStrings(fromA);
             }
             if (goldO != null)
             {
@@ -85,7 +85,7 @@ namespace CreepScoreAPI
             this.inStore = inStore;
             if (intoA != null)
             {
-                LoadInto(intoA);
+                into = HelperMethods.LoadStrings(intoA);
             }
             if (maps != null)
             {
@@ -106,15 +106,7 @@ namespace CreepScoreAPI
             }
             if (tagsA != null)
             {
-                LoadTags(tagsA);
-            }
-        }
-
-        void LoadFrom(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                from.Add((string)a[i]);
+                tags = HelperMethods.LoadStrings(tagsA);
             }
         }
 
@@ -124,14 +116,6 @@ namespace CreepScoreAPI
                 (bool?)o["purchasable"],
                 (int?)o["sell"],
                 (int?)o["total"]);
-        }
-
-        void LoadInto(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                into.Add((string)a[i]);
-            }
         }
 
         void LoadBasicDataStats(JObject o)
@@ -201,14 +185,6 @@ namespace CreepScoreAPI
                 (double?)o["rPercentMovementSpeedModPerLevel"],
                 (double?)o["rPercentTimeDeadMod"],
                 (double?)o["rPercentTimeDeadModPerLeveldouble"]);
-        }
-
-        void LoadTags(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                tags.Add((string)a[i]);
-            }
         }
     }
 }

@@ -14,14 +14,9 @@ namespace CreepScoreAPI
         {
             tags = new List<string>();
             this.header = header;
-            LoadTags(tagsA);
-        }
-
-        void LoadTags(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
+            if (tagsA != null)
             {
-                tags.Add((string)a[i]);
+                tags = HelperMethods.LoadStrings(tagsA);
             }
         }
     }

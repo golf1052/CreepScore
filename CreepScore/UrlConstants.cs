@@ -91,37 +91,37 @@ namespace CreepScoreAPI.Constants
         /// <summary>
         /// Champion API version
         /// </summary>
-        public static string championAPIVersion = "v1.2";
+        public static string championAPIVersion = "/v1.2";
 
         /// <summary>
         /// Game API version
         /// </summary>
-        public static string gameAPIVersion = "v1.3";
+        public static string gameAPIVersion = "/v1.3";
 
         /// <summary>
         /// League API version
         /// </summary>
-        public static string leagueAPIVersion = "v2.4";
+        public static string leagueAPIVersion = "/v2.4";
 
         /// <summary>
         /// LoL Static Data API version
         /// </summary>
-        public static string staticDataAPIVersion = "v1.2";
+        public static string staticDataAPIVersion = "/v1.2";
 
         /// <summary>
         /// Stats API version
         /// </summary>
-        public static string statsAPIVersion = "v1.3";
+        public static string statsAPIVersion = "/v1.3";
 
         /// <summary>
         /// Summoner API version
         /// </summary>
-        public static string summonerAPIVersion = "v1.4";
+        public static string summonerAPIVersion = "/v1.4";
 
         /// <summary>
         /// Team API version
         /// </summary>
-        public static string teamAPIVersion = "v2.3";
+        public static string teamAPIVersion = "/v2.3";
 
         /// <summary>
         /// Champion part of url
@@ -233,6 +233,29 @@ namespace CreepScoreAPI.Constants
         /// </summary>
         public static string staticDataPart = "/static-data";
 
+        /// <summary>
+        /// Mastery part of url
+        /// </summary>
+        public static string masteryPart = "/mastery";
+
+        /// <summary>
+        /// Realm part of url
+        /// </summary>
+        public static string realmPart = "/realm";
+
+        /// <summary>
+        /// Rune part of url
+        /// </summary>
+        public static string runePart = "/rune";
+
+        /// <summary>
+        /// Summoner spell part of url
+        /// </summary>
+        public static string summonerSpellPart = "/summoner-spell";
+
+        /// <summary>
+        /// Versions part of url
+        /// </summary>
         public static string versionsPart = "/versions";
 
         /// <summary>

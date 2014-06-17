@@ -29,7 +29,7 @@ namespace CreepScoreAPI
             tree = new List<ItemTreeStatic>();
             if (basicO != null)
             {
-                LoadBasicDataStatic(basicO);
+                basic = HelperMethods.LoadBasicDataStatic(basicO);
             }
             if (dataO != null)
             {
@@ -45,33 +45,6 @@ namespace CreepScoreAPI
             }
             this.type = type;
             this.version = version;
-        }
-
-        void LoadBasicDataStatic(JObject o)
-        {
-            basic = new BasicDataStatic((string)o["colloq"],
-                (bool?)o["consumeOnFull"],
-                (bool?)o["consumed"],
-                (int?)o["depth"],
-                (string)o["description"],
-                (JArray)o["from"],
-                (JObject)o["gold"],
-                (string)o["group"],
-                (bool?)o["hideFromAll"],
-                (int)o["id"],
-                (JObject)o["image"],
-                (bool?)o["inStore"],
-                (JArray)o["into"],
-                (JObject)o["maps"],
-                (string)o["name"],
-                (string)o["plaintext"],
-                (string)o["requiredChampion"],
-                (JObject)o["rune"],
-                (string)o["sanitizedDescription"],
-                (int?)o["specialRecipe"],
-                (int?)o["stacks"],
-                (JObject)o["stats"],
-                (JArray)o["tags"]);
         }
 
         void LoadData(string s)

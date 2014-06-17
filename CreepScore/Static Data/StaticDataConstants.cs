@@ -51,6 +51,68 @@ namespace CreepScoreAPI.Constants
             None
         }
 
+        public enum MasteryListData
+        {
+            All,
+            Image,
+            Prereq,
+            Ranks,
+            SanitizedDescription,
+            // Only MasteryListStatic
+            Tree,
+            None
+        }
+
+        public enum RuneListData
+        {
+            All,
+            // Only RuneListStatic
+            Basic,
+            Colloq,
+            ConsumeOnFull,
+            Consumed,
+            Depth,
+            From,
+            Gold,
+            HideFromAll,
+            Image,
+            InStore,
+            Into,
+            Maps,
+            RequiredChampion,
+            SanitizedDescription,
+            SpecialRecipe,
+            Stacks,
+            Stats,
+            Tags,
+            None
+        }
+
+        public enum SpellData
+        {
+            All,
+            Cooldown,
+            CooldownBurn,
+            Cost,
+            CostBurn,
+            CostType,
+            Effect,
+            EffectBurn,
+            Image,
+            Key,
+            LevelTip,
+            MaxRank,
+            Modes,
+            Range,
+            RangeBurn,
+            Resource,
+            SanitizedDescription,
+            SanitizedTooltip,
+            Tooltip,
+            Vars,
+            None
+        }
+
         public static string GetChampData(ChampData champData)
         {
             if (champData == ChampData.All)
@@ -201,6 +263,210 @@ namespace CreepScoreAPI.Constants
             else if (itemListData == ItemListData.Tree)
             {
                 return "tree";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public static string GetMasteryListData(MasteryListData masteryListData)
+        {
+            if (masteryListData == MasteryListData.All)
+            {
+                return "all";
+            }
+            else if (masteryListData == MasteryListData.Image)
+            {
+                return "image";
+            }
+            else if (masteryListData == MasteryListData.Prereq)
+            {
+                return "prereq";
+            }
+            else if (masteryListData == MasteryListData.Ranks)
+            {
+                return "ranks";
+            }
+            else if (masteryListData == MasteryListData.SanitizedDescription)
+            {
+                return "sanitizedDescritpion";
+            }
+            else if (masteryListData == MasteryListData.Tree)
+            {
+                return "tree";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public static string GetRuneListData(RuneListData runeListData)
+        {
+            if (runeListData == RuneListData.All)
+            {
+                return "all";
+            }
+            else if (runeListData == RuneListData.Basic)
+            {
+                return "basic";
+            }
+            else if (runeListData == RuneListData.Colloq)
+            {
+                return "colloq";
+            }
+            else if (runeListData == RuneListData.ConsumeOnFull)
+            {
+                return "consumeOnFull";
+            }
+            else if (runeListData == RuneListData.Consumed)
+            {
+                return "consumed";
+            }
+            else if (runeListData == RuneListData.Depth)
+            {
+                return "depth";
+            }
+            else if (runeListData == RuneListData.From)
+            {
+                return "from";
+            }
+            else if (runeListData == RuneListData.Gold)
+            {
+                return "gold";
+            }
+            else if (runeListData == RuneListData.HideFromAll)
+            {
+                return "hideFromAll";
+            }
+            else if (runeListData == RuneListData.Image)
+            {
+                return "image";
+            }
+            else if (runeListData == RuneListData.InStore)
+            {
+                return "inStore";
+            }
+            else if (runeListData == RuneListData.Into)
+            {
+                return "into";
+            }
+            else if (runeListData == RuneListData.Maps)
+            {
+                return "maps";
+            }
+            else if (runeListData == RuneListData.RequiredChampion)
+            {
+                return "requiredChampion";
+            }
+            else if (runeListData == RuneListData.SanitizedDescription)
+            {
+                return "sanitizedDescription";
+            }
+            else if (runeListData == RuneListData.SpecialRecipe)
+            {
+                return "specialRecipe";
+            }
+            else if (runeListData == RuneListData.Stacks)
+            {
+                return "stacks";
+            }
+            else if (runeListData == RuneListData.Stats)
+            {
+                return "stats";
+            }
+            else if (runeListData == RuneListData.Tags)
+            {
+                return "tags";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public static string GetSpellData(SpellData spellData)
+        {
+            if (spellData == SpellData.All)
+            {
+                return "all";
+            }
+            else if (spellData == SpellData.Cooldown)
+            {
+                return "cooldown";
+            }
+            else if (spellData == SpellData.CooldownBurn)
+            {
+                return "cooldownBurn";
+            }
+            else if (spellData == SpellData.Cost)
+            {
+                return "cost";
+            }
+            else if (spellData == SpellData.CostBurn)
+            {
+                return "costBurn";
+            }
+            else if (spellData == SpellData.CostType)
+            {
+                return "costType";
+            }
+            else if (spellData == SpellData.Effect)
+            {
+                return "effect";
+            }
+            else if (spellData == SpellData.EffectBurn)
+            {
+                return "effectBurn";
+            }
+            else if (spellData == SpellData.Image)
+            {
+                return "image";
+            }
+            else if (spellData == SpellData.Key)
+            {
+                return "key";
+            }
+            else if (spellData == SpellData.LevelTip)
+            {
+                return "leveltip";
+            }
+            else if (spellData == SpellData.MaxRank)
+            {
+                return "maxrank";
+            }
+            else if (spellData == SpellData.Modes)
+            {
+                return "modes";
+            }
+            else if (spellData == SpellData.Range)
+            {
+                return "range";
+            }
+            else if (spellData == SpellData.RangeBurn)
+            {
+                return "rangeBurn";
+            }
+            else if (spellData == SpellData.Resource)
+            {
+                return "resource";
+            }
+            else if (spellData == SpellData.SanitizedDescription)
+            {
+                return "sanitizedDescription";
+            }
+            else if (spellData == SpellData.SanitizedTooltip)
+            {
+                return "sanitizedTooltip";
+            }
+            else if (spellData == SpellData.Tooltip)
+            {
+                return "tooltip";
+            }
+            else if (spellData == SpellData.Vars)
+            {
+                return "vars";
             }
             else
             {

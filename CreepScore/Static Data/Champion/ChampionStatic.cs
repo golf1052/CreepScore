@@ -50,12 +50,12 @@ namespace CreepScoreAPI
             tags = new List<string>();
             if (allyTipsA != null)
             {
-                LoadAllyTips(allyTipsA);
+                allyTips = HelperMethods.LoadStrings(allyTipsA);
             }
             this.blurb = blurb;
             if (enemyTipsA != null)
             {
-                LoadEnemyTips(enemyTipsA);
+                enemyTips = HelperMethods.LoadStrings(enemyTipsA);
             }
             this.id = id;
             if (imageO != null)
@@ -92,25 +92,9 @@ namespace CreepScoreAPI
             }
             if (tagsA != null)
             {
-                LoadTags(tagsA);
+                tags = HelperMethods.LoadStrings(tagsA);
             }
             this.title = title;
-        }
-
-        void LoadAllyTips(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                allyTips.Add((string)a[i]);
-            }
-        }
-
-        void LoadEnemyTips(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                enemyTips.Add((string)a[i]);
-            }
         }
 
         InfoStatic LoadInfo(JObject o)
@@ -203,14 +187,6 @@ namespace CreepScoreAPI
                 (double)o["mpregenperlevel"],
                 (double)o["spellblock"],
                 (double)o["spellblockperlevel"]);
-        }
-
-        void LoadTags(JArray a)
-        {
-            for (int i = 0; i < a.Count; i++)
-            {
-                tags.Add((string)a[i]);
-            }
         }
     }
 }

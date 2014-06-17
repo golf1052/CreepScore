@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
-using System.IO;
-using System.Diagnostics;
+using System.Threading.Tasks;
 using CreepScoreAPI.Constants;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CreepScoreAPI
 {
@@ -53,13 +49,11 @@ namespace CreepScoreAPI
             apiKey = key;
         }
 
-        #region Static Data Methods
-        #region Champion
-        public async Task<ChampionListStatic> RetrieveStaticChampions(UrlConstants.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
+        public async Task<ChampionListStatic> RetrieveChampionsData(UrlConstants.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.staticDataAPIVersion +
                 UrlConstants.championPart + "?";
 
@@ -103,11 +97,11 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<ChampionStatic> RetrieveStaticChampion(UrlConstants.Region region, StaticDataConstants.ChampData champData, int id, string locale = "", string version = "", bool dataById = false)
+        public async Task<ChampionStatic> RetrieveChampionData(UrlConstants.Region region, int id, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.staticDataAPIVersion +
                 UrlConstants.championPart + "/" +
                 id.ToString() + "?";
@@ -151,14 +145,12 @@ namespace CreepScoreAPI
                 return null;
             }
         }
-        #endregion
 
-        #region Item
-        public async Task<ItemListStatic> RetrieveStaticItems(UrlConstants.Region region, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
+        public async Task<ItemListStatic> RetrieveItemsData(UrlConstants.Region region, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.staticDataAPIVersion +
                 UrlConstants.itemPart + "?";
 
@@ -200,11 +192,11 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<ItemStatic> RetrieveStaticItem(UrlConstants.Region region, StaticDataConstants.ItemListData itemListData, int id, string locale = "", string version = "")
+        public async Task<ItemStatic> RetrieveItemData(UrlConstants.Region region, int id, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.staticDataAPIVersion +
                 UrlConstants.itemPart + "/" +
                 id.ToString() + "?";
@@ -246,17 +238,108 @@ namespace CreepScoreAPI
                 return null;
             }
         }
-        #endregion
 
-        #region Realm
+        public async Task<MasteryListStatic> RetrieveMasteriesData(UrlConstants.Region region, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.masteryPart + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            if (masteryListData == StaticDataConstants.MasteryListData.None)
+            {
+                url += "api_key=" +
+                    apiKey;
+            }
+            else
+            {
+                url += "masteryListData=" +
+                    StaticDataConstants.GetMasteryListData(masteryListData) +
+                    UrlConstants.andApiKeyPart +
+                    apiKey;
+            }
+
+            Uri uri = new Uri(url);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadMasteryListStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<MasteryStatic> RetrieveMasteryData(UrlConstants.Region region, int id, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.masteryPart + "/" +
+                id.ToString() + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            if (masteryListData == StaticDataConstants.MasteryListData.None)
+            {
+                url += "api_key=" +
+                    apiKey;
+            }
+            else
+            {
+                url += "masteryListData=" +
+                    StaticDataConstants.GetMasteryListData(masteryListData) +
+                    UrlConstants.andApiKeyPart +
+                    apiKey;
+            }
+
+            Uri uri = new Uri(url);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadMasteryStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
         public async Task<RealmStatic> RetrieveRealmData(UrlConstants.Region region)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.staticDataAPIVersion +
-                "/realm" +
+                UrlConstants.realmPart +
                 UrlConstants.apiKeyPart +
                 apiKey);
 
@@ -272,15 +355,201 @@ namespace CreepScoreAPI
                 return null;
             }
         }
-        #endregion
 
-        #region Versions
+        public async Task<RuneListStatic> RetrieveRunesData(UrlConstants.Region region, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.runePart + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            if (runeListData == StaticDataConstants.RuneListData.None)
+            {
+                url += "api_key=" +
+                    apiKey;
+            }
+            else
+            {
+                url += "runeListData=" +
+                    StaticDataConstants.GetRuneListData(runeListData) +
+                    UrlConstants.andApiKeyPart +
+                    apiKey;
+            }
+
+            Uri uri = new Uri(url);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadRuneListStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<RuneStatic> RetrieveRuneData(UrlConstants.Region region, int id, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.runePart + "/" +
+                id.ToString() + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            if (runeListData == StaticDataConstants.RuneListData.None)
+            {
+                url += "api_key=" +
+                    apiKey;
+            }
+            else
+            {
+                url += "runeListData=" +
+                    StaticDataConstants.GetRuneListData(runeListData) +
+                    UrlConstants.andApiKeyPart +
+                    apiKey;
+            }
+
+            Uri uri = new Uri(url);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadRuneStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<SummonerSpellListStatic> RetrieveSummonerSpellsData(UrlConstants.Region region, StaticDataConstants.SpellData spellData, string locale = "", string version = "", bool dataById = false)
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.summonerSpellPart + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            url += "dataById=" + dataById.ToString() + "&";
+
+            if (spellData == StaticDataConstants.SpellData.None)
+            {
+                url += "api_key=" +
+                    apiKey;
+            }
+            else
+            {
+                url += "spellData=" +
+                    StaticDataConstants.GetSpellData(spellData) +
+                    UrlConstants.andApiKeyPart +
+                    apiKey;
+            }
+
+            Uri uri = new Uri(url);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadSummonerSpellListStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<SummonerSpellStatic> RetrieveSummonerSpellData(UrlConstants.Region region, int id, StaticDataConstants.SpellData spellData, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.summonerSpellPart + "/" +
+                id.ToString() + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            if (spellData == StaticDataConstants.SpellData.None)
+            {
+                url += "api_key=" +
+                    apiKey;
+            }
+            else
+            {
+                url += "spellData=" +
+                    StaticDataConstants.GetSpellData(spellData) +
+                    UrlConstants.andApiKeyPart +
+                    apiKey;
+            }
+
+            Uri uri = new Uri(url);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadSummonerSpellStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
         public async Task<List<string>> RetrieveVersions(UrlConstants.Region region)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) +
                 UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.staticDataAPIVersion +
                 UrlConstants.versionsPart +
                 UrlConstants.apiKeyPart +
@@ -290,7 +559,7 @@ namespace CreepScoreAPI
 
             if (GoodStatusCode(responseString))
             {
-                return LoadVersions(JArray.Parse(responseString));
+                return HelperMethods.LoadStrings(JArray.Parse(responseString));
             }
             else
             {
@@ -298,21 +567,12 @@ namespace CreepScoreAPI
                 return null;
             }
         }
-        #endregion
-        #endregion
 
-        /// <summary>
-        /// Retrieves the list of champions from the API and returns them
-        /// </summary>
-        /// <param name="region">The region where to retrive the data</param>
-        /// <param name="freeToPlay">Retrive only the free to play champs</param>
-        /// <returns>A list of champions.
-        /// If it could not retrieve the champions it returns null</returns>
         public async Task<List<Champion>> RetrieveChampions(UrlConstants.Region region, bool freeToPlay = false)
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.championAPIVersion +
                 UrlConstants.championPart +
                 UrlConstants.freeToPlayPart + 
@@ -337,7 +597,7 @@ namespace CreepScoreAPI
         {
             Uri uri;
             uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) + "/" +
+                UrlConstants.GetRegion(region) +
                 UrlConstants.championAPIVersion +
                 UrlConstants.championPart + "/" +
                 id.ToString() +
@@ -352,339 +612,6 @@ namespace CreepScoreAPI
             else
             {
                 errorString = responseString;
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves summoners by their IDs and returns them
-        /// </summary>
-        /// <param name="region">The region where to retrive the data</param>
-        /// <param name="summonerIds">The IDs of the summoners</param>
-        /// <returns>The summoners</returns>
-        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<long> summonerIds)
-        {
-            string ids = "";
-            if (summonerIds.Count > 40)
-            {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
-            }
-
-            for (int i = 0; i < summonerIds.Count; i++)
-            {
-                if (i != summonerIds.Count - 1)
-                {
-                    ids += summonerIds[i].ToString() + ",";
-                }
-                else
-                {
-                    ids += summonerIds[i].ToString();
-                }
-            }
-
-            Uri uri;
-            if (ids != "")
-            {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
-                    UrlConstants.summonerAPIVersion +
-                    UrlConstants.summonerPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    apiKey);
-            }
-            else
-            {
-                errorString = "Cannot have an empty list of summoner ids";
-                return null;
-            }
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
-            {
-                List<Summoner> summoners = new List<Summoner>();
-                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
-                foreach (KeyValuePair<string, JObject> value in values)
-                {
-                    summoners.Add(new Summoner(value.Value, region));
-                }
-                return summoners;
-            }
-            else
-            {
-                errorString = responseString;
-                return null;
-            }
-        }
-
-        public async Task<Summoner> RetrieveSummoner(UrlConstants.Region region, string summonerName)
-        {
-            List<string> temp = new List<string>();
-            temp.Add(summonerName);
-            List<Summoner> returnedList = await RetrieveSummoners(region, temp);
-
-            if (returnedList != null)
-            {
-                return returnedList[0];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Retrives summoners by their names and returns them
-        /// </summary>
-        /// <param name="region">The region where to retrive the data</param>
-        /// <param name="summonerName">The names of the summoners</param>
-        /// <returns>The summoners</returns>
-        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<string> summonerNames)
-        {
-            string names = "";
-            if (summonerNames.Count > 40)
-            {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
-            }
-
-            for (int i = 0; i < summonerNames.Count; i++)
-            {
-                if (i != summonerNames.Count - 1)
-                {
-                    names += summonerNames[i] + ",";
-                }
-                else
-                {
-                    names += summonerNames[i];
-                }
-            }
-
-            Uri uri;
-            if (names != "")
-            {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
-                    UrlConstants.summonerAPIVersion +
-                    UrlConstants.summonerPart +
-                    UrlConstants.byNamePart + "/" +
-                    names +
-                    UrlConstants.apiKeyPart +
-                    apiKey);
-            }
-            else
-            {
-                errorString = "Cannot have an empty list of summoner names";
-                return null;
-            }
-
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
-            {
-                List<Summoner> summoners = new List<Summoner>();
-                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
-                foreach (KeyValuePair<string, JObject> value in values)
-                {
-                    summoners.Add(new Summoner(value.Value, region));
-                }
-                return summoners;
-            }
-            else
-            {
-                errorString = responseString;
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves list of summoners by their IDs. These summoners are not fully loaded however.
-        /// </summary>
-        /// <param name="region">The region where to retrive the data</param>
-        /// <param name="summonerIds">The list of summoner IDs to load.</param>
-        /// <returns>A list of partially loaded summoners</returns>
-        /// <remarks>If you want the complete data for each summoner take the IDs/names that you load from here
-        /// and feed them into one of the other RetrieveSummoner methods</remarks>
-        public async Task<List<Summoner>> RetrieveSummonerNames(UrlConstants.Region region, List<long> summonerIds)
-        {
-            string summonerIdsPart = "";
-            if (summonerIds.Count > 40)
-            {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
-            }
-
-            for (int i = 0; i < summonerIds.Count; i++)
-            {
-                if (i != summonerIds.Count - 1)
-                {
-                    summonerIdsPart += summonerIds[i].ToString() + ",";
-                }
-                else
-                {
-                    summonerIdsPart += summonerIds[i].ToString();
-                }
-            }
-
-            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) + "/" +
-                UrlConstants.summonerAPIVersion +
-                UrlConstants.summonerPart + "/" +
-                summonerIdsPart +
-                UrlConstants.namePart +
-                UrlConstants.apiKeyPart +
-                apiKey);
-
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
-            {
-                Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
-                List<Summoner> littleSummoners = new List<Summoner>();
-
-                foreach (KeyValuePair<string, string> value in values)
-                {
-                    littleSummoners.Add(new Summoner(long.Parse(value.Key), value.Value, region));
-                }
-
-                return littleSummoners;
-            }
-            else
-            {
-                errorString = responseString;
-                return null;
-            }
-        }
-
-        public async Task<League> RetrieveChallengerLeague(UrlConstants.Region region, GameConstants.Queue queue)
-        {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-            UrlConstants.GetRegion(region) + "/" +
-            UrlConstants.leagueAPIVersion +
-            UrlConstants.leaguePart +
-            "/challenger?type=" +
-            GameConstants.GetQueue(queue) +
-            "&api_key=" +
-            apiKey);
-
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
-            {
-                return LoadLeague(JObject.Parse(responseString));
-            }
-            else
-            {
-                errorString = responseString;
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the teams the given summoners are on
-        /// </summary>
-        /// <returns>The list of teams</returns>
-        public async Task<Dictionary<string, List<Team>>> RetrieveTeams(UrlConstants.Region region, List<long> summonerIds)
-        {
-            string ids = "";
-            if (summonerIds.Count > 40)
-            {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
-            }
-
-            for (int i = 0; i < summonerIds.Count; i++)
-            {
-                if (i != summonerIds.Count - 1)
-                {
-                    ids += summonerIds[i].ToString() + ",";
-                }
-                else
-                {
-                    ids += summonerIds[i].ToString();
-                }
-            }
-
-            Uri uri;
-            if (ids != "")
-            {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
-                    UrlConstants.teamAPIVersion +
-                    UrlConstants.teamPart +
-                    UrlConstants.bySummonerPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
-            }
-            else
-            {
-                errorString = "Cannot have an empty list of summoner ids";
-                return null;
-            }
-            string responseString = await CreepScore.GetWebData(uri);
-
-            if (CreepScore.GoodStatusCode(responseString))
-            {
-                return HelperMethods.LoadTeams(responseString);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the teams the given summoners are on
-        /// </summary>
-        /// <returns>The list of teams</returns>
-        public async Task<Dictionary<string, Team>> RetrieveTeam(UrlConstants.Region region, List<string> teamIds)
-        {
-            string ids = "";
-            if (teamIds.Count > 40)
-            {
-                errorString = "Cannot retrieve more than 40 teams at once";
-                return null;
-            }
-
-            for (int i = 0; i < teamIds.Count; i++)
-            {
-                if (i != teamIds.Count - 1)
-                {
-                    ids += teamIds[i] + ",";
-                }
-                else
-                {
-                    ids += teamIds[i];
-                }
-            }
-
-            Uri uri;
-            if (ids != "")
-            {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
-                    UrlConstants.teamAPIVersion +
-                    UrlConstants.teamPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
-            }
-            else
-            {
-                errorString = "Cannot have an empty list of team ids";
-                return null;
-            }
-            string responseString = await CreepScore.GetWebData(uri);
-
-            if (CreepScore.GoodStatusCode(responseString))
-            {
-                return HelperMethods.LoadTeam(responseString);
-            }
-            else
-            {
                 return null;
             }
         }
@@ -714,7 +641,7 @@ namespace CreepScoreAPI
             if (ids != "")
             {
                 uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.GetRegion(region) +
                     UrlConstants.leagueAPIVersion +
                     UrlConstants.leaguePart +
                     UrlConstants.byTeamPart + "/" +
@@ -765,7 +692,7 @@ namespace CreepScoreAPI
             if (ids != "")
             {
                 uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) + "/" +
+                    UrlConstants.GetRegion(region) +
                     UrlConstants.leagueAPIVersion +
                     UrlConstants.leaguePart +
                     UrlConstants.byTeamPart + "/" +
@@ -792,12 +719,312 @@ namespace CreepScoreAPI
             }
         }
 
-        /// <summary>
-        /// Checks to see if the status code returned was 200.
-        /// </summary>
-        /// <param name="response">The response</param>
-        /// <returns>If the status code was ok or not</returns>
-        public static bool GoodStatusCode(string response)
+        public async Task<League> RetrieveChallengerLeague(UrlConstants.Region region, GameConstants.Queue queue)
+        {
+            Uri uri;
+            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+            UrlConstants.GetRegion(region) +
+            UrlConstants.leagueAPIVersion +
+            UrlConstants.leaguePart +
+            "/challenger?type=" +
+            GameConstants.GetQueue(queue) +
+            UrlConstants.andApiKeyPart +
+            apiKey);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return LoadLeague(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<Summoner> RetrieveSummoner(UrlConstants.Region region, string summonerName)
+        {
+            List<string> temp = new List<string>();
+            temp.Add(summonerName);
+            List<Summoner> returnedList = await RetrieveSummoners(region, temp);
+
+            if (returnedList != null)
+            {
+                return returnedList[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<string> summonerNames)
+        {
+            string names = "";
+            if (summonerNames.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
+            for (int i = 0; i < summonerNames.Count; i++)
+            {
+                if (i != summonerNames.Count - 1)
+                {
+                    names += summonerNames[i] + ",";
+                }
+                else
+                {
+                    names += summonerNames[i];
+                }
+            }
+
+            Uri uri;
+            if (names != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) +
+                    UrlConstants.summonerAPIVersion +
+                    UrlConstants.summonerPart +
+                    UrlConstants.byNamePart + "/" +
+                    names +
+                    UrlConstants.apiKeyPart +
+                    apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of summoner names";
+                return null;
+            }
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                List<Summoner> summoners = new List<Summoner>();
+                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
+                foreach (KeyValuePair<string, JObject> value in values)
+                {
+                    summoners.Add(new Summoner(value.Value, region));
+                }
+                return summoners;
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<List<Summoner>> RetrieveSummoners(UrlConstants.Region region, List<long> summonerIds)
+        {
+            string ids = "";
+            if (summonerIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
+            for (int i = 0; i < summonerIds.Count; i++)
+            {
+                if (i != summonerIds.Count - 1)
+                {
+                    ids += summonerIds[i].ToString() + ",";
+                }
+                else
+                {
+                    ids += summonerIds[i].ToString();
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) +
+                    UrlConstants.summonerAPIVersion +
+                    UrlConstants.summonerPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of summoner ids";
+                return null;
+            }
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                List<Summoner> summoners = new List<Summoner>();
+                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
+                foreach (KeyValuePair<string, JObject> value in values)
+                {
+                    summoners.Add(new Summoner(value.Value, region));
+                }
+                return summoners;
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        } 
+
+        public async Task<List<Summoner>> RetrieveSummonerNames(UrlConstants.Region region, List<long> summonerIds)
+        {
+            string summonerIdsPart = "";
+            if (summonerIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
+            for (int i = 0; i < summonerIds.Count; i++)
+            {
+                if (i != summonerIds.Count - 1)
+                {
+                    summonerIdsPart += summonerIds[i].ToString() + ",";
+                }
+                else
+                {
+                    summonerIdsPart += summonerIds[i].ToString();
+                }
+            }
+
+            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.summonerAPIVersion +
+                UrlConstants.summonerPart + "/" +
+                summonerIdsPart +
+                UrlConstants.namePart +
+                UrlConstants.apiKeyPart +
+                apiKey);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
+                List<Summoner> littleSummoners = new List<Summoner>();
+
+                foreach (KeyValuePair<string, string> value in values)
+                {
+                    littleSummoners.Add(new Summoner(long.Parse(value.Key), value.Value, region));
+                }
+
+                return littleSummoners;
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<Dictionary<string, List<Team>>> RetrieveTeams(UrlConstants.Region region, List<long> summonerIds)
+        {
+            string ids = "";
+            if (summonerIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 summoners at once";
+                return null;
+            }
+
+            for (int i = 0; i < summonerIds.Count; i++)
+            {
+                if (i != summonerIds.Count - 1)
+                {
+                    ids += summonerIds[i].ToString() + ",";
+                }
+                else
+                {
+                    ids += summonerIds[i].ToString();
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) +
+                    UrlConstants.teamAPIVersion +
+                    UrlConstants.teamPart +
+                    UrlConstants.bySummonerPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of summoner ids";
+                return null;
+            }
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadTeams(responseString);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Dictionary<string, Team>> RetrieveTeam(UrlConstants.Region region, List<string> teamIds)
+        {
+            string ids = "";
+            if (teamIds.Count > 40)
+            {
+                errorString = "Cannot retrieve more than 40 teams at once";
+                return null;
+            }
+
+            for (int i = 0; i < teamIds.Count; i++)
+            {
+                if (i != teamIds.Count - 1)
+                {
+                    ids += teamIds[i] + ",";
+                }
+                else
+                {
+                    ids += teamIds[i];
+                }
+            }
+
+            Uri uri;
+            if (ids != "")
+            {
+                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                    UrlConstants.GetRegion(region) +
+                    UrlConstants.teamAPIVersion +
+                    UrlConstants.teamPart + "/" +
+                    ids +
+                    UrlConstants.apiKeyPart +
+                    CreepScore.apiKey);
+            }
+            else
+            {
+                errorString = "Cannot have an empty list of team ids";
+                return null;
+            }
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadTeam(responseString);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        internal static bool GoodStatusCode(string response)
         {
             return response != "400" &&
                 response != "401" &&
@@ -862,10 +1089,6 @@ namespace CreepScoreAPI
             }
         }
 
-        /// <summary>
-        /// Loads a champion
-        /// </summary>
-        /// <param name="o">json object representing a champion</param>
         List<Champion> LoadChampions(JObject o)
         {
             List<Champion> champions = new List<Champion>();
@@ -924,18 +1147,6 @@ namespace CreepScoreAPI
                         (string)o["tier"]);
         }
 
-        List<string> LoadVersions(JArray a)
-        {
-            List<string> versions = new List<string>();
-
-            for (int i = 0; i < a.Count; i++)
-            {
-                versions.Add((string)a[i]);
-            }
-
-            return versions;
-        }
-
         /// <summary>
         /// Converts a epoch date time to a C# DateTime
         /// </summary>
@@ -946,12 +1157,7 @@ namespace CreepScoreAPI
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(date);
         }
 
-        /// <summary>
-        /// Gets the season
-        /// </summary>
-        /// <param name="season">Season</param>
-        /// <returns>Returns a string representing a season</returns>
-        public static string GetSeason(Season season)
+        internal static string GetSeason(Season season)
         {
             if (season == Season.Season3)
             {

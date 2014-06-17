@@ -71,10 +71,6 @@ namespace CreepScoreAPI
             return teamsData;
         }
 
-        /// <summary>
-        /// Loads the leagues
-        /// </summary>
-        /// <param name="s">json string representing league data</param>
         public static Dictionary<string, List<League>> LoadLeague(string s)
         {
             Dictionary<string, JArray> values = JsonConvert.DeserializeObject<Dictionary<string, JArray>>(s);
@@ -97,6 +93,33 @@ namespace CreepScoreAPI
             }
 
             return leagueData;
+        }
+
+        public static BasicDataStatic LoadBasicDataStatic(JObject o)
+        {
+            return new BasicDataStatic((string)o["colloq"],
+                (bool?)o["consumeOnFull"],
+                (bool?)o["consumed"],
+                (int?)o["depth"],
+                (string)o["description"],
+                (JArray)o["from"],
+                (JObject)o["gold"],
+                (string)o["group"],
+                (bool?)o["hideFromAll"],
+                (int)o["id"],
+                (JObject)o["image"],
+                (bool?)o["inStore"],
+                (JArray)o["into"],
+                (JObject)o["maps"],
+                (string)o["name"],
+                (string)o["plaintext"],
+                (string)o["requiredChampion"],
+                (JObject)o["rune"],
+                (string)o["sanitizedDescription"],
+                (int?)o["specialRecipe"],
+                (int?)o["stacks"],
+                (JObject)o["stats"],
+                (JArray)o["tags"]);
         }
 
         public static ChampionStatic LoadChampionStatic(JObject o)
@@ -173,6 +196,106 @@ namespace CreepScoreAPI
                     (int?)o["stacks"],
                     (JObject)o["stats"],
                     (JArray)o["tags"]);
+        }
+
+        public static List<string> LoadStrings(JArray a)
+        {
+            List<string> tmp = new List<string>();
+
+            for (int i = 0; i < a.Count; i++)
+            {
+                tmp.Add((string)a[i]);    
+            }
+
+            return tmp;
+        }
+
+        public static MasteryListStatic LoadMasteryListStatic(JObject o)
+        {
+            return new MasteryListStatic((JObject)o["data"],
+                (JObject)o["tree"],
+                (string)o["type"],
+                (string)o["version"]);
+        }
+
+        public static MasteryStatic LoadMasteryStatic(JObject o)
+        {
+            return new MasteryStatic((JArray)o["description"],
+                    (int)o["id"],
+                    (JObject)o["image"],
+                    (string)o["name"],
+                    (string)o["prereq"],
+                    (int?)o["ranks"],
+                    (JArray)o["sanitizedDescription"]);
+        }
+
+        public static RuneListStatic LoadRuneListStatic(JObject o)
+        {
+            return new RuneListStatic((JObject)o["basic"],
+                (JObject)o["data"],
+                (string)o["type"],
+                (string)o["version"]);
+        }
+
+        public static RuneStatic LoadRuneStatic(JObject o)
+        {
+            return new RuneStatic((string)o["colloq"],
+                (bool?)o["consumeOnFull"],
+                (bool?)o["consumed"],
+                (int?)o["depth"],
+                (string)o["description"],
+                (JArray)o["from"],
+                (JObject)o["gold"],
+                (string)o["group"],
+                (bool?)o["hideFromAll"],
+                (int)o["id"],
+                (JObject)o["image"],
+                (bool?)o["inStore"],
+                (JArray)o["into"],
+                (JObject)o["maps"],
+                (string)o["name"],
+                (string)o["plaintext"],
+                (string)o["requiredChampion"],
+                (JObject)o["rune"],
+                (string)o["sanitizedDescription"],
+                (int?)o["specialRecipe"],
+                (int?)o["stacks"],
+                (JObject)o["stats"],
+                (JArray)o["tags"]);
+        }
+
+        public static SummonerSpellListStatic LoadSummonerSpellListStatic(JObject o)
+        {
+            return new SummonerSpellListStatic((JObject)o["data"],
+                (string)o["type"],
+                (string)o["version"]);
+        }
+
+        public static SummonerSpellStatic LoadSummonerSpellStatic(JObject o)
+        {
+            return new SummonerSpellStatic((JArray)o["cooldown"],
+                    (string)o["cooldownBurn"],
+                    (JArray)o["cost"],
+                    (string)o["costBurn"],
+                    (string)o["costType"],
+                    (string)o["description"],
+                    (JArray)o["effect"],
+                    (JArray)o["effectBurn"],
+                    (int)o["id"],
+                    (JObject)o["image"],
+                    (string)o["key"],
+                    (JObject)o["leveltip"],
+                    (int)o["maxrank"],
+                    (JArray)o["modes"],
+                    (string)o["name"],
+                    (object)o["range"],
+                    (string)o["rangeBurn"],
+                    (string)o["resource"],
+                    (string)o["sanitizedDescription"],
+                    (string)o["sanitizedTooltip"],
+                    (int?)o["summonerLevel"],
+                    (string)o["tooltip"],
+                    (JArray)o["vars"]);
         }
     }
 }

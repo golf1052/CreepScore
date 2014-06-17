@@ -37,13 +37,7 @@ namespace CreepScoreAPI
 
             foreach (KeyValuePair<string, JObject> pair in values)
             {
-                tmp.Add(pair.Key, new MasteryStatic((JArray)pair.Value["description"],
-                    (int)pair.Value["id"],
-                    (JObject)pair.Value["image"],
-                    (string)pair.Value["name"],
-                    (string)pair.Value["prereq"],
-                    (int?)pair.Value["ranks"],
-                    (JArray)pair.Value["sanitizedDescription"]));
+                tmp.Add(pair.Key, HelperMethods.LoadMasteryStatic(pair.Value));
             }
 
             return tmp;
