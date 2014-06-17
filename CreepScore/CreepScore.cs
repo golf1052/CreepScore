@@ -1107,7 +1107,7 @@ namespace CreepScoreAPI
             }
         }
 
-        List<Champion> LoadChampions(JObject o)
+        public List<Champion> LoadChampions(JObject o)
         {
             List<Champion> champions = new List<Champion>();
             for (int i = 0; i < o["champions"].Count(); i++)
@@ -1123,7 +1123,7 @@ namespace CreepScoreAPI
             return champions;
         }
 
-        Champion LoadChampion(JObject o)
+        public Champion LoadChampion(JObject o)
         {
             return new Champion((bool)o["active"],
                 (bool)o["botEnabled"],
@@ -1133,7 +1133,7 @@ namespace CreepScoreAPI
                 (bool)o["rankedPlayEnabled"]);
         }
 
-        ChampionListStatic LoadChampionListStatic(JObject o)
+        public ChampionListStatic LoadChampionListStatic(JObject o)
         {
             return new ChampionListStatic(((JObject)o["data"]).ToString(),
                 (string)o["format"],
@@ -1143,7 +1143,7 @@ namespace CreepScoreAPI
                 o);
         }
 
-        RealmStatic LoadRealmData(JObject o)
+        public RealmStatic LoadRealmData(JObject o)
         {
             return new RealmStatic((string)o["cdn"],
                 (string)o["css"],
@@ -1156,7 +1156,7 @@ namespace CreepScoreAPI
                 (string)o["v"]);
         }
 
-        League LoadLeague(JObject o)
+        public League LoadLeague(JObject o)
         {
             return new League((JArray)o["entries"],
                         (string)o["name"],
@@ -1175,7 +1175,7 @@ namespace CreepScoreAPI
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(date);
         }
 
-        internal static string GetSeason(Season season)
+        public static string GetSeason(Season season)
         {
             if (season == Season.Season3)
             {
