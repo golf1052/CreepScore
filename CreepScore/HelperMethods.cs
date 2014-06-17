@@ -285,7 +285,7 @@ namespace CreepScoreAPI
                     (JObject)o["image"],
                     (string)o["key"],
                     (JObject)o["leveltip"],
-                    (int)o["maxrank"],
+                    (int?)o["maxrank"],
                     (JArray)o["modes"],
                     (string)o["name"],
                     (object)o["range"],

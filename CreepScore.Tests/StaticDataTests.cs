@@ -104,6 +104,54 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveMasteriesDataNoneTest()
+        {
+            MasteryListStatic masteriesData = await creepScore.RetrieveMasteriesData(UrlConstants.Region.NA, StaticDataConstants.MasteryListData.None);
+
+            Assert.Equal("mastery", masteriesData.type);
+        }
+
+        [Fact]
+        public async void RetrieveMasteryDataTest()
+        {
+            MasteryStatic havoc = await creepScore.RetrieveMasteryData(UrlConstants.Region.NA, 4162, StaticDataConstants.MasteryListData.None);
+
+            Assert.Equal("Havoc", havoc.name);
+        }
+
+        [Fact]
+        public async void RetrieveRunesDataNoneTest()
+        {
+            RuneListStatic runesData = await creepScore.RetrieveRunesData(UrlConstants.Region.NA, StaticDataConstants.RuneListData.None);
+
+            Assert.Equal("rune", runesData.type);
+        }
+
+        [Fact]
+        public async void RetrieveRuneDataTest()
+        {
+            RuneStatic lifeSteal = await creepScore.RetrieveRuneData(UrlConstants.Region.NA, 5412, StaticDataConstants.RuneListData.None);
+
+            Assert.Equal("Greater Quintessence of Life Steal", lifeSteal.name);
+        }
+
+        [Fact]
+        public async void RetrieveSummonerSpellsDataNoneTest()
+        {
+            SummonerSpellListStatic summonerSpellsData = await creepScore.RetrieveSummonerSpellsData(UrlConstants.Region.NA, StaticDataConstants.SpellData.None);
+
+            Assert.Equal("summoner", summonerSpellsData.type);
+        }
+
+        [Fact]
+        public async void RetrieveSummonerSpellDataTest()
+        {
+            SummonerSpellStatic ignite = await creepScore.RetrieveSummonerSpellData(UrlConstants.Region.NA, 14, StaticDataConstants.SpellData.None);
+
+            Assert.Equal("Ignite", ignite.name);
+        }
+
+        [Fact]
         public async void RetrieveRealmDataTest()
         {
             RealmStatic realmData = await creepScore.RetrieveRealmData(UrlConstants.Region.NA);

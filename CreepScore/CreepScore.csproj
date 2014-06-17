@@ -46,7 +46,6 @@
     <Compile Include="MasteryPage.cs" />
     <Compile Include="MasteryPages.cs" />
     <Compile Include="MatchHistorySummary.cs" />
-    <Compile Include="MessageOfDay.cs" />
     <Compile Include="MiniSeries.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerStatsSummary.cs" />
@@ -56,7 +55,6 @@
     <Compile Include="RawStats.cs" />
     <Compile Include="RecentGames.cs" />
     <Compile Include="Roster.cs" />
-    <Compile Include="Rune.cs" />
     <Compile Include="RunePage.cs" />
     <Compile Include="RunePages.cs" />
     <Compile Include="RuneSlot.cs" />
@@ -93,11 +91,9 @@
     <Compile Include="Static Data\Summoner Spell\SummonerSpellListStatic.cs" />
     <Compile Include="Static Data\Summoner Spell\SummonerSpellStatic.cs" />
     <Compile Include="Summoner.cs" />
-    <Compile Include="Talent.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="TeamMemberInfo.cs" />
     <Compile Include="TeamStatDetail.cs" />
-    <Compile Include="TeamStatSummary.cs" />
     <Compile Include="UrlConstants.cs" />
   </ItemGroup>
   <ItemGroup>
