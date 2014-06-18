@@ -16,7 +16,7 @@ namespace CreepScoreAPI
         public List<ItemTreeStatic> tree;
         public string type;
         public string version;
-        public JObject originalObject
+        public JObject originalObject;
 
         public ItemListStatic(JObject basicO,
             JObject dataO,

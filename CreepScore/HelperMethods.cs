@@ -168,7 +168,8 @@ namespace CreepScoreAPI
                 (JArray)o["groups"],
                 (JArray)o["tree"],
                 (string)o["type"],
-                (string)o["version"]);
+                (string)o["version"],
+                o);
         }
 
         public static ItemStatic LoadItemStatic(JObject o)
@@ -215,7 +216,8 @@ namespace CreepScoreAPI
             return new MasteryListStatic((JObject)o["data"],
                 (JObject)o["tree"],
                 (string)o["type"],
-                (string)o["version"]);
+                (string)o["version"],
+                o);
         }
 
         public static MasteryStatic LoadMasteryStatic(JObject o)
@@ -234,7 +236,8 @@ namespace CreepScoreAPI
             return new RuneListStatic((JObject)o["basic"],
                 (JObject)o["data"],
                 (string)o["type"],
-                (string)o["version"]);
+                (string)o["version"],
+                o);
         }
 
         public static RuneStatic LoadRuneStatic(JObject o)
@@ -268,7 +271,8 @@ namespace CreepScoreAPI
         {
             return new SummonerSpellListStatic((JObject)o["data"],
                 (string)o["type"],
-                (string)o["version"]);
+                (string)o["version"],
+                o);
         }
 
         public static SummonerSpellStatic LoadSummonerSpellStatic(JObject o)
