@@ -85,7 +85,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// ID of first summoner spell
         /// </summary>
-        public int spell1ID;
+        public int spell1Id;
 
         /// <summary>
         /// First summoner spell
@@ -95,7 +95,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// ID of second summoner spell
         /// </summary>
-        public int spell2ID;
+        public int spell2Id;
 
         /// <summary>
         /// Second summoner spell
@@ -177,8 +177,8 @@ namespace CreepScoreAPI
             this.ipEarned = ipEarned;
             this.mapId = mapId;
             map = GameConstants.SetMap(mapId);
-            this.spell1ID = spell1ID;
-            this.spell2ID = spell2ID;
+            this.spell1Id = spell1ID;
+            this.spell2Id = spell2ID;
             spell1 = GameConstants.SetSpellType(spell1ID);
             spell2 = GameConstants.SetSpellType(spell2ID);
             LoadStatistics(statisticsO);
