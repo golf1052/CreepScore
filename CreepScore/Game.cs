@@ -85,7 +85,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// ID of first summoner spell
         /// </summary>
-        public int spell1ID;
+        public int spell1Id;
 
         /// <summary>
         /// First summoner spell
@@ -95,7 +95,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// ID of second summoner spell
         /// </summary>
-        public int spell2ID;
+        public int spell2Id;
 
         /// <summary>
         /// Second summoner spell
@@ -140,8 +140,8 @@ namespace CreepScoreAPI
         /// <param name="level">Level</param>
         /// <param name="ipEarned">IP earned</param>
         /// <param name="mapId">Map ID number</param>
-        /// <param name="spell1ID">ID of first summoner spell</param>
-        /// <param name="spell2ID">ID of second summoner spell</param>
+        /// <param name="spell1Id">ID of first summoner spell</param>
+        /// <param name="spell2Id">ID of second summoner spell</param>
         /// <param name="statisticsO">JArray of statistics associated with the game for this summoner</param>
         /// <param name="subTypeString">Game sub-type</param>
         /// <param name="teamId">Team ID associated with game</param>
@@ -155,8 +155,8 @@ namespace CreepScoreAPI
             int ipEarned,
             int level,
             int mapId,
-            int spell1ID,
-            int spell2ID,
+            int spell1Id,
+            int spell2Id,
             JObject statisticsO,
             string subTypeString,
             int teamIdInt)
@@ -177,10 +177,10 @@ namespace CreepScoreAPI
             this.ipEarned = ipEarned;
             this.mapId = mapId;
             map = GameConstants.SetMap(mapId);
-            this.spell1ID = spell1ID;
-            this.spell2ID = spell2ID;
-            spell1 = GameConstants.SetSpellType(spell1ID);
-            spell2 = GameConstants.SetSpellType(spell2ID);
+            this.spell1Id = spell1Id;
+            this.spell2Id = spell2Id;
+            spell1 = GameConstants.SetSpellType(spell1Id);
+            spell2 = GameConstants.SetSpellType(spell2Id);
             LoadStatistics(statisticsO);
             this.subTypeString = subTypeString;
             subType = GameConstants.SetSubType(subTypeString);
