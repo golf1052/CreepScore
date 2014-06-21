@@ -25,17 +25,17 @@ namespace CreepScoreAPI
         /// </summary>
         public enum Region
         {
-            None,
             NA,
             EUW,
             EUNE,
+            OCE,
+            KR,
             BR,
             LAN,
             LAS,
-            OCE,
-            KR,
+            RU,
             TR,
-            RU
+            None
         }
 
         /// <summary>
