@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CreepScoreAPI
 {
@@ -69,6 +70,7 @@ namespace CreepScoreAPI
         public double? rPercentMovementSpeedModPerLevel;
         public double? rPercentTimeDeadMod;
         public double? rPercentTimeDeadModPerLeveldouble;
+        public List<double?> values;
 
         public BasicDataStatsStatic(double? flatArmorMod,
             double? flatAttackSpeedMod,
@@ -136,6 +138,7 @@ namespace CreepScoreAPI
             double? rPercentTimeDeadMod,
             double? rPercentTimeDeadModPerLeveldouble)
         {
+            values = new List<double?>();
             this.flatArmorMod = flatArmorMod;
             this.flatAttackSpeedMod = flatAttackSpeedMod;
             this.flatBlockMod = flatBlockMod;
@@ -201,6 +204,72 @@ namespace CreepScoreAPI
             this.rPercentMovementSpeedModPerLevel = rPercentMovementSpeedModPerLevel;
             this.rPercentTimeDeadMod = rPercentTimeDeadMod;
             this.rPercentTimeDeadModPerLeveldouble = rPercentTimeDeadModPerLeveldouble;
+
+            values.Add(flatArmorMod);
+            values.Add(flatAttackSpeedMod);
+            values.Add(flatBlockMod);
+            values.Add(flatCritChanceMod);
+            values.Add(flatCritDamageMod);
+            values.Add(flatEXPBonus);
+            values.Add(flatEnergyPoolMod);
+            values.Add(flatEnergyRegenMod);
+            values.Add(flatHPPoolMod);
+            values.Add(flatHPRegenMod);
+            values.Add(flatMPPoolMod);
+            values.Add(flatMPRegenMod);
+            values.Add(flatMagicDamageMod);
+            values.Add(flatMovementSpeedMod);
+            values.Add(flatPhysicalDamageMod);
+            values.Add(flatSpellBlockMod);
+            values.Add(percentArmorMod);
+            values.Add(percentAttackSpeedMod);
+            values.Add(percentBlockMod);
+            values.Add(percentCritChanceMod);
+            values.Add(percentCritDamageMod);
+            values.Add(percentDodgeMod);
+            values.Add(percentEXPBonus);
+            values.Add(percentHPPoolMod);
+            values.Add(percentHPRegenMod);
+            values.Add(percentLifeStealMod);
+            values.Add(percentMPPoolMod);
+            values.Add(percentMPRegenMod);
+            values.Add(percentMagicDamageMod);
+            values.Add(percentMovementSpeedMod);
+            values.Add(percentPhysicalDamageMod);
+            values.Add(percentSpellBlockMod);
+            values.Add(percentSpellVampMod);
+            values.Add(rFlatArmorModPerLevel);
+            values.Add(rFlatArmorPenetrationMod);
+            values.Add(rFlatArmorPenetrationModPerLevel);
+            values.Add(rFlatCritChanceModPerLevel);
+            values.Add(rFlatCritDamageModPerLevel);
+            values.Add(rFlatDodgeMod);
+            values.Add(rFlatDodgeModPerLevel);
+            values.Add(rFlatEnergyModPerLevel);
+            values.Add(rFlatEnergyRegenModPerLevel);
+            values.Add(rFlatGoldPer10Mod);
+            values.Add(rFlatHPModPerLevel);
+            values.Add(rFlatHPRegenModPerLevel);
+            values.Add(rFlatMPModPerLevel);
+            values.Add(rFlatMPRegenModPerLevel);
+            values.Add(rFlatMagicDamageModPerLevel);
+            values.Add(rFlatMagicPenetrationMod);
+            values.Add(rFlatMagicPenetrationModPerLevel);
+            values.Add(rFlatMovementSpeedModPerLevel);
+            values.Add(rFlatPhysicalDamageModPerLevel);
+            values.Add(rFlatSpellBlockModPerLevel);
+            values.Add(rFlatTimeDeadMod);
+            values.Add(rFlatTimeDeadModPerLevel);
+            values.Add(rPercentArmorPenetrationMod);
+            values.Add(rPercentArmorPenetrationModPerLevel);
+            values.Add(rPercentAttackSpeedModPerLevel);
+            values.Add(rPercentCooldownMod);
+            values.Add(rPercentCooldownModPerLevel);
+            values.Add(rPercentMagicPenetrationMod);
+            values.Add(rPercentMagicPenetrationModPerLevel);
+            values.Add(rPercentMovementSpeedModPerLevel);
+            values.Add(rPercentTimeDeadMod);
+            values.Add(rPercentTimeDeadModPerLeveldouble);
         }
     }
 }
