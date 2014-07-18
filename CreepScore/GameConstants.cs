@@ -191,7 +191,9 @@ namespace CreepScoreAPI.Constants
             // URF
             Urf,
             // URF_BOT
-            UrfCoop
+            UrfCoop,
+            // NIGHTMARE_BOT
+            DoomBots
         }
 
         /// <summary>
@@ -682,6 +684,10 @@ namespace CreepScoreAPI.Constants
             else if (subType == "URF_BOT")
             {
                 return SubType.UrfCoop;
+            }
+            else if (subType == "NIGHTMARE_BOT")
+            {
+                return SubType.DoomBots;
             }
             else
             {
