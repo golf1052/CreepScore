@@ -39,7 +39,7 @@ namespace CreepScoreAPI.Tests
 
             Assert.NotNull(karma);
             Assert.True(karma.active);
-            Assert.Equal(119, champions.Count);
+            Assert.Equal(120, champions.Count);
         }
 
         [Fact]

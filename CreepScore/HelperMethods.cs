@@ -25,7 +25,7 @@ namespace CreepScoreAPI
                 {
                     teams.Add(new Team((long)team["createDate"],
                         (string)team["fullId"],
-                        (long)team["lastGameDate"],
+                        (long?)team["lastGameDate"],
                         (long)team["lastJoinDate"],
                         (long)team["lastJoinedRankedTeamQueueDate"],
                         (JArray)team["matchHistory"],

@@ -29,7 +29,7 @@ namespace CreepScoreAPI
         /// <summary>
         /// Date of last game specified as epoch milliseconds
         /// </summary>
-        public long lastGameDateLong;
+        public long? lastGameDateLong;
 
         /// <summary>
         /// Date of last game
@@ -135,7 +135,7 @@ namespace CreepScoreAPI
         /// <param name="thirdLastJoinDateLong">Third to last summoner join date specified as epoch milliseconds</param>
         public Team(long createDateLong,
             string fullId,
-            long lastGameDateLong,
+            long? lastGameDateLong,
             long lastJoinDateLong,
             long lastJoinedRankedTeamQueueDateLong,
             JArray matchHistoryA,
@@ -154,12 +154,18 @@ namespace CreepScoreAPI
             createDate = CreepScore.EpochToDateTime(createDateLong);
             this.fullId = fullId;
             this.lastGameDateLong = lastGameDateLong;
-            lastGameDate = CreepScore.EpochToDateTime(lastGameDateLong);
+            if (lastGameDateLong != null)
+            {
+                lastGameDate = CreepScore.EpochToDateTime((long)lastGameDateLong);
+            }
             this.lastJoinDateLong = lastJoinDateLong;
             lastJoinDate = CreepScore.EpochToDateTime(lastJoinDateLong);
             this.lastJoinedRankedTeamQueueDateLong = lastJoinedRankedTeamQueueDateLong;
             lastJoinedRankedTeamQueueDate = CreepScore.EpochToDateTime(lastJoinedRankedTeamQueueDateLong);
-            LoadMatchHistory(matchHistoryA);
+            if (matchHistoryA != null)
+            {
+                LoadMatchHistory(matchHistoryA);
+            }
             this.modifyDateLong = modifyDateLong;
             modifyDate = CreepScore.EpochToDateTime(modifyDateLong);
             this.name = name;
