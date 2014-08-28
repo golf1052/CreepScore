@@ -637,9 +637,9 @@ namespace CreepScoreAPI
         public async Task<Dictionary<string, List<League>>> RetrieveLeague(CreepScore.Region region, List<string> teamIds)
         {
             string ids = "";
-            if (teamIds.Count > 40)
+            if (teamIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 40 teams at once";
+                errorString = "Cannot retrieve more than 10 teams at once";
                 return null;
             }
 
@@ -688,9 +688,9 @@ namespace CreepScoreAPI
         public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry(CreepScore.Region region, List<string> teamIds)
         {
             string ids = "";
-            if (teamIds.Count > 40)
+            if (teamIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 40 teams at once";
+                errorString = "Cannot retrieve more than 10 teams at once";
                 return null;
             }
 
@@ -947,9 +947,9 @@ namespace CreepScoreAPI
         public async Task<Dictionary<string, List<Team>>> RetrieveTeams(CreepScore.Region region, List<long> summonerIds)
         {
             string ids = "";
-            if (summonerIds.Count > 40)
+            if (summonerIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 40 summoners at once";
+                errorString = "Cannot retrieve more than 10 summoners at once";
                 return null;
             }
 
@@ -997,9 +997,9 @@ namespace CreepScoreAPI
         public async Task<Dictionary<string, Team>> RetrieveTeam(CreepScore.Region region, List<string> teamIds)
         {
             string ids = "";
-            if (teamIds.Count > 40)
+            if (teamIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 40 teams at once";
+                errorString = "Cannot retrieve more than 10 teams at once";
                 return null;
             }
 

@@ -12,8 +12,6 @@ namespace CreepScoreAPI.Constants
     /// <remarks>For url making stuff</remarks>
     public class UrlConstants
     {
-        
-
         /// <summary>
         /// Base url
         /// </summary>
@@ -85,7 +83,7 @@ namespace CreepScoreAPI.Constants
         /// <summary>
         /// League API version
         /// </summary>
-        public static string leagueAPIVersion = "/v2.4";
+        public static string leagueAPIVersion = "/v2.5";
 
         /// <summary>
         /// LoL Static Data API version
@@ -115,7 +113,7 @@ namespace CreepScoreAPI.Constants
         /// <summary>
         /// Team API version
         /// </summary>
-        public static string teamAPIVersion = "/v2.3";
+        public static string teamAPIVersion = "/v2.4";
 
         /// <summary>
         /// Champion part of url
