@@ -169,9 +169,6 @@ namespace CreepScoreAPI
         /// <summary>
         /// RawStat constructor
         /// </summary>
-        /// <param name="id">Raw stat ID</param>
-        /// <param name="name">Raw stat name</param>
-        /// <param name="value">Raw stat value</param>
         public RawStats(int? assists,
             int? barracksKilled,
             int? championsKilled,

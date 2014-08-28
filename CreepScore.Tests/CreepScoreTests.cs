@@ -127,8 +127,8 @@ namespace CreepScoreAPI.Tests
             summonerIds2.Add(7460);
             List<Summoner> summoners2 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerIds2);
 
-            Assert.Equal("golf1052", summoners2[1].name);
-            Assert.Equal("Chaox", summoners2[0].name);
+            Assert.Equal("golf1052", summoners2[0].name);
+            Assert.Equal("Chaox", summoners2[1].name);
 
             List<long> summonerIds3 = new List<long>();
             for (int i = 0; i < 41; i++)
@@ -156,8 +156,8 @@ namespace CreepScoreAPI.Tests
             summonerIds2.Add(7460);
             List<Summoner> summoners2 = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds2);
 
-            Assert.Equal("golf1052", summoners2[1].name);
-            Assert.Equal("Chaox", summoners2[0].name);
+            Assert.Equal("golf1052", summoners2[0].name);
+            Assert.Equal("Chaox", summoners2[1].name);
 
             List<long> summonerIds3 = new List<long>();
             for (int i = 0; i < 41; i++)

@@ -93,6 +93,16 @@ namespace CreepScoreAPI.Constants
         public static string staticDataAPIVersion = "/v1.2";
 
         /// <summary>
+        /// Advanced match API version
+        /// </summary>
+        public static string matchAPIVersion = "/v2.2";
+
+        /// <summary>
+        /// Advanced match history API version
+        /// </summary>
+        public static string matchHistoryAPIVersion = "/v2.2";
+
+        /// <summary>
         /// Stats API version
         /// </summary>
         public static string statsAPIVersion = "/v1.3";
@@ -241,6 +251,16 @@ namespace CreepScoreAPI.Constants
         /// Versions part of url
         /// </summary>
         public static string versionsPart = "/versions";
+
+        /// <summary>
+        /// Match part of url
+        /// </summary>
+        public static string matchPart = "/match";
+
+        /// <summary>
+        /// Match history part of url
+        /// </summary>
+        public static string matchHistoryPart = "/matchhistory";
 
         /// <summary>
         /// Gets the region

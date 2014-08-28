@@ -733,6 +733,7 @@ namespace CreepScoreAPI
             }
             else
             {
+                errorString = responseString;
                 return null;
             }
         }
@@ -1038,6 +1039,51 @@ namespace CreepScoreAPI
             }
             else
             {
+                return null;
+            }
+        }
+
+        public async Task<MatchDetailAdvanced> RetrieveMatch(CreepScore.Region region, long matchId, bool includeTimeline = false)
+        {
+            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.matchAPIVersion +
+                UrlConstants.matchPart + "/" +
+                matchId.ToString() + "?" +
+                "includeTimeline=" + includeTimeline.ToString() +
+                UrlConstants.andApiKeyPart + apiKey);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadMatchDetailAdvanced(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<PlayerHistoryAdvanced> RetrieveMatchHistory(CreepScore.Region region, long summonerId)
+        {
+            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.matchHistoryAPIVersion +
+                UrlConstants.matchHistoryPart + "/" +
+                summonerId.ToString() +
+                UrlConstants.apiKeyPart + apiKey);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadPlayerHistoryAdvanced(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
                 return null;
             }
         }

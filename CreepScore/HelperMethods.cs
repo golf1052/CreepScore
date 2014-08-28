@@ -210,6 +210,18 @@ namespace CreepScoreAPI
             return tmp;
         }
 
+        public static List<int> LoadInts(JArray a)
+        {
+            List<int> tmp = new List<int>();
+            
+            for (int i = 0; i < a.Count; i++)
+            {
+                tmp.Add((int)a[i]);
+            }
+
+            return tmp;
+        }
+
         public static MasteryListStatic LoadMasteryListStatic(JObject o)
         {
             return new MasteryListStatic((JObject)o["data"],
@@ -296,6 +308,27 @@ namespace CreepScoreAPI
                     (int?)o["summonerLevel"],
                     (string)o["tooltip"],
                     (JArray)o["vars"]);
+        }
+
+        public static MatchDetailAdvanced LoadMatchDetailAdvanced(JObject o)
+        {
+            return new MatchDetailAdvanced((long)o["mapId"],
+                (long)o["matchCreation"],
+                (long)o["matchDuration"],
+                (long)o["matchId"],
+                (string)o["matchVersion"],
+                (JArray)o["participantIdentities"],
+                (JArray)o["participants"],
+                (string)o["queueType"],
+                (string)o["region"],
+                (string)o["season"],
+                (JArray)o["teams"],
+                (JObject)o["timeline"]);
+        }
+
+        public static PlayerHistoryAdvanced LoadPlayerHistoryAdvanced(JObject o)
+        {
+            return new PlayerHistoryAdvanced((JArray)o["matches"]);
         }
     }
 }

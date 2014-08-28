@@ -23,6 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +35,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Advanced Match History\AdvancedMatchHistoryConstants.cs" />
+    <Compile Include="Advanced Match History\BannedChampionAdvanced.cs" />
+    <Compile Include="Advanced Match History\EventAdvanced.cs" />
+    <Compile Include="Advanced Match History\FrameAdvanced.cs" />
+    <Compile Include="Advanced Match History\MatchDetailAdvanced.cs" />
+    <Compile Include="Advanced Match History\MatchSummaryAdvanced.cs" />
+    <Compile Include="Advanced Match History\MatchTimelineAdvanced.cs" />
+    <Compile Include="Advanced Match History\ParticipantAdvanced.cs" />
+    <Compile Include="Advanced Match History\ParticipantFrameAdvanced.cs" />
+    <Compile Include="Advanced Match History\ParticipantIdentityAdvanced.cs" />
+    <Compile Include="Advanced Match History\ParticipantStatsAdvanced.cs" />
+    <Compile Include="Advanced Match History\ParticipantTimelineAdvanced.cs" />
+    <Compile Include="Advanced Match History\ParticipantTimelineDataAdvanced.cs" />
+    <Compile Include="Advanced Match History\PlayerAdvanced.cs" />
+    <Compile Include="Advanced Match History\PlayerHistoryAdvanced.cs" />
+    <Compile Include="Advanced Match History\PositionAdvanced.cs" />
+    <Compile Include="Advanced Match History\TeamAdvanced.cs" />
     <Compile Include="AggregatedStats.cs" />
     <Compile Include="Champion.cs" />
     <Compile Include="ChampionStats.cs" />
