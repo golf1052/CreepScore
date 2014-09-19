@@ -58,6 +58,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="HelperMethods.cs" />
+    <Compile Include="Incident.cs" />
     <Compile Include="League.cs" />
     <Compile Include="LeagueEntry.cs" />
     <Compile Include="CreepScore.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="MasteryPage.cs" />
     <Compile Include="MasteryPages.cs" />
     <Compile Include="MatchHistorySummary.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="MiniSeries.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerStatsSummary.cs" />
@@ -77,6 +79,9 @@
     <Compile Include="RunePage.cs" />
     <Compile Include="RunePages.cs" />
     <Compile Include="RuneSlot.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="Shard.cs" />
+    <Compile Include="ShardStatus.cs" />
     <Compile Include="Static Data\BasicDataStatic.cs" />
     <Compile Include="Static Data\BasicDataStatsStatic.cs" />
     <Compile Include="Static Data\Champion\BlockItemStatic.cs" />
@@ -113,6 +118,7 @@
     <Compile Include="Team.cs" />
     <Compile Include="TeamMemberInfo.cs" />
     <Compile Include="TeamStatDetail.cs" />
+    <Compile Include="Translation.cs" />
     <Compile Include="UrlConstants.cs" />
   </ItemGroup>
   <ItemGroup>

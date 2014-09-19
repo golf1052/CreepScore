@@ -586,6 +586,39 @@ namespace CreepScoreAPI
             }
         }
 
+        public async Task<List<Shard>> RetrieveShards()
+        {
+            Uri uri;
+            uri = new Uri("http://status.leagueoflegends.com/shards");
+            string responseString = await GetWebData(uri);
+            if (GoodStatusCode(responseString))
+            {
+                return LoadShards(JArray.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<ShardStatus> RetrieveShardStatus(Region region)
+        {
+            Uri uri;
+            uri = new Uri("http://status.leagueoflegends.com/shards/" +
+            UrlConstants.GetRegion(region));
+            string responseString = await GetWebData(uri);
+            if (GoodStatusCode(responseString))
+            {
+                return LoadShardStatus(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
         public async Task<List<Champion>> RetrieveChampions(CreepScore.Region region, bool freeToPlay = false)
         {
             Uri uri;
@@ -1209,6 +1242,30 @@ namespace CreepScoreAPI
                         (string)o["participantId"],
                         (string)o["queue"],
                         (string)o["tier"]);
+        }
+
+        public List<Shard> LoadShards(JArray a)
+        {
+            List<Shard> shards = new List<Shard>();
+            for (int i = 0; i < a.Count; i++)
+            {
+                shards.Add(new Shard((string)a[i]["hostname"],
+                    (JArray)a[i]["locales"],
+                    (string)a[i]["name"],
+                    (string)a[i]["region_tag"],
+                    (string)a[i]["slug"]));
+            }
+            return shards;
+        }
+
+        public ShardStatus LoadShardStatus(JObject o)
+        {
+            return new ShardStatus((string)o["hostname"],
+                (JArray)o["locales"],
+                (string)o["name"],
+                (string)o["region_tag"],
+                (JArray)o["services"],
+                (string)o["slug"]);
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace CreepScoreAPI
         public string costBurn;
         public string costType;
         public string description;
-        public List<List<int>> effect;
+        public List<List<double>> effect;
         public List<string> effectBurn;
         public ImageStatic image;
         public string key;
@@ -56,7 +56,7 @@ namespace CreepScoreAPI
             altImages = new List<ImageStatic>();
             cooldown = new List<double>();
             cost = new List<int>();
-            effect = new List<List<int>>();
+            effect = new List<List<double>>();
             effectBurn = new List<string>();
             rangeList = new List<int>();
             vars = new List<SpellVarsStatic>();
@@ -136,13 +136,20 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < a.Count; i++)
             {
-                List<int> tmp = new List<int>();
-                JArray b = (JArray)a[i];
-                for (int j = 0; j < b.Count; j++)
+                List<double> tmp = new List<double>();
+                if (a[i].GetType() != typeof(JArray))
                 {
-                    tmp.Add((int)b[j]);
+                    // it's null?
+                    // (it's actually null, why rito)
                 }
-
+                else
+                {
+                    JArray b = (JArray)a[i];
+                    for (int j = 0; j < b.Count; j++)
+                    {
+                        tmp.Add((int)b[j]);
+                    }
+                }
                 effect.Add(tmp);
             }
         }

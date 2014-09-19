@@ -91,6 +91,11 @@ namespace CreepScoreAPI.Constants
         public static string staticDataAPIVersion = "/v1.2";
 
         /// <summary>
+        /// LoL status API version (not actually used)
+        /// </summary>
+        public static string statusAPIVersion = "/v1.0";
+
+        /// <summary>
         /// Advanced match API version
         /// </summary>
         public static string matchAPIVersion = "/v2.2";

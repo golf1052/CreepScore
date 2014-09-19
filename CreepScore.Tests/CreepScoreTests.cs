@@ -39,7 +39,7 @@ namespace CreepScoreAPI.Tests
 
             Assert.NotNull(karma);
             Assert.True(karma.active);
-            Assert.Equal(120, champions.Count);
+            Assert.Equal(121, champions.Count);
         }
 
         [Fact]
@@ -226,6 +226,29 @@ namespace CreepScoreAPI.Tests
             Dictionary<string, List<League>> leagueData = await creepScore.RetrieveLeagueEntry(CreepScore.Region.NA, teamIds);
 
             Assert.Equal("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861", leagueData["TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861"][0].entries[0].playerOrTeamId);
+        }
+
+        [Fact]
+        public async void RetrieveShardsTest()
+        {
+            List<Shard> shards = await creepScore.RetrieveShards();
+            Shard northAmerica = null;
+            foreach (Shard shard in shards)
+            {
+                if (shard.name == "North America")
+                {
+                    northAmerica = shard;
+                    break;
+                }
+            }
+            Assert.NotNull(northAmerica);
+        }
+        
+        [Fact]
+        public async void RetrieveShardStatusTest()
+        {
+            ShardStatus shardStatus = await creepScore.RetrieveShardStatus(CreepScore.Region.NA);
+            Assert.Equal("North America", shardStatus.name);
         }
     }
 }
