@@ -3,7 +3,7 @@ CreepScore
 
 Unofficial C# League of Legends API Portable Class Library.
 
-NuGet Package avalible [here](https://www.nuget.org/packages/Creep.Score/0.1.0)
+NuGet Package avalible [here](https://www.nuget.org/packages/Creep.Score/0.1.0)  
 This library uses the JSON.net library. Avalible [here](http://james.newtonking.com/json)  
 This library uses the HttpClient Portable Class library. Avalible [here](https://www.nuget.org/packages/Microsoft.Net.Http)  
 This library uses prerelease version of xUnit.net for tests. Avalible [here](http://www.nuget.org/packages/xunit/)  
