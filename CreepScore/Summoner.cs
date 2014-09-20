@@ -54,6 +54,8 @@ namespace CreepScoreAPI
 
         private string errorString;
 
+        private List<int> championIds = new List<int>();
+
         public string ErrorString
         {
             get
@@ -349,6 +351,91 @@ namespace CreepScoreAPI
             }
             else
             {
+                return null;
+            }
+        }
+
+        public async Task<PlayerHistoryAdvanced> RetrieveMatchHistory(CreepScore.Region region, List<int> championIds = null, List<GameConstants.Queue> rankedQueues = null, int? beginIndex = null, int? endIndex = null)
+        {
+            string url = UrlConstants.GetBaseUrl(region) + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.matchHistoryAPIVersion +
+                UrlConstants.matchHistoryPart + "/" +
+                id.ToString() + "?";
+
+            if (championIds != null)
+            {
+                if (championIds.Count != 0)
+                {
+                    url += "championIds=";
+
+                    for (int i = 0; i < championIds.Count; i++)
+                    {
+                        if (i + 1 == championIds.Count)
+                        {
+                            url += championIds[i].ToString() + "&";
+                        }
+                        else
+                        {
+                            url += championIds[i].ToString() + ",";
+                        }
+                    }
+                }
+            }
+
+            if (rankedQueues != null)
+            {
+                if (rankedQueues.Count != 0)
+                {
+                    string tmpRankedQueues = "";
+                    for (int i = 0; i < rankedQueues.Count; i++)
+                    {
+                        if (rankedQueues[i] == GameConstants.Queue.None)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (i + 1 == rankedQueues.Count)
+                            {
+                                tmpRankedQueues += GameConstants.GetQueue(rankedQueues[i]);
+                            }
+                            else
+                            {
+                                tmpRankedQueues += GameConstants.GetQueue(rankedQueues[i]) + ",";
+                            }
+                        }
+                    }
+                    if (tmpRankedQueues != "")
+                    {
+                        url += "rankedQueues=" + tmpRankedQueues + "&";
+                    }
+                }
+            }
+
+            if (beginIndex != null)
+            {
+                url += "beginIndex=" + beginIndex.Value.ToString() + "&";
+            }
+
+            if (endIndex != null)
+            {
+                url += "endIndex=" + endIndex.Value.ToString() + "&";
+            }
+            url += "api_key=" +
+                CreepScore.apiKey;
+
+            Uri uri = new Uri(url);
+
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadPlayerHistoryAdvanced(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
                 return null;
             }
         }

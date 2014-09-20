@@ -316,6 +316,8 @@ namespace CreepScoreAPI
                 (long)o["matchCreation"],
                 (long)o["matchDuration"],
                 (long)o["matchId"],
+                (string)o["matchMode"],
+                (string)o["matchType"],
                 (string)o["matchVersion"],
                 (JArray)o["participantIdentities"],
                 (JArray)o["participants"],

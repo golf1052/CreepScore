@@ -26,6 +26,7 @@ namespace CreepScoreAPI
         {
             PlayerAdvanced tmp = new PlayerAdvanced((string)o["matchHistoryUri"],
                 (int)o["profileIcon"],
+                (long)o["summonerId"],
                 (string)o["summonerName"]);
             return tmp;
         }

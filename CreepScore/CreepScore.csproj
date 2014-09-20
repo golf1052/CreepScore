@@ -39,6 +39,7 @@
     <Compile Include="Advanced Match History\BannedChampionAdvanced.cs" />
     <Compile Include="Advanced Match History\EventAdvanced.cs" />
     <Compile Include="Advanced Match History\FrameAdvanced.cs" />
+    <Compile Include="Advanced Match History\MasteryAdvanced.cs" />
     <Compile Include="Advanced Match History\MatchDetailAdvanced.cs" />
     <Compile Include="Advanced Match History\MatchSummaryAdvanced.cs" />
     <Compile Include="Advanced Match History\MatchTimelineAdvanced.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Advanced Match History\PlayerAdvanced.cs" />
     <Compile Include="Advanced Match History\PlayerHistoryAdvanced.cs" />
     <Compile Include="Advanced Match History\PositionAdvanced.cs" />
+    <Compile Include="Advanced Match History\RuneAdvanced.cs" />
     <Compile Include="Advanced Match History\TeamAdvanced.cs" />
     <Compile Include="AggregatedStats.cs" />
     <Compile Include="Champion.cs" />

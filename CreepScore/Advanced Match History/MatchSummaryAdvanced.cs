@@ -28,6 +28,16 @@ namespace CreepScoreAPI
         public long matchId;
 
         /// <summary>
+        /// Match mode
+        /// </summary>
+        public GameConstants.GameMode matchMode;
+
+        /// <summary>
+        /// Match type
+        /// </summary>
+        public GameConstants.GameType matchType;
+
+        /// <summary>
         /// Match version
         /// </summary>
         public string matchVersion;
@@ -61,6 +71,8 @@ namespace CreepScoreAPI
             long matchCreation,
             long matchDuration,
             long matchId,
+            string matchMode,
+            string matchType,
             string matchVersion,
             JArray participantIdentitiesA,
             JArray participantsA,
@@ -72,6 +84,8 @@ namespace CreepScoreAPI
             this.matchCreation = matchCreation;
             this.matchDuration = matchDuration;
             this.matchId = matchId;
+            this.matchMode = GameConstants.SetGameMode(matchMode);
+            this.matchType = GameConstants.SetGameType(matchType);
             this.matchVersion = matchVersion;
             if (participantIdentitiesA != null)
             {
@@ -102,7 +116,9 @@ namespace CreepScoreAPI
             for (int i = 0; i < a.Count; i++)
             {
                 tmp.Add(new ParticipantAdvanced((int)a[i]["championId"],
+                    (JArray)a[i]["masteries"],
                     (int)a[i]["participantId"],
+                    (JArray)a[i]["runes"],
                     (int)a[i]["spell1Id"],
                     (int)a[i]["spell2Id"],
                     (JObject)a[i]["stats"],

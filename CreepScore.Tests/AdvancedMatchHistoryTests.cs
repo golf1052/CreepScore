@@ -23,12 +23,5 @@ namespace CreepScoreAPI.Tests
             MatchDetailAdvanced matchWithTimeline = await creepScore.RetrieveMatch(CreepScore.Region.NA, 1511441355, true);
             Assert.Equal("4.15.0.238", match.matchVersion);
         }
-
-        [Fact]
-        public async void RetrieveMatchHistoryTest()
-        {
-            PlayerHistoryAdvanced playerMatches = await creepScore.RetrieveMatchHistory(CreepScore.Region.NA, 26040955);
-            Assert.Equal(10, playerMatches.matches.Count);
-        }
     }
 }

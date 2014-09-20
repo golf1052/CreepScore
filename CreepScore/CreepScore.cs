@@ -1099,28 +1099,6 @@ namespace CreepScoreAPI
             }
         }
 
-        public async Task<PlayerHistoryAdvanced> RetrieveMatchHistory(CreepScore.Region region, long summonerId)
-        {
-            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.matchHistoryAPIVersion +
-                UrlConstants.matchHistoryPart + "/" +
-                summonerId.ToString() +
-                UrlConstants.apiKeyPart + apiKey);
-
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
-            {
-                return HelperMethods.LoadPlayerHistoryAdvanced(JObject.Parse(responseString));
-            }
-            else
-            {
-                errorString = responseString;
-                return null;
-            }
-        }
-
         internal static bool GoodStatusCode(string response)
         {
             return response != "400" &&

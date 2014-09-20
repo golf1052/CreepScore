@@ -42,14 +42,22 @@ namespace CreepScoreAPI
             List<EventAdvanced> tmp = new List<EventAdvanced>();
             for (int i = 0; i < a.Count; i++)
             {
-                tmp.Add(new EventAdvanced((JArray)a[i]["assistingParticipantIds"],
+                tmp.Add(new EventAdvanced((string)a[i]["ascendedType"],
+                    (JArray)a[i]["assistingParticipantIds"],
                     (string)a[i]["buildingType"],
                     (int?)a[i]["creatorId"],
                     (string)a[i]["eventType"],
+                    (int?)a[i]["itemAfter"],
+                    (int?)a[i]["itemBefore"],
+                    (int?)a[i]["itemId"],
                     (int?)a[i]["killerId"],
                     (string)a[i]["laneType"],
+                    (string)a[i]["levelUpType"],
                     (string)a[i]["monsterType"],
+                    (int?)a[i]["participantId"],
+                    (string)a[i]["pointCaptured"],
                     (JObject)a[i]["position"],
+                    (int?)a[i]["skillSlot"],
                     (int?)a[i]["teamId"],
                     (long)a[i]["timestamp"],
                     (string)a[i]["towerType"],

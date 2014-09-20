@@ -15,16 +15,23 @@ namespace CreepScoreAPI
         public int profileIcon;
 
         /// <summary>
+        /// Summoner ID
+        /// </summary>
+        public long summonerId;
+
+        /// <summary>
         /// Summoner name
         /// </summary>
         public string summonerName;
 
         public PlayerAdvanced(string matchHistoryUri,
             int profileIcon,
+            long summonerId,
             string summonerName)
         {
             this.matchHistoryUri = matchHistoryUri;
             this.profileIcon = profileIcon;
+            this.summonerId = summonerId;
             this.summonerName = summonerName;
         }
     }

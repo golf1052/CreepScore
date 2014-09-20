@@ -139,5 +139,17 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal("HFGs", teams["26040955"][0].tag);
         }
+
+        [Fact]
+        public async void RetrieveMatchHistoryTest()
+        {
+            PlayerHistoryAdvanced playerMatches = await golf1052.RetrieveMatchHistory(CreepScore.Region.NA);
+            Assert.Equal(10, playerMatches.matches.Count);
+
+            List<int> champions = new List<int>(new int[] { 18, 96 });
+            List<GameConstants.Queue> queues = new List<GameConstants.Queue>(new GameConstants.Queue[] { GameConstants.Queue.Solo5 });
+            PlayerHistoryAdvanced morePlayerMatches = await golf1052.RetrieveMatchHistory(CreepScore.Region.NA, champions, queues, 0, 1);
+            Assert.Equal(1, morePlayerMatches.matches.Count);
+        }
     }
 }

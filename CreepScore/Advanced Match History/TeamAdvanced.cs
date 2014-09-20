@@ -17,6 +17,11 @@ namespace CreepScoreAPI
         public int baronKills;
 
         /// <summary>
+        /// If game was a dominion game, specifies the points the team had at game end, otherwise null
+        /// </summary>
+        public long? dominionVictoryScore;
+
+        /// <summary>
         /// Number of times the team killed dragon
         /// </summary>
         public int dragonKills;
@@ -73,6 +78,7 @@ namespace CreepScoreAPI
 
         public TeamAdvanced(JArray bansA,
             int baronKills,
+            long? dominionVictoryScore,
             int dragonKills,
             bool firstBaron,
             bool firstBlood,
@@ -90,6 +96,7 @@ namespace CreepScoreAPI
                 bans = LoadBans(bansA);
             }
             this.baronKills = baronKills;
+            this.dominionVictoryScore = dominionVictoryScore;
             this.dragonKills = dragonKills;
             this.firstBaron = firstBaron;
             this.firstBlood = firstBlood;

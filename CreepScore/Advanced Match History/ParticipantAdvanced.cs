@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace CreepScoreAPI
@@ -11,9 +12,19 @@ namespace CreepScoreAPI
         public int championId;
 
         /// <summary>
+        /// List of mastery information
+        /// </summary>
+        public List<MasteryAdvanced> masteries;
+
+        /// <summary>
         /// Participant ID
         /// </summary>
         public int participantId;
+
+        /// <summary>
+        /// List of rune information
+        /// </summary>
+        public List<RuneAdvanced> runes;
 
         /// <summary>
         /// First summoner spell ID
@@ -41,7 +52,9 @@ namespace CreepScoreAPI
         public ParticipantTimelineAdvanced timeline;
 
         public ParticipantAdvanced(int championId,
+            JArray masteriesA,
             int participantId,
+            JArray runesA,
             int spell1Id,
             int spell2Id,
             JObject stats,
@@ -49,7 +62,15 @@ namespace CreepScoreAPI
             JObject timeline)
         {
             this.championId = championId;
+            if (masteriesA != null)
+            {
+                this.masteries = LoadMasteries(masteriesA);
+            }
             this.participantId = participantId;
+            if (runesA != null)
+            {
+                this.runes = LoadRunes(runesA);
+            }
             this.spell1Id = spell1Id;
             this.spell2Id = spell2Id;
             if (stats != null)
@@ -61,6 +82,28 @@ namespace CreepScoreAPI
             {
                 this.timeline = LoadTimeline(timeline);
             }
+        }
+
+        List<MasteryAdvanced> LoadMasteries(JArray a)
+        {
+            List<MasteryAdvanced> tmp = new List<MasteryAdvanced>();
+            for (int i = 0; i < a.Count; i++)
+            {
+                tmp.Add(new MasteryAdvanced((long)a[i]["masteryId"],
+                    (long)a[i]["rank"]));
+            }
+            return tmp;
+        }
+
+        List<RuneAdvanced> LoadRunes(JArray a)
+        {
+            List<RuneAdvanced> tmp = new List<RuneAdvanced>();
+            for (int i = 0; i < a.Count; i++)
+            {
+                tmp.Add(new RuneAdvanced((long)a[i]["rank"],
+                    (long)a[i]["runeId"]));
+            }
+            return tmp;
         }
 
         ParticipantStatsAdvanced LoadStats(JObject o)

@@ -4,6 +4,14 @@ namespace CreepScoreAPI.Constants
 {
     public class AdvancedMatchHistoryConstants
     {
+        public enum AscendedTypeAdvanced
+        {
+            ChampionAscended,
+            ClearAscended,
+            MinionAscended,
+            Other
+        }
+
         public enum BuildingTypeAdvanced
         {
             InhibitorBuilding,
@@ -13,9 +21,16 @@ namespace CreepScoreAPI.Constants
 
         public enum EventTypeAdvanced
         {
+            Ascended,
             BuildingKill,
+            CapturePoint,
             ChampionKill,
             EliteMonsterKill,
+            ItemDestroyed,
+            ItemPurchased,
+            ItemSold,
+            ItemUndo,
+            SkillLevelUp,
             WardKill,
             WardPlaced,
             Other
@@ -29,6 +44,13 @@ namespace CreepScoreAPI.Constants
             Other
         }
 
+        public enum LevelUpTypeAdvanced
+        {
+            Evolve,
+            Normal,
+            Other
+        }
+
         public enum MonsterTypeAdvanced
         {
             BaronNashor,
@@ -36,6 +58,16 @@ namespace CreepScoreAPI.Constants
             Dragon,
             RedLizard,
             Vilemaw,
+            Other
+        }
+
+        public enum PointCapturedAdvanced
+        {
+            PointA,
+            PointB,
+            PointC,
+            PointD,
+            PointE,
             Other
         }
 
@@ -111,6 +143,7 @@ namespace CreepScoreAPI.Constants
             Nightmare5Rank1,
             Nightmare5Rank2,
             Nightmare5Rank5,
+            Ascension,
             Other
         }
 
@@ -118,9 +151,29 @@ namespace CreepScoreAPI.Constants
         {
             Preseason3,
             Season3,
-            Preseason4,
-            Season4,
+            Preseason2014,
+            Season2014,
             Other
+        }
+
+        public static AscendedTypeAdvanced SetAscendedType(string ascendedType)
+        {
+            if (ascendedType == "CHAMPION_ASCENDED")
+            {
+                return AscendedTypeAdvanced.ChampionAscended;
+            }
+            else if (ascendedType == "CLEAR_ASCENDED")
+            {
+                return AscendedTypeAdvanced.ClearAscended;
+            }
+            else if (ascendedType == "MINION_ASCENDED")
+            {
+                return AscendedTypeAdvanced.MinionAscended;
+            }
+            else
+            {
+                return AscendedTypeAdvanced.Other;
+            }
         }
 
         public static BuildingTypeAdvanced SetBuildingType(string buildingType)
@@ -141,9 +194,17 @@ namespace CreepScoreAPI.Constants
 
         public static EventTypeAdvanced SetEventType(string eventType)
         {
-            if (eventType == "BUILDING_KILL")
+            if (eventType == "ASCENDED_EVENT")
+            {
+                return EventTypeAdvanced.Ascended;
+            }
+            else if (eventType == "BUILDING_KILL")
             {
                 return EventTypeAdvanced.BuildingKill;
+            }
+            else if (eventType == "CAPTURE_POINT")
+            {
+                return EventTypeAdvanced.CapturePoint;
             }
             else if (eventType == "CHAMPION_KILL")
             {
@@ -152,6 +213,26 @@ namespace CreepScoreAPI.Constants
             else if (eventType == "ELITE_MONSTER_KILL")
             {
                 return EventTypeAdvanced.EliteMonsterKill;
+            }
+            else if (eventType == "ITEM_DESTROYED")
+            {
+                return EventTypeAdvanced.ItemDestroyed;
+            }
+            else if (eventType == "ITEM_PURCHASED")
+            {
+                return EventTypeAdvanced.ItemPurchased;
+            }
+            else if (eventType == "ITEM_SOLD")
+            {
+                return EventTypeAdvanced.ItemSold;
+            }
+            else if (eventType == "ITEM_UNDO")
+            {
+                return EventTypeAdvanced.ItemUndo;
+            }
+            else if (eventType == "SKILL_LEVEL_UP")
+            {
+                return EventTypeAdvanced.SkillLevelUp;
             }
             else if (eventType == "WARD_KILL")
             {
@@ -187,6 +268,22 @@ namespace CreepScoreAPI.Constants
             }
         }
 
+        public static LevelUpTypeAdvanced SetLevelUpType(string levelUpType)
+        {
+            if (levelUpType == "EVOLVE")
+            {
+                return LevelUpTypeAdvanced.Evolve;
+            }
+            else if (levelUpType == "NORMAL")
+            {
+                return LevelUpTypeAdvanced.Normal;
+            }
+            else
+            {
+                return LevelUpTypeAdvanced.Other;
+            }
+        }
+
         public static MonsterTypeAdvanced SetMonsterType(string monsterType)
         {
             if (monsterType == "BARON_NASHOR")
@@ -212,6 +309,34 @@ namespace CreepScoreAPI.Constants
             else
             {
                 return MonsterTypeAdvanced.Other;
+            }
+        }
+
+        public static PointCapturedAdvanced SetPointCaptured(string pointCaptured)
+        {
+            if (pointCaptured == "POINT_A")
+            {
+                return PointCapturedAdvanced.PointA;
+            }
+            else if (pointCaptured == "POINT_B")
+            {
+                return PointCapturedAdvanced.PointB;
+            }
+            else if (pointCaptured == "POINT_C")
+            {
+                return PointCapturedAdvanced.PointC;
+            }
+            else if (pointCaptured == "POINT_D")
+            {
+                return PointCapturedAdvanced.PointD;
+            }
+            else if (pointCaptured == "POINT_E")
+            {
+                return PointCapturedAdvanced.PointE;
+            }
+            else
+            {
+                return PointCapturedAdvanced.Other;
             }
         }
 
@@ -449,6 +574,10 @@ namespace CreepScoreAPI.Constants
             {
                 return QueueTypeAdvanced.Nightmare5Rank5;
             }
+            else if (queueType == "ASCENSION_5x5")
+            {
+                return QueueTypeAdvanced.Ascension;
+            }
             else
             {
                 return QueueTypeAdvanced.Other;
@@ -465,13 +594,13 @@ namespace CreepScoreAPI.Constants
             {
                 return SeasonAdvanced.Season3;
             }
-            else if (season == "PRESEASON4")
+            else if (season == "PRESEASON2014")
             {
-                return SeasonAdvanced.Preseason4;
+                return SeasonAdvanced.Preseason2014;
             }
-            else if (season == "SEASON4")
+            else if (season == "SEASON2014")
             {
-                return SeasonAdvanced.Season4;
+                return SeasonAdvanced.Season2014;
             }
             else
             {

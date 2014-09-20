@@ -37,7 +37,8 @@ namespace CreepScoreAPI.Constants
             Aram,
             Tutorial,
             OneForAll,
-            FirstBlood
+            FirstBlood,
+            Ascension
         }
 
         /// <summary>
@@ -102,7 +103,9 @@ namespace CreepScoreAPI.Constants
             Hexakill,
             TeamBuilder5,
             Urf,
-            UrfBots
+            UrfBots,
+            NightmareBot,
+            Ascension
         }
 
         /// <summary>
@@ -193,7 +196,9 @@ namespace CreepScoreAPI.Constants
             // URF_BOT
             UrfCoop,
             // NIGHTMARE_BOT
-            DoomBots
+            DoomBots,
+            // ASCENSION
+            Ascension
         }
 
         /// <summary>
@@ -228,6 +233,18 @@ namespace CreepScoreAPI.Constants
             else if (gameModeStr == "TUTORIAL")
             {
                 return GameMode.Tutorial;
+            }
+            else if (gameModeStr == "ONEFORALL")
+            {
+                return GameMode.OneForAll;
+            }
+            else if (gameModeStr == "ASCENSION")
+            {
+                return GameMode.Ascension;
+            }
+            else if (gameModeStr == "FIRSTBLOOD")
+            {
+                return GameMode.FirstBlood;
             }
             else
             {
@@ -462,6 +479,14 @@ namespace CreepScoreAPI.Constants
             {
                 return PlayerStatSummaryType.UrfBots;
             }
+            else if (playerStatSummaryTypeStr == "NightmareBot")
+            {
+                return PlayerStatSummaryType.NightmareBot;
+            }
+            else if (playerStatSummaryTypeStr == "Ascension")
+            {
+                return PlayerStatSummaryType.Ascension;
+            }
             else
             {
                 return PlayerStatSummaryType.None;
@@ -688,6 +713,10 @@ namespace CreepScoreAPI.Constants
             else if (subType == "NIGHTMARE_BOT")
             {
                 return SubType.DoomBots;
+            }
+            else if (subType == "ASCENSION")
+            {
+                return SubType.Ascension;
             }
             else
             {
