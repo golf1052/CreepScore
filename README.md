@@ -1,7 +1,7 @@
 CreepScore
 ==========
 
-C# League of Legends API Portable Class Library.
+Unofficial C# League of Legends API Portable Class Library.
 
 This library uses the JSON.net library. Avalible [here](http://james.newtonking.com/json)  
 This library uses the HttpClient Portable Class library. Avalible [here](https://www.nuget.org/packages/Microsoft.Net.Http)  
