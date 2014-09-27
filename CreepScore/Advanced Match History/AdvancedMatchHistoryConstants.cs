@@ -74,6 +74,7 @@ namespace CreepScoreAPI.Constants
         public enum TowerTypeAdvanced
         {
             BaseTurret,
+            FountainTurret,
             InnerTurret,
             NexusTurret,
             OuterTurret,
@@ -345,6 +346,10 @@ namespace CreepScoreAPI.Constants
             if (towerType == "BASE_TURRET")
             {
                 return TowerTypeAdvanced.BaseTurret;
+            }
+            else if (towerType == "FOUNTAIN_TURRET")
+            {
+                return TowerTypeAdvanced.FountainTurret;
             }
             else if (towerType == "INNER_TURRET")
             {
