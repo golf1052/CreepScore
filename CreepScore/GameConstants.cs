@@ -59,6 +59,7 @@ namespace CreepScoreAPI.Constants
         {
             None,
             Challenger,
+            Master, // New Tier!
             Diamond,
             Platinum,
             Gold,
