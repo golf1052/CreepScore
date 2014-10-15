@@ -21,7 +21,10 @@ namespace CreepScoreAPI
         {
             for (int i = 0; i < a.Count; i++)
             {
-                masteryTreeItems.Add(new MasteryTreeItemStatic((int)a[i]["masteryId"], (string)a[i]["prereq"]));
+                if (a[i].HasValues)
+                {
+                    masteryTreeItems.Add(new MasteryTreeItemStatic((int)a[i]["masteryId"], (string)a[i]["prereq"]));
+                }
             }
         }
     }

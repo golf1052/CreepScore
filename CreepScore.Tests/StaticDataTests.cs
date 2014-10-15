@@ -112,6 +112,14 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveMasteriesDataTest()
+        {
+            MasteryListStatic masteriesData = await creepScore.RetrieveMasteriesData(CreepScore.Region.NA, StaticDataConstants.MasteryListData.All);
+
+            Assert.NotNull(masteriesData.data);
+        }
+
+        [Fact]
         public async void RetrieveMasteryDataTest()
         {
             MasteryStatic havoc = await creepScore.RetrieveMasteryData(CreepScore.Region.NA, 4162, StaticDataConstants.MasteryListData.None);
@@ -144,6 +152,14 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveSummonerSpellsDataTest()
+        {
+            SummonerSpellListStatic summonerSpellsData = await creepScore.RetrieveSummonerSpellsData(CreepScore.Region.NA, StaticDataConstants.SpellData.All);
+
+            Assert.NotNull(summonerSpellsData.data);
+        }
+
+        [Fact]
         public async void RetrieveSummonerSpellDataTest()
         {
             SummonerSpellStatic ignite = await creepScore.RetrieveSummonerSpellData(CreepScore.Region.NA, 14, StaticDataConstants.SpellData.None);
@@ -156,7 +172,7 @@ namespace CreepScoreAPI.Tests
         {
             RealmStatic realmData = await creepScore.RetrieveRealmData(CreepScore.Region.NA);
 
-            Assert.Equal("4.16.1", realmData.v);
+            Assert.Equal("4.18.1", realmData.v);
             Assert.Equal("en_US", realmData.l);
         }
 
@@ -165,7 +181,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> versions = await creepScore.RetrieveVersions(CreepScore.Region.NA);
 
-            Assert.Equal("4.14.2", versions[2]);
+            Assert.Equal("4.16.1", versions[2]);
         }
     }
 }

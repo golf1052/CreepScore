@@ -144,12 +144,18 @@ namespace CreepScoreAPI
             for (int i = 0; i < a.Count; i++)
             {
                 List<int> tmp = new List<int>();
-                JArray b = (JArray)a[i];
-                for (int j = 0; j < b.Count; j++)
+                if (a[i].GetType() != typeof(JArray))
                 {
-                    tmp.Add((int)b[j]);
+                    // its null
                 }
-
+                else
+                {
+                    JArray b = (JArray)a[i];
+                    for (int j = 0; j < b.Count; j++)
+                    {
+                        tmp.Add((int)b[j]);
+                    }
+                }
                 effect.Add(tmp);
             }
         }
