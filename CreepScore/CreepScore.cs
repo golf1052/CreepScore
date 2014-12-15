@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CreepScoreAPI.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NodaTime;
 
 namespace CreepScoreAPI
 {
@@ -58,13 +59,34 @@ namespace CreepScoreAPI
             }
         }
 
+        private static int availableRequestsPerSecond;
+        
+        /// <summary>
+        /// How many requests your app can make every 10 seconds
+        /// </summary>
+        private static int requestsPerSecond;
+
+        private static int availableRequestsPerMinute;
+
+        /// <summary>
+        /// How many requests your app can make every 10 minutes
+        /// </summary>
+        private static int requestsPerMinute;
+
+        private static Instant? lastRequestSecond;
+        private static Instant? lastRequestMinute;
+
         /// <summary>
         /// CreepScore constructor
         /// </summary>
         /// <param name="key">Your API key</param>
-        public CreepScore(string key)
+        public CreepScore(string key, int requestsPer10Seconds, int requestsPer10Minutes)
         {
             apiKey = key;
+            requestsPerSecond = requestsPer10Seconds;
+            requestsPerMinute = requestsPer10Minutes;
+            availableRequestsPerSecond = requestsPerSecond;
+            availableRequestsPerMinute = requestsPerMinute;
         }
 
         public async Task<ChampionListStatic> RetrieveChampionsData(CreepScore.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
@@ -249,6 +271,30 @@ namespace CreepScoreAPI
             if (GoodStatusCode(responseString))
             {
                 return HelperMethods.LoadItemStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<List<string>> RetrieveLanguages(CreepScore.Region region)
+        {
+            Uri uri;
+            uri = new Uri(UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.languagesPart +
+                UrlConstants.apiKeyPart +
+                apiKey);
+
+            string responseString = await GetWebData(uri);
+
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadStrings(JArray.Parse(responseString));
             }
             else
             {
@@ -631,6 +677,7 @@ namespace CreepScoreAPI
                 UrlConstants.andApiKeyPart +
                 apiKey);
 
+            await GetPermission();
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -655,6 +702,7 @@ namespace CreepScoreAPI
                 UrlConstants.apiKeyPart +
                 apiKey);
 
+            await GetPermission();
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
             {
@@ -706,6 +754,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
+            await GetPermission();
             string responseString = await CreepScore.GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
@@ -758,6 +807,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
+            await GetPermission();
             string responseString = await CreepScore.GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
@@ -783,6 +833,7 @@ namespace CreepScoreAPI
             UrlConstants.andApiKeyPart +
             apiKey);
 
+            await GetPermission();
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -851,6 +902,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
+            await GetPermission();
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -907,6 +959,8 @@ namespace CreepScoreAPI
                 errorString = "Cannot have an empty list of summoner ids";
                 return null;
             }
+
+            await GetPermission();
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -956,6 +1010,7 @@ namespace CreepScoreAPI
                 UrlConstants.apiKeyPart +
                 apiKey);
 
+            await GetPermission();
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -1015,7 +1070,9 @@ namespace CreepScoreAPI
                 errorString = "Cannot have an empty list of summoner ids";
                 return null;
             }
-            string responseString = await CreepScore.GetWebData(uri);
+
+            await GetPermission();
+            string responseString = await GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
             {
@@ -1064,7 +1121,9 @@ namespace CreepScoreAPI
                 errorString = "Cannot have an empty list of team ids";
                 return null;
             }
-            string responseString = await CreepScore.GetWebData(uri);
+
+            await GetPermission();
+            string responseString = await GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
             {
@@ -1086,6 +1145,7 @@ namespace CreepScoreAPI
                 "includeTimeline=" + includeTimeline.ToString() +
                 UrlConstants.andApiKeyPart + apiKey);
 
+            await GetPermission();
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -1161,6 +1221,49 @@ namespace CreepScoreAPI
             else
             {
                 return "Unknown status code";
+            }
+        }
+
+        internal static async Task GetPermission()
+        {
+            if (lastRequestSecond == null)
+            {
+                lastRequestSecond = SystemClock.Instance.Now;
+                lastRequestMinute = SystemClock.Instance.Now;
+                availableRequestsPerSecond--;
+                availableRequestsPerMinute--;
+                return;
+            }
+            else
+            {
+                Instant requestTime = SystemClock.Instance.Now;
+                Duration timeSinceLastRequestSecond = requestTime - lastRequestSecond.Value;
+                Duration timeSinceLastRequestMinute = requestTime - lastRequestMinute.Value;
+                if (timeSinceLastRequestMinute > Duration.FromMinutes(10))
+                {
+                    availableRequestsPerMinute = requestsPerMinute;
+                    lastRequestMinute = SystemClock.Instance.Now;
+                }
+                if (timeSinceLastRequestSecond > Duration.FromSeconds(10))
+                {
+                    availableRequestsPerSecond = requestsPerSecond;
+                    lastRequestSecond = SystemClock.Instance.Now;
+                }
+                if (availableRequestsPerMinute == 0)
+                {
+                    Duration delayTime = Duration.FromMinutes(10) - timeSinceLastRequestMinute;
+                    await Task.Delay(delayTime.ToTimeSpan());
+                    availableRequestsPerSecond = requestsPerSecond;
+                    availableRequestsPerMinute = requestsPerMinute;
+                }
+                else if (availableRequestsPerSecond == 0)
+                {
+                    Duration delayTime = Duration.FromSeconds(10) - timeSinceLastRequestSecond;
+                    await Task.Delay(delayTime.ToTimeSpan());
+                    availableRequestsPerSecond = requestsPerSecond;
+                }
+                availableRequestsPerSecond--;
+                availableRequestsPerMinute--;
             }
         }
 

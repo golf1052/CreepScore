@@ -23,6 +23,7 @@ namespace CreepScoreAPI.Constants
             TwistedTreelineOriginal,
             TheCrystalScar,
             TwistedTreelineCurrent,
+            SummonersRift2015,
             HowlingAbyss
         }
 
@@ -38,7 +39,8 @@ namespace CreepScoreAPI.Constants
             Tutorial,
             OneForAll,
             FirstBlood,
-            Ascension
+            Ascension,
+            KingPoro
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace CreepScoreAPI.Constants
         {
             None,
             Challenger,
-            Master, // New Tier!
+            Master,
             Diamond,
             Platinum,
             Gold,
@@ -106,7 +108,9 @@ namespace CreepScoreAPI.Constants
             Urf,
             UrfBots,
             NightmareBot,
-            Ascension
+            Ascension,
+            TwistedTreelineHexakill,
+            KingPoro
         }
 
         /// <summary>
@@ -199,7 +203,11 @@ namespace CreepScoreAPI.Constants
             // NIGHTMARE_BOT
             DoomBots,
             // ASCENSION
-            Ascension
+            Ascension,
+            // HEXAKILL
+            TwistedTreelineHexakill,
+            // KING_PORO
+            KingPoro
         }
 
         /// <summary>
@@ -247,6 +255,10 @@ namespace CreepScoreAPI.Constants
             {
                 return GameMode.FirstBlood;
             }
+            else if (gameModeStr == "KINGPORO")
+            {
+                return GameMode.KingPoro;
+            }
             else
             {
                 return GameMode.None;
@@ -283,6 +295,10 @@ namespace CreepScoreAPI.Constants
             else if (mapInt == 10)
             {
                 return Map.TwistedTreelineCurrent;
+            }
+            else if (mapInt == 11)
+            {
+                return Map.SummonersRift2015;
             }
             else if (mapInt == 12)
             {
@@ -487,6 +503,14 @@ namespace CreepScoreAPI.Constants
             else if (playerStatSummaryTypeStr == "Ascension")
             {
                 return PlayerStatSummaryType.Ascension;
+            }
+            else if (playerStatSummaryTypeStr == "Hexakill")
+            {
+                return PlayerStatSummaryType.TwistedTreelineHexakill;
+            }
+            else if (playerStatSummaryTypeStr == "KingPoro")
+            {
+                return PlayerStatSummaryType.KingPoro;
             }
             else
             {
@@ -718,6 +742,14 @@ namespace CreepScoreAPI.Constants
             else if (subType == "ASCENSION")
             {
                 return SubType.Ascension;
+            }
+            else if (subType == "HEXAKILL")
+            {
+                return SubType.TwistedTreelineHexakill;
+            }
+            else if (subType == "KING_PORO")
+            {
+                return SubType.KingPoro;
             }
             else
             {

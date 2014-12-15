@@ -13,7 +13,7 @@ namespace CreepScoreAPI.Tests
 
         public AdvancedMatchHistoryTests()
         {
-            creepScore = new CreepScore(ApiKey.apiKey);
+            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
         }
 
         [Fact]

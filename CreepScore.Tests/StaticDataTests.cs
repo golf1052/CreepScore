@@ -18,7 +18,7 @@ namespace CreepScoreAPI.Tests
 
         public StaticDataTests()
         {
-            creepScore = new CreepScore(ApiKey.apiKey);
+            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
         }
 
         [Fact]
@@ -104,6 +104,14 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveLanguagesTest()
+        {
+            List<string> languages = await creepScore.RetrieveLanguages(CreepScore.Region.NA);
+
+            Assert.Contains("en_US", languages);
+        }
+
+        [Fact]
         public async void RetrieveMasteriesDataNoneTest()
         {
             MasteryListStatic masteriesData = await creepScore.RetrieveMasteriesData(CreepScore.Region.NA, StaticDataConstants.MasteryListData.None);
@@ -172,7 +180,7 @@ namespace CreepScoreAPI.Tests
         {
             RealmStatic realmData = await creepScore.RetrieveRealmData(CreepScore.Region.NA);
 
-            Assert.Equal("4.18.1", realmData.v);
+            Assert.Equal("4.21.5", realmData.v);
             Assert.Equal("en_US", realmData.l);
         }
 
@@ -181,7 +189,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> versions = await creepScore.RetrieveVersions(CreepScore.Region.NA);
 
-            Assert.Equal("4.16.1", versions[2]);
+            Assert.Equal("4.21.3", versions[2]);
         }
     }
 }

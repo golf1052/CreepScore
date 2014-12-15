@@ -145,6 +145,8 @@ namespace CreepScoreAPI.Constants
             Nightmare5Rank2,
             Nightmare5Rank5,
             Ascension,
+            TwistedTreelineHexakill,
+            KingPoro,
             Other
         }
 
@@ -582,6 +584,14 @@ namespace CreepScoreAPI.Constants
             else if (queueType == "ASCENSION_5x5")
             {
                 return QueueTypeAdvanced.Ascension;
+            }
+            else if (queueType == "HEXAKILL")
+            {
+                return QueueTypeAdvanced.TwistedTreelineHexakill;
+            }
+            else if (queueType == "KING_PORO")
+            {
+                return QueueTypeAdvanced.KingPoro;
             }
             else
             {

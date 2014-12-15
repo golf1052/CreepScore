@@ -20,7 +20,7 @@ namespace CreepScoreAPI.Tests
 
         public CreepScoreTests()
         {
-            creepScore = new CreepScore(ApiKey.apiKey);
+            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace CreepScoreAPI.Tests
 
             Assert.NotNull(karma);
             Assert.True(karma.active);
-            Assert.Equal(121, champions.Count);
+            Assert.Equal(123, champions.Count);
         }
 
         [Fact]

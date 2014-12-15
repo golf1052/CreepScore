@@ -21,7 +21,7 @@ namespace CreepScoreAPI.Tests
 
         public SummonerTests()
         {
-            creepScore = new CreepScore(ApiKey.apiKey);
+            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
             List<string> summonerNames = new List<string>();
             summonerNames.Add("golf1052");
             List<Summoner> summoners = new List<Summoner>();

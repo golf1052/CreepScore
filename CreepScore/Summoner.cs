@@ -113,6 +113,7 @@ namespace CreepScoreAPI
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -143,6 +144,7 @@ namespace CreepScoreAPI
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -175,6 +177,7 @@ namespace CreepScoreAPI
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -210,6 +213,7 @@ namespace CreepScoreAPI
                         UrlConstants.andApiKeyPart +
                         CreepScore.apiKey);
 
+                    await CreepScore.GetPermission();
                     string responseString = await CreepScore.GetWebData(uri);
 
                     if (CreepScore.GoodStatusCode(responseString))
@@ -248,6 +252,7 @@ namespace CreepScoreAPI
                     UrlConstants.andApiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -278,6 +283,7 @@ namespace CreepScoreAPI
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -308,6 +314,7 @@ namespace CreepScoreAPI
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -338,6 +345,7 @@ namespace CreepScoreAPI
                     UrlConstants.apiKeyPart +
                     CreepScore.apiKey);
 
+                await CreepScore.GetPermission();
                 string responseString = await CreepScore.GetWebData(uri);
 
                 if (CreepScore.GoodStatusCode(responseString))
@@ -427,6 +435,7 @@ namespace CreepScoreAPI
 
             Uri uri = new Uri(url);
 
+            await CreepScore.GetPermission();
             string responseString = await CreepScore.GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
