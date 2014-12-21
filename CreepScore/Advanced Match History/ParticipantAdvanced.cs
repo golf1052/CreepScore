@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using CreepScoreAPI.Constants;
 
 namespace CreepScoreAPI
 {
@@ -10,6 +11,16 @@ namespace CreepScoreAPI
         /// Champion ID
         /// </summary>
         public int championId;
+
+        /// <summary>
+        /// Highest ranked tier achieved for the previous season, if any, otherwise null. As a string.
+        /// </summary>
+        public string highestAchievedSeasonTierString;
+
+        /// <summary>
+        /// Highest ranked tier achieved for the previous season, if any, otherwise null.
+        /// </summary>
+        public GameConstants.Tier highestAchievedSeasonTier;
 
         /// <summary>
         /// List of mastery information
@@ -52,6 +63,7 @@ namespace CreepScoreAPI
         public ParticipantTimelineAdvanced timeline;
 
         public ParticipantAdvanced(int championId,
+            string highestAchievedSeasonTier,
             JArray masteriesA,
             int participantId,
             JArray runesA,
@@ -62,6 +74,11 @@ namespace CreepScoreAPI
             JObject timeline)
         {
             this.championId = championId;
+            this.highestAchievedSeasonTierString = highestAchievedSeasonTier;
+            if (highestAchievedSeasonTierString != null)
+            {
+                this.highestAchievedSeasonTier = GameConstants.SetTier(highestAchievedSeasonTierString);
+            }
             if (masteriesA != null)
             {
                 this.masteries = LoadMasteries(masteriesA);

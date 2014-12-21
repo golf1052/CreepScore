@@ -116,6 +116,7 @@ namespace CreepScoreAPI
             for (int i = 0; i < a.Count; i++)
             {
                 tmp.Add(new ParticipantAdvanced((int)a[i]["championId"],
+                    (string)a[i]["highestAchievedSeasonTier"],
                     (JArray)a[i]["masteries"],
                     (int)a[i]["participantId"],
                     (JArray)a[i]["runes"],

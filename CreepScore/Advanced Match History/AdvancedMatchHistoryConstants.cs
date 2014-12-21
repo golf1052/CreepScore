@@ -116,36 +116,67 @@ namespace CreepScoreAPI.Constants
 
         public enum QueueTypeAdvanced
         {
+            // CUSTOM
             Custom,
+            // NORMAL_5x5_BLIND
             NormalBlind5,
+            // RANKED_SOLO_5x5
             RankedSolo5,
+            // RANKED_PREMADE_5x5
             RankedPremade5,
+            // BOT_5x5
             CoOp5,
+            // NORMAL_3x3
             Normal3,
+            // RANKED_PREMADE_3x3
             RankedPremade3,
+            // NORMAL_5x5_DRAFT
             NormalDraft5,
+            // ODIN_5x5_BLIND
             DominionBlind5,
+            // ODIN_5x5_DRAFT
             DominionDraft5,
+            // BOT_ODIN_5x5
             DominionCoOp5,
+            // BOT_5x5_INTRO
             CoOpIntro5,
+            // BOT_5x5_BEGINNER
             CoOpBeginner5,
+            // BOT_5x5_INTERMEDIATE
             CoOpIntermediate5,
+            // RANKED_TEAM_3x3
             RankedTeam3,
+            // RANKED_TEAM_5x5
             RankedTeam5,
+            // BOT_TT_3x3
             CoOp3,
+            // GROUP_FINDER_5x5
             TeamBuilder5,
+            // ARAM_5x5
             Aram5,
+            // ONEFORALL_5x5
             OneForAll5,
+            // FIRSTBLOOD_1x1
             FirstBlood1,
+            // FIRSTBLOOD_2x2
             FirstBlood2,
+            // SR_6x6
             Hexakill,
+            // URF_5x5
             Urf,
+            // BOT_URF_5x5
             UrfBots,
+            // NIGHTMARE_BOT_5x5_RANK1
             Nightmare5Rank1,
+            // NIGHTMARE_BOT_5x5_RANK2
             Nightmare5Rank2,
+            // NIGHTMARE_BOT_5x5_RANK5
             Nightmare5Rank5,
+            // ASCENSION_5x5
             Ascension,
+            // HEXAKILL
             TwistedTreelineHexakill,
+            // KING_PORO_5x5
             KingPoro,
             Other
         }
@@ -589,7 +620,7 @@ namespace CreepScoreAPI.Constants
             {
                 return QueueTypeAdvanced.TwistedTreelineHexakill;
             }
-            else if (queueType == "KING_PORO")
+            else if (queueType == "KING_PORO_5x5")
             {
                 return QueueTypeAdvanced.KingPoro;
             }
