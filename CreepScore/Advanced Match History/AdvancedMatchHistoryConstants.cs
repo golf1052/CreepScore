@@ -54,9 +54,7 @@ namespace CreepScoreAPI.Constants
         public enum MonsterTypeAdvanced
         {
             BaronNashor,
-            BlueGolem,
             Dragon,
-            RedLizard,
             Vilemaw,
             Other
         }
@@ -324,17 +322,9 @@ namespace CreepScoreAPI.Constants
             {
                 return MonsterTypeAdvanced.BaronNashor;
             }
-            else if (monsterType == "BLUE_GOLEM")
-            {
-                return MonsterTypeAdvanced.BlueGolem;
-            }
             else if (monsterType == "DRAGON")
             {
                 return MonsterTypeAdvanced.Dragon;
-            }
-            else if (monsterType == "RED_LIZARD")
-            {
-                return MonsterTypeAdvanced.RedLizard;
             }
             else if (monsterType == "VILEMAW")
             {
