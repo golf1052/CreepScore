@@ -12,7 +12,7 @@ namespace CreepScoreAPI.Tests
 {
     public class SummonerTests
     {
-        CreepScore creepScore;
+        static CreepScore creepScore = CreepScoreContainer.Instance;
         Summoner golf1052;
 
         // Karma = 43
@@ -21,7 +21,6 @@ namespace CreepScoreAPI.Tests
 
         public SummonerTests()
         {
-            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
             List<string> summonerNames = new List<string>();
             summonerNames.Add("golf1052");
             List<Summoner> summoners = new List<Summoner>();
@@ -47,7 +46,7 @@ namespace CreepScoreAPI.Tests
             summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames);
             Dictionary<string, List<League>> teamData = await summoners[0].RetrieveLeague();
 
-            Assert.Equal("TEAM-13196110-a348-11e3-8e2c-782bcb4d0bb2", teamData["35788975"][1].participantId);
+            Assert.Equal("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861", teamData["35788975"][1].participantId);
 
             Dictionary<string, List<League>> leagueData = await golf1052.RetrieveLeague();
             League league = null;

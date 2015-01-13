@@ -8,6 +8,7 @@ using CreepScoreAPI.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NodaTime;
+using System.Threading;
 
 namespace CreepScoreAPI
 {
@@ -76,6 +77,8 @@ namespace CreepScoreAPI
         private static Instant? lastRequestSecond;
         private static Instant? lastRequestMinute;
 
+        private static SemaphoreSlim semaphore;
+
         /// <summary>
         /// CreepScore constructor
         /// </summary>
@@ -87,6 +90,7 @@ namespace CreepScoreAPI
             requestsPerMinute = requestsPer10Minutes;
             availableRequestsPerSecond = requestsPerSecond;
             availableRequestsPerMinute = requestsPerMinute;
+            semaphore = new SemaphoreSlim(1);
         }
 
         public async Task<ChampionListStatic> RetrieveChampionsData(CreepScore.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
@@ -1226,45 +1230,52 @@ namespace CreepScoreAPI
 
         internal static async Task GetPermission()
         {
-            if (lastRequestSecond == null)
+            await semaphore.WaitAsync();
             {
-                lastRequestSecond = SystemClock.Instance.Now;
-                lastRequestMinute = SystemClock.Instance.Now;
-                availableRequestsPerSecond--;
-                availableRequestsPerMinute--;
-                return;
-            }
-            else
-            {
-                Instant requestTime = SystemClock.Instance.Now;
-                Duration timeSinceLastRequestSecond = requestTime - lastRequestSecond.Value;
-                Duration timeSinceLastRequestMinute = requestTime - lastRequestMinute.Value;
-                if (timeSinceLastRequestMinute > Duration.FromMinutes(10))
+                if (lastRequestSecond == null)
                 {
-                    availableRequestsPerMinute = requestsPerMinute;
-                    lastRequestMinute = SystemClock.Instance.Now;
-                }
-                if (timeSinceLastRequestSecond > Duration.FromSeconds(10))
-                {
-                    availableRequestsPerSecond = requestsPerSecond;
                     lastRequestSecond = SystemClock.Instance.Now;
+                    lastRequestMinute = SystemClock.Instance.Now;
+                    availableRequestsPerSecond--;
+                    availableRequestsPerMinute--;
+                    semaphore.Release();
+                    return;
                 }
-                if (availableRequestsPerMinute == 0)
+                else
                 {
-                    Duration delayTime = Duration.FromMinutes(10) - timeSinceLastRequestMinute;
-                    await Task.Delay(delayTime.ToTimeSpan());
-                    availableRequestsPerSecond = requestsPerSecond;
-                    availableRequestsPerMinute = requestsPerMinute;
+                    availableRequestsPerSecond--;
+                    availableRequestsPerMinute--;
+                    Instant requestTime = SystemClock.Instance.Now;
+                    Duration timeSinceLastRequestSecond = requestTime - lastRequestSecond.Value;
+                    Duration timeSinceLastRequestMinute = requestTime - lastRequestMinute.Value;
+                    if (timeSinceLastRequestMinute > Duration.FromMinutes(10))
+                    {
+                        availableRequestsPerMinute = requestsPerMinute;
+                        lastRequestMinute = SystemClock.Instance.Now;
+                    }
+                    if (timeSinceLastRequestSecond > Duration.FromSeconds(10))
+                    {
+                        availableRequestsPerSecond = requestsPerSecond;
+                        lastRequestSecond = SystemClock.Instance.Now;
+                    }
+                    if (availableRequestsPerMinute == 0)
+                    {
+                        Duration delayTime = Duration.FromMinutes(11) - timeSinceLastRequestMinute;
+                        await Task.Delay(delayTime.ToTimeSpan());
+                        lastRequestMinute = SystemClock.Instance.Now;
+                        availableRequestsPerSecond = requestsPerSecond;
+                        availableRequestsPerMinute = requestsPerMinute;
+                    }
+                    else if (availableRequestsPerSecond == 0)
+                    {
+                        Duration delayTime = Duration.FromSeconds(12) - timeSinceLastRequestSecond;
+                        await Task.Delay(delayTime.ToTimeSpan());
+                        lastRequestSecond = SystemClock.Instance.Now;
+                        availableRequestsPerSecond = requestsPerSecond;
+                    }
                 }
-                else if (availableRequestsPerSecond == 0)
-                {
-                    Duration delayTime = Duration.FromSeconds(10) - timeSinceLastRequestSecond;
-                    await Task.Delay(delayTime.ToTimeSpan());
-                    availableRequestsPerSecond = requestsPerSecond;
-                }
-                availableRequestsPerSecond--;
-                availableRequestsPerMinute--;
             }
+            semaphore.Release();
         }
 
         public List<Champion> LoadChampions(JObject o)

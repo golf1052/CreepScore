@@ -9,12 +9,7 @@ namespace CreepScoreAPI.Tests
 {
     public class AdvancedMatchHistoryTests
     {
-        CreepScore creepScore;
-
-        public AdvancedMatchHistoryTests()
-        {
-            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
-        }
+        static CreepScore creepScore = CreepScoreContainer.Instance;
 
         [Fact]
         public async void RetrieveMatchTest()

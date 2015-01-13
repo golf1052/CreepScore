@@ -12,16 +12,11 @@ namespace CreepScoreAPI.Tests
 {
     public class CreepScoreTests
     {
-        CreepScore creepScore;
+        static CreepScore creepScore = CreepScoreContainer.Instance;
 
         // Karma = 43
         // golf1052 = 26040955
         // Chaox = 7460
-
-        public CreepScoreTests()
-        {
-            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
-        }
 
         [Fact]
         public async void RetrieveChampionsTest()

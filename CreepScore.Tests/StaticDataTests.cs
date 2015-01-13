@@ -12,14 +12,9 @@ namespace CreepScoreAPI.Tests
 {
     public class StaticDataTests
     {
-        CreepScore creepScore;
+        static CreepScore creepScore = CreepScoreContainer.Instance;
 
         // Karma = 43
-
-        public StaticDataTests()
-        {
-            creepScore = new CreepScore(ApiKey.apiKey, 10, 500);
-        }
 
         [Fact]
         public async void RetrieveStaticChampionsNoneTest()
@@ -189,7 +184,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> versions = await creepScore.RetrieveVersions(CreepScore.Region.NA);
 
-            Assert.Equal("4.21.3", versions[2]);
+            Assert.Equal("4.21.4", versions[2]);
         }
     }
 }
