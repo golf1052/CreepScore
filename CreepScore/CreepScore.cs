@@ -59,25 +59,18 @@ namespace CreepScoreAPI
                 return errorString;
             }
         }
-
-        private static int availableRequestsPerSecond;
         
         /// <summary>
         /// How many requests your app can make every 10 seconds
         /// </summary>
         private static int requestsPerSecond;
 
-        private static int availableRequestsPerMinute;
-
         /// <summary>
         /// How many requests your app can make every 10 minutes
         /// </summary>
         private static int requestsPerMinute;
 
-        private static Instant? lastRequestSecond;
-        private static Instant? lastRequestMinute;
-
-        private static SemaphoreSlim semaphore;
+        private static Dictionary<Region, Request> requests;
 
         /// <summary>
         /// CreepScore constructor
@@ -88,9 +81,11 @@ namespace CreepScoreAPI
             apiKey = key;
             requestsPerSecond = requestsPer10Seconds;
             requestsPerMinute = requestsPer10Minutes;
-            availableRequestsPerSecond = requestsPerSecond;
-            availableRequestsPerMinute = requestsPerMinute;
-            semaphore = new SemaphoreSlim(1);
+            requests = new Dictionary<Region, Request>();
+            for (int i = 0; i < 11; i++)
+            {
+                requests.Add((Region)i, new Request(requestsPer10Seconds, requestsPer10Minutes));
+            }
         }
 
         public async Task<ChampionListStatic> RetrieveChampionsData(CreepScore.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
@@ -681,7 +676,7 @@ namespace CreepScoreAPI
                 UrlConstants.andApiKeyPart +
                 apiKey);
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -706,7 +701,7 @@ namespace CreepScoreAPI
                 UrlConstants.apiKeyPart +
                 apiKey);
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
             {
@@ -758,7 +753,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await CreepScore.GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
@@ -811,7 +806,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await CreepScore.GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
@@ -837,7 +832,7 @@ namespace CreepScoreAPI
             UrlConstants.andApiKeyPart +
             apiKey);
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -906,7 +901,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -964,7 +959,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -1014,7 +1009,7 @@ namespace CreepScoreAPI
                 UrlConstants.apiKeyPart +
                 apiKey);
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -1075,7 +1070,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
@@ -1126,7 +1121,7 @@ namespace CreepScoreAPI
                 return null;
             }
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (CreepScore.GoodStatusCode(responseString))
@@ -1149,7 +1144,7 @@ namespace CreepScoreAPI
                 "includeTimeline=" + includeTimeline.ToString() +
                 UrlConstants.andApiKeyPart + apiKey);
 
-            await GetPermission();
+            await GetPermission(region);
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -1228,54 +1223,57 @@ namespace CreepScoreAPI
             }
         }
 
-        internal static async Task GetPermission()
+        internal static async Task GetPermission(Region region)
         {
-            await semaphore.WaitAsync();
+            await requests[region].semaphore.WaitAsync();
             {
-                if (lastRequestSecond == null)
+                if (requests[region].lastRequestSecond == null)
                 {
-                    lastRequestSecond = SystemClock.Instance.Now;
-                    lastRequestMinute = SystemClock.Instance.Now;
-                    availableRequestsPerSecond--;
-                    availableRequestsPerMinute--;
-                    semaphore.Release();
+                    requests[region].lastRequestSecond = SystemClock.Instance.Now;
+                    requests[region].lastRequestMinute = SystemClock.Instance.Now;
+                    requests[region].availableRequestsPerSecond--;
+                    requests[region].availableRequestsPerMinute--;
+                    requests[region].semaphore.Release();
                     return;
                 }
                 else
                 {
-                    availableRequestsPerSecond--;
-                    availableRequestsPerMinute--;
                     Instant requestTime = SystemClock.Instance.Now;
-                    Duration timeSinceLastRequestSecond = requestTime - lastRequestSecond.Value;
-                    Duration timeSinceLastRequestMinute = requestTime - lastRequestMinute.Value;
+                    Duration timeSinceLastRequestSecond = requestTime - requests[region].lastRequestSecond.Value;
+                    Duration timeSinceLastRequestMinute = requestTime - requests[region].lastRequestMinute.Value;
                     if (timeSinceLastRequestMinute > Duration.FromMinutes(10))
                     {
-                        availableRequestsPerMinute = requestsPerMinute;
-                        lastRequestMinute = SystemClock.Instance.Now;
+                        requests[region].availableRequestsPerMinute = requestsPerMinute;
+                        requests[region].lastRequestMinute = SystemClock.Instance.Now;
                     }
                     if (timeSinceLastRequestSecond > Duration.FromSeconds(10))
                     {
-                        availableRequestsPerSecond = requestsPerSecond;
-                        lastRequestSecond = SystemClock.Instance.Now;
+                        requests[region].availableRequestsPerSecond = requestsPerSecond;
+                        requests[region].lastRequestSecond = SystemClock.Instance.Now;
                     }
-                    if (availableRequestsPerMinute == 0)
+                    if (requests[region].availableRequestsPerMinute == 0)
                     {
+                        System.Diagnostics.Debug.WriteLine("Ran into minute limit");
                         Duration delayTime = Duration.FromMinutes(11) - timeSinceLastRequestMinute;
                         await Task.Delay(delayTime.ToTimeSpan());
-                        lastRequestMinute = SystemClock.Instance.Now;
-                        availableRequestsPerSecond = requestsPerSecond;
-                        availableRequestsPerMinute = requestsPerMinute;
+                        requests[region].lastRequestMinute = SystemClock.Instance.Now;
+                        requests[region].availableRequestsPerSecond = requestsPerSecond;
+                        requests[region].availableRequestsPerMinute = requestsPerMinute;
                     }
-                    else if (availableRequestsPerSecond == 0)
+                    else if (requests[region].availableRequestsPerSecond == 0)
                     {
+                        System.Diagnostics.Debug.WriteLine("Ran into second limit");
+                        // timing is weird, 2 second buffer
                         Duration delayTime = Duration.FromSeconds(12) - timeSinceLastRequestSecond;
                         await Task.Delay(delayTime.ToTimeSpan());
-                        lastRequestSecond = SystemClock.Instance.Now;
-                        availableRequestsPerSecond = requestsPerSecond;
+                        requests[region].lastRequestSecond = SystemClock.Instance.Now;
+                        requests[region].availableRequestsPerSecond = requestsPerSecond;
                     }
+                    requests[region].availableRequestsPerSecond--;
+                    requests[region].availableRequestsPerMinute--;
                 }
             }
-            semaphore.Release();
+            requests[region].semaphore.Release();
         }
 
         public List<Champion> LoadChampions(JObject o)

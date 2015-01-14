@@ -245,5 +245,25 @@ namespace CreepScoreAPI.Tests
             ShardStatus shardStatus = await creepScore.RetrieveShardStatus(CreepScore.Region.NA);
             Assert.Equal("North America", shardStatus.name);
         }
+
+        /// <summary>
+        /// Rate limiter test, should probably be run alone.
+        /// </summary>
+        [Fact]
+        public async void RateLimiterTest()
+        {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 1; j < 11; j++)
+                {
+                    Champion champions = await creepScore.RetrieveChampion((CreepScore.Region)j, 43);
+                    Assert.Equal(43, champions.id);
+                }
+            }
+            timer.Stop();
+            Assert.True(timer.Elapsed < TimeSpan.FromSeconds(20));
+        }
     }
 }

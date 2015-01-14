@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\CreepScore.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Advanced Match History\AdvancedMatchHistoryConstants.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="RankedStats.cs" />
     <Compile Include="RawStats.cs" />
     <Compile Include="RecentGames.cs" />
+    <Compile Include="Request.cs" />
     <Compile Include="Roster.cs" />
     <Compile Include="RunePage.cs" />
     <Compile Include="RunePages.cs" />
@@ -131,7 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NodaTime">
       <HintPath>..\packages\NodaTime.1.3.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\NodaTime.dll</HintPath>
