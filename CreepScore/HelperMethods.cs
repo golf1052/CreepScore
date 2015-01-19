@@ -199,6 +199,14 @@ namespace CreepScoreAPI
                     (JArray)o["tags"]);
         }
 
+        public static MapListStatic LoadMapListStatic(JObject o)
+        {
+            return new MapListStatic((JObject)o["data"],
+                (string)o["type"],
+                (string)o["version"],
+                o);
+        }
+
         public static List<string> LoadStrings(JArray a)
         {
             List<string> tmp = new List<string>();

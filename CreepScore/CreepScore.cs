@@ -302,6 +302,40 @@ namespace CreepScoreAPI
             }
         }
 
+        public async Task<MapListStatic> RetrieveMap(CreepScore.Region region, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.mapPart + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            url += "api_key=" +
+                apiKey;
+
+            Uri uri = new Uri(url);
+            string responseString = await GetWebData(uri);
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadMapListStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
         public async Task<MasteryListStatic> RetrieveMasteriesData(CreepScore.Region region, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
         {
             string url = UrlConstants.GetBaseUrl(region) +

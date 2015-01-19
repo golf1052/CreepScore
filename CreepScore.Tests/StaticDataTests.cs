@@ -99,6 +99,14 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveMapListStaticTest()
+        {
+            MapListStatic maps = await creepScore.RetrieveMap(CreepScore.Region.NA);
+
+            Assert.Equal("SummonersRiftNew", maps.data["11"].mapName);
+        }
+
+        [Fact]
         public async void RetrieveLanguagesTest()
         {
             List<string> languages = await creepScore.RetrieveLanguages(CreepScore.Region.NA);
