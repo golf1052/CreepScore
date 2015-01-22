@@ -57,7 +57,10 @@ namespace CreepScoreAPI
         public League(JArray entriesA, string name, string participantId, string queueString, string tierString)
         {
             entries = new List<LeagueEntry>();
-            LoadEntries(entriesA);
+            if (entriesA != null)
+            {
+                LoadEntries(entriesA);
+            }
             this.name = name;
             this.participantId = participantId;
             this.queueString = queueString;

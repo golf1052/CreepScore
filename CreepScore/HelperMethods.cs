@@ -199,6 +199,14 @@ namespace CreepScoreAPI
                     (JArray)o["tags"]);
         }
 
+        public static LanguageStringsStatic LoadLanguageStringsStatic(JObject o)
+        {
+            return new LanguageStringsStatic((JObject)o["data"],
+                (string)o["type"],
+                (string)o["version"],
+                o);
+        }
+
         public static MapListStatic LoadMapListStatic(JObject o)
         {
             return new MapListStatic((JObject)o["data"],

@@ -103,6 +103,7 @@
     <Compile Include="Static Data\Item\ItemListStatic.cs" />
     <Compile Include="Static Data\Item\ItemStatic.cs" />
     <Compile Include="Static Data\Item\ItemTreeStatic.cs" />
+    <Compile Include="Static Data\Language Strings\LanguageStringsStatic.cs" />
     <Compile Include="Static Data\LevelTipStatic.cs" />
     <Compile Include="Static Data\Map\MapListStatic.cs" />
     <Compile Include="Static Data\Map\MapStatic.cs" />

@@ -276,6 +276,11 @@ namespace CreepScoreAPI.Constants
         public static string mapPart = "/map";
 
         /// <summary>
+        /// Language strings part of url
+        /// </summary>
+        public static string languageStringsPart = "/language-strings";
+
+        /// <summary>
         /// Gets the region
         /// </summary>
         /// <param name="region">Region</param>

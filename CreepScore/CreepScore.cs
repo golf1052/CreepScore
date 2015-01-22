@@ -47,7 +47,8 @@ namespace CreepScoreAPI
         {
             None,
             Season3,
-            Season4
+            Season4,
+            Season2015
         }
 
         private string errorString;
@@ -270,6 +271,40 @@ namespace CreepScoreAPI
             if (GoodStatusCode(responseString))
             {
                 return HelperMethods.LoadItemStatic(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<LanguageStringsStatic> RetrieveLanguageStrings(CreepScore.Region region, string locale = "", string version = "")
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.staticDataPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.staticDataAPIVersion +
+                UrlConstants.languageStringsPart + "?";
+
+            if (locale != "")
+            {
+                url += "locale=" + locale + "&";
+            }
+
+            if (version != "")
+            {
+                url += "version=" + version + "&";
+            }
+
+            url += "api_key=" +
+                apiKey;
+
+            Uri uri = new Uri(url);
+            string responseString = await GetWebData(uri);
+            if (GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadLanguageStringsStatic(JObject.Parse(responseString));
             }
             else
             {
@@ -1410,7 +1445,11 @@ namespace CreepScoreAPI
             }
             else if (season == Season.Season4)
             {
-                return "SEASON4";
+                return "SEASON2014";
+            }
+            else if (season == Season.Season2015)
+            {
+                return "SEASON2015";
             }
             else
             {

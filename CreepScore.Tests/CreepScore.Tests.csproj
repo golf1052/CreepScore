@@ -42,6 +42,7 @@
     <Compile Include="CreepScoreContainer.cs" />
     <Compile Include="CreepScoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RateLimiterTests.cs" />
     <Compile Include="StaticDataTests.cs" />
     <Compile Include="SummonerTests.cs" />
   </ItemGroup>

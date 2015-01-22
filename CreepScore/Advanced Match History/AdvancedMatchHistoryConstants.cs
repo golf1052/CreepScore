@@ -187,6 +187,8 @@ namespace CreepScoreAPI.Constants
             Season3,
             Preseason2014,
             Season2014,
+            Preseason2015,
+            Season2015,
             Other
         }
 
@@ -647,6 +649,14 @@ namespace CreepScoreAPI.Constants
             else if (season == "SEASON2014")
             {
                 return SeasonAdvanced.Season2014;
+            }
+            else if (season == "PRESEASON2015")
+            {
+                return SeasonAdvanced.Preseason2015;
+            }
+            else if (season == "SEASON2015")
+            {
+                return SeasonAdvanced.Season2015;
             }
             else
             {

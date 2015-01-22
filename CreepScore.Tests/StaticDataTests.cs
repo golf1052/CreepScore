@@ -99,6 +99,14 @@ namespace CreepScoreAPI.Tests
         }
 
         [Fact]
+        public async void RetrieveLanguageStringsStaticTest()
+        {
+            LanguageStringsStatic languageStrings = await creepScore.RetrieveLanguageStrings(CreepScore.Region.NA);
+
+            Assert.Equal("Time Dead at level 18", languageStrings.data["rFlatTimeDeadModPerLevel"]);
+        }
+
+        [Fact]
         public async void RetrieveMapListStaticTest()
         {
             MapListStatic maps = await creepScore.RetrieveMap(CreepScore.Region.NA);
@@ -183,7 +191,7 @@ namespace CreepScoreAPI.Tests
         {
             RealmStatic realmData = await creepScore.RetrieveRealmData(CreepScore.Region.NA);
 
-            Assert.Equal("4.21.5", realmData.v);
+            Assert.Equal("5.1.2", realmData.v);
             Assert.Equal("en_US", realmData.l);
         }
 
@@ -192,7 +200,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> versions = await creepScore.RetrieveVersions(CreepScore.Region.NA);
 
-            Assert.Equal("4.21.4", versions[2]);
+            Assert.Equal("5.1.2", versions[0]);
         }
     }
 }
