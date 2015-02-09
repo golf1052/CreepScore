@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CreepScoreAPI.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Flurl;
 
 namespace CreepScoreAPI
 {
@@ -103,15 +104,13 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.gameAPIVersion +
-                    UrlConstants.gamePart +
-                    UrlConstants.bySummonerPart + "/" +
-                    id.ToString() +
-                    UrlConstants.recentPart +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.gameAPIVersion, UrlConstants.gamePart)
+                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.recentPart);
+                url.SetQueryParams(new
+                {
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
 
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);
@@ -135,14 +134,13 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.leagueAPIVersion +
-                    UrlConstants.leaguePart +
-                    UrlConstants.bySummonerPart + "/" +
-                    id.ToString() +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
+                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString());
+                url.SetQueryParams(new
+                {
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
 
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);
@@ -166,17 +164,13 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri;
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.leagueAPIVersion +
-                    UrlConstants.leaguePart +
-                    UrlConstants.bySummonerPart + "/" +
-                    id.ToString() +
-                    UrlConstants.entryPart +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
-
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
+                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.entryPart);
+                url.SetQueryParams(new
+                {
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);
 
@@ -201,18 +195,14 @@ namespace CreepScoreAPI
             {
                 if (summonerLevel == 30)
                 {
-                    Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                        UrlConstants.GetRegion(region) +
-                        UrlConstants.statsAPIVersion +
-                        UrlConstants.statsPart +
-                        UrlConstants.bySummonerPart + "/" +
-                        id.ToString() +
-                        UrlConstants.rankedPart +
-                        UrlConstants.seasonPart +
-                        CreepScore.GetSeason(season) +
-                        UrlConstants.andApiKeyPart +
-                        CreepScore.apiKey);
-
+                    Url url = UrlConstants.UrlBuilder(region, UrlConstants.statsAPIVersion, UrlConstants.statsPart)
+                        .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.rankedPart);
+                    url.SetQueryParams(new
+                    {
+                        season = CreepScore.GetSeason(season),
+                        api_key = CreepScore.apiKey
+                    });
+                    Uri uri = new Uri(url.ToString());
                     await CreepScore.GetPermission(region);
                     string responseString = await CreepScore.GetWebData(uri);
 
@@ -240,18 +230,14 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.statsAPIVersion +
-                    UrlConstants.statsPart +
-                    UrlConstants.bySummonerPart + "/" +
-                    id.ToString() +
-                    UrlConstants.summaryPart +
-                    UrlConstants.seasonPart +
-                    CreepScore.GetSeason(season) +
-                    UrlConstants.andApiKeyPart +
-                    CreepScore.apiKey);
-
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.statsAPIVersion, UrlConstants.statsPart)
+                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.summaryPart);
+                url.SetQueryParams(new
+                {
+                    season = CreepScore.GetSeason(season),
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);
 
@@ -274,14 +260,13 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.summonerAPIVersion +
-                    UrlConstants.summonerPart + "/"
-                    + id.ToString() +
-                    UrlConstants.masteriesPart +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                    .AppendPathSegments(id.ToString(), UrlConstants.masteriesPart);
+                url.SetQueryParams(new
+                {
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
 
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);
@@ -305,14 +290,13 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.summonerAPIVersion +
-                    UrlConstants.summonerPart + "/" +
-                    id.ToString() +
-                    UrlConstants.runesPart +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                    .AppendPathSegments(id.ToString(), UrlConstants.runesPart);
+                url.SetQueryParams(new
+                {
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
 
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);
@@ -336,14 +320,13 @@ namespace CreepScoreAPI
         {
             if (!isLittleSummoner)
             {
-                Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.teamAPIVersion +
-                    UrlConstants.teamPart +
-                    UrlConstants.bySummonerPart + "/" +
-                    id.ToString() +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.teamAPIVersion, UrlConstants.teamPart)
+                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString());
+                url.SetQueryParams(new
+                {
+                    api_key = CreepScore.apiKey
+                });
+                Uri uri = new Uri(url.ToString());
 
                 await CreepScore.GetPermission(region);
                 string responseString = await CreepScore.GetWebData(uri);

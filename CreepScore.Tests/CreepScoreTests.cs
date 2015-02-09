@@ -169,17 +169,33 @@ namespace CreepScoreAPI.Tests
         {
             League challenger = await creepScore.RetrieveChallengerLeague(CreepScore.Region.NA, GameConstants.Queue.Solo5);
             LeagueEntry wildTurtle = null;
+            LeagueEntry zionSpartan = null;
             foreach (LeagueEntry entry in challenger.entries)
             {
                 if (entry.playerOrTeamName == "Turtle the Cat")
                 {
                     wildTurtle = entry;
-                    break;
+                }
+                else if (entry.playerOrTeamName == "ZionSpartan")
+                {
+                    zionSpartan = entry;
                 }
             }
 
-            Assert.Equal("Turtle the Cat", wildTurtle.playerOrTeamName);
-            Assert.Equal("I", wildTurtle.division);
+            if (wildTurtle != null)
+            {
+                Assert.Equal("Turtle the Cat", wildTurtle.playerOrTeamName);
+                Assert.Equal("I", wildTurtle.division);
+            }
+            else if (zionSpartan != null)
+            {
+                Assert.Equal("ZionSpartan", zionSpartan.playerOrTeamName);
+                Assert.Equal("I", zionSpartan.division);
+            }
+            else
+            {
+                Assert.True(false);
+            }
         }
 
         [Fact]

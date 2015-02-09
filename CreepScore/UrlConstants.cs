@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Flurl;
 
 namespace CreepScoreAPI.Constants
 {
@@ -331,6 +332,20 @@ namespace CreepScoreAPI.Constants
             {
                 return "none";
             }
+        }
+
+        public static Url StaticDataUrlBuilder(CreepScore.Region region, string endpoint)
+        {
+            Url url = new Url(GetBaseUrl(region)).AppendPathSegment(staticDataPart).AppendPathSegment(GetRegion(region))
+                .AppendPathSegment(staticDataAPIVersion).AppendPathSegment(endpoint);
+            return url;
+        }
+
+        public static Url UrlBuilder(CreepScore.Region region, string version, string endpoint)
+        {
+            Url url = new Url(GetBaseUrl(region)).AppendPathSegment(GetRegion(region)).AppendPathSegment(version)
+                .AppendPathSegment(endpoint);
+            return url;
         }
     }
 }

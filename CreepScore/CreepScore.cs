@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NodaTime;
 using System.Threading;
+using Flurl;
 
 namespace CreepScoreAPI
 {
@@ -91,38 +92,16 @@ namespace CreepScoreAPI
 
         public async Task<ChampionListStatic> RetrieveChampionsData(CreepScore.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.championPart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.championPart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            url += "dataById=" + dataById.ToString() + "&";
-
-            if (champData == StaticDataConstants.ChampData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "champData=" +
-                    StaticDataConstants.GetChampData(champData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                dataById = dataById.ToString(),
+                champData = StaticDataConstants.GetChampData(champData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -139,39 +118,16 @@ namespace CreepScoreAPI
 
         public async Task<ChampionStatic> RetrieveChampionData(CreepScore.Region region, int id, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.championPart + "/" +
-                id.ToString() + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.championPart).AppendPathSegment(id.ToString());
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            url += "dataById=" + dataById.ToString() + "&";
-
-            if (champData == StaticDataConstants.ChampData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "champData=" +
-                    StaticDataConstants.GetChampData(champData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                dataById = dataById.ToString(),
+                champData = StaticDataConstants.GetChampData(champData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -188,36 +144,15 @@ namespace CreepScoreAPI
 
         public async Task<ItemListStatic> RetrieveItemsData(CreepScore.Region region, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.itemPart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.itemPart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (itemListData == StaticDataConstants.ItemListData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "itemListData=" +
-                    StaticDataConstants.GetItemListData(itemListData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                itemListData = StaticDataConstants.GetItemListData(itemListData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -234,37 +169,15 @@ namespace CreepScoreAPI
 
         public async Task<ItemStatic> RetrieveItemData(CreepScore.Region region, int id, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.itemPart + "/" +
-                id.ToString() + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.itemPart).AppendPathSegment(id.ToString());
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (itemListData == StaticDataConstants.ItemListData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "itemListData=" +
-                    StaticDataConstants.GetItemListData(itemListData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                itemListData = StaticDataConstants.GetItemListData(itemListData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -281,26 +194,14 @@ namespace CreepScoreAPI
 
         public async Task<LanguageStringsStatic> RetrieveLanguageStrings(CreepScore.Region region, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.languageStringsPart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.languageStringsPart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            url += "api_key=" +
-                apiKey;
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
             {
@@ -315,15 +216,12 @@ namespace CreepScoreAPI
 
         public async Task<List<string>> RetrieveLanguages(CreepScore.Region region)
         {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.languagesPart +
-                UrlConstants.apiKeyPart +
-                apiKey);
-
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.languagesPart);
+            url.SetQueryParams(new
+            {
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -339,26 +237,14 @@ namespace CreepScoreAPI
 
         public async Task<MapListStatic> RetrieveMap(CreepScore.Region region, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.mapPart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.mapPart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            url += "api_key=" +
-                apiKey;
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
             {
@@ -373,36 +259,15 @@ namespace CreepScoreAPI
 
         public async Task<MasteryListStatic> RetrieveMasteriesData(CreepScore.Region region, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.masteryPart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.masteryPart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (masteryListData == StaticDataConstants.MasteryListData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "masteryListData=" +
-                    StaticDataConstants.GetMasteryListData(masteryListData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                masteryListData = StaticDataConstants.GetMasteryListData(masteryListData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -419,37 +284,15 @@ namespace CreepScoreAPI
 
         public async Task<MasteryStatic> RetrieveMasteryData(CreepScore.Region region, int id, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.masteryPart + "/" +
-                id.ToString() + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.masteryPart).AppendPathSegment(id.ToString());
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (masteryListData == StaticDataConstants.MasteryListData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "masteryListData=" +
-                    StaticDataConstants.GetMasteryListData(masteryListData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                masteryListData = StaticDataConstants.GetMasteryListData(masteryListData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -466,15 +309,12 @@ namespace CreepScoreAPI
 
         public async Task<RealmStatic> RetrieveRealmData(CreepScore.Region region)
         {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.realmPart +
-                UrlConstants.apiKeyPart +
-                apiKey);
-
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.realmPart);
+            url.SetQueryParams(new
+            {
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -490,36 +330,15 @@ namespace CreepScoreAPI
 
         public async Task<RuneListStatic> RetrieveRunesData(CreepScore.Region region, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.runePart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.runePart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (runeListData == StaticDataConstants.RuneListData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "runeListData=" +
-                    StaticDataConstants.GetRuneListData(runeListData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                runeListData = StaticDataConstants.GetRuneListData(runeListData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -536,37 +355,15 @@ namespace CreepScoreAPI
 
         public async Task<RuneStatic> RetrieveRuneData(CreepScore.Region region, int id, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.runePart + "/" +
-                id.ToString() + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.runePart).AppendPathSegment(id.ToString());
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (runeListData == StaticDataConstants.RuneListData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "runeListData=" +
-                    StaticDataConstants.GetRuneListData(runeListData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                runeListData = StaticDataConstants.GetRuneListData(runeListData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -583,38 +380,16 @@ namespace CreepScoreAPI
 
         public async Task<SummonerSpellListStatic> RetrieveSummonerSpellsData(CreepScore.Region region, StaticDataConstants.SpellData spellData, string locale = "", string version = "", bool dataById = false)
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.summonerSpellPart + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.summonerSpellPart);
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            url += "dataById=" + dataById.ToString() + "&";
-
-            if (spellData == StaticDataConstants.SpellData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "spellData=" +
-                    StaticDataConstants.GetSpellData(spellData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                dataById = dataById.ToString(),
+                spellData = StaticDataConstants.GetSpellData(spellData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -631,37 +406,15 @@ namespace CreepScoreAPI
 
         public async Task<SummonerSpellStatic> RetrieveSummonerSpellData(CreepScore.Region region, int id, StaticDataConstants.SpellData spellData, string locale = "", string version = "")
         {
-            string url = UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.summonerSpellPart + "/" +
-                id.ToString() + "?";
-
-            if (locale != "")
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.summonerSpellPart).AppendPathSegment(id.ToString());
+            url.SetQueryParams(new
             {
-                url += "locale=" + locale + "&";
-            }
-
-            if (version != "")
-            {
-                url += "version=" + version + "&";
-            }
-
-            if (spellData == StaticDataConstants.SpellData.None)
-            {
-                url += "api_key=" +
-                    apiKey;
-            }
-            else
-            {
-                url += "spellData=" +
-                    StaticDataConstants.GetSpellData(spellData) +
-                    UrlConstants.andApiKeyPart +
-                    apiKey;
-            }
-
-            Uri uri = new Uri(url);
+                locale = locale,
+                version = version,
+                spellData = StaticDataConstants.GetSpellData(spellData),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             string responseString = await GetWebData(uri);
 
@@ -678,15 +431,12 @@ namespace CreepScoreAPI
 
         public async Task<List<string>> RetrieveVersions(CreepScore.Region region)
         {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) +
-                UrlConstants.staticDataPart + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.staticDataAPIVersion +
-                UrlConstants.versionsPart +
-                UrlConstants.apiKeyPart +
-                apiKey);
-
+            Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.versionsPart);
+            url.SetQueryParams(new
+            {
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             string responseString = await GetWebData(uri);
 
             if (GoodStatusCode(responseString))
@@ -735,16 +485,13 @@ namespace CreepScoreAPI
 
         public async Task<List<Champion>> RetrieveChampions(CreepScore.Region region, bool freeToPlay = false)
         {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.championAPIVersion +
-                UrlConstants.championPart +
-                UrlConstants.freeToPlayPart + 
-                freeToPlay.ToString() +
-                UrlConstants.andApiKeyPart +
-                apiKey);
-
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.championAPIVersion, UrlConstants.championPart);
+            url.SetQueryParams(new
+            {
+                freeToPlay = freeToPlay.ToString(),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             await GetPermission(region);
             string responseString = await GetWebData(uri);
 
@@ -761,15 +508,12 @@ namespace CreepScoreAPI
 
         public async Task<Champion> RetrieveChampion(CreepScore.Region region, int id)
         {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.championAPIVersion +
-                UrlConstants.championPart + "/" +
-                id.ToString() +
-                UrlConstants.apiKeyPart +
-                apiKey);
-
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.championAPIVersion, UrlConstants.championPart).AppendPathSegment(id.ToString());
+            url.SetQueryParams(new
+            {
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             await GetPermission(region);
             string responseString = await GetWebData(uri);
             if (GoodStatusCode(responseString))
@@ -791,7 +535,6 @@ namespace CreepScoreAPI
                 errorString = "Cannot retrieve more than 10 teams at once";
                 return null;
             }
-
             for (int i = 0; i < teamIds.Count; i++)
             {
                 if (i != teamIds.Count - 1)
@@ -807,14 +550,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.leagueAPIVersion +
-                    UrlConstants.leaguePart +
-                    UrlConstants.byTeamPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
+                    .AppendPathSegments(UrlConstants.byTeamPart, ids);
+                url.SetQueryParams(new
+                {
+                    api_key = apiKey
+                });
+                uri = new Uri(url.ToString());
             }
             else
             {
@@ -859,15 +601,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.leagueAPIVersion +
-                    UrlConstants.leaguePart +
-                    UrlConstants.byTeamPart + "/" +
-                    ids +
-                    UrlConstants.entryPart +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
+                    .AppendPathSegments(UrlConstants.byTeamPart, ids, UrlConstants.entryPart);
+                url.SetQueryParams(new
+                {
+                    api_key = apiKey
+                });
+                uri = new Uri(url.ToString());
             }
             else
             {
@@ -891,16 +631,13 @@ namespace CreepScoreAPI
 
         public async Task<League> RetrieveChallengerLeague(CreepScore.Region region, GameConstants.Queue queue)
         {
-            Uri uri;
-            uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-            UrlConstants.GetRegion(region) +
-            UrlConstants.leagueAPIVersion +
-            UrlConstants.leaguePart +
-            "/challenger?type=" +
-            GameConstants.GetQueue(queue) +
-            UrlConstants.andApiKeyPart +
-            apiKey);
-
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart).AppendPathSegment("challenger");
+            url.SetQueryParams(new
+            {
+                type = GameConstants.GetQueue(queue),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             await GetPermission(region);
             string responseString = await GetWebData(uri);
 
@@ -955,14 +692,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (names != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.summonerAPIVersion +
-                    UrlConstants.summonerPart +
-                    UrlConstants.byNamePart + "/" +
-                    names +
-                    UrlConstants.apiKeyPart +
-                    apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                    .AppendPathSegments(UrlConstants.byNamePart, names);
+                url.SetQueryParams(new
+                {
+                    api_key = apiKey
+                });
+                uri = new Uri(url.ToString());
             }
             else
             {
@@ -1014,13 +750,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.summonerAPIVersion +
-                    UrlConstants.summonerPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                    .AppendPathSegment(ids);
+                url.SetQueryParams(new
+                {
+                    api_key = apiKey
+                });
+                uri = new Uri(url.ToString());
             }
             else
             {
@@ -1069,14 +805,13 @@ namespace CreepScoreAPI
                 }
             }
 
-            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.summonerAPIVersion +
-                UrlConstants.summonerPart + "/" +
-                summonerIdsPart +
-                UrlConstants.namePart +
-                UrlConstants.apiKeyPart +
-                apiKey);
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                .AppendPathSegments(summonerIdsPart, UrlConstants.namePart);
+            url.SetQueryParams(new
+            {
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
             await GetPermission(region);
             string responseString = await GetWebData(uri);
@@ -1124,14 +859,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.teamAPIVersion +
-                    UrlConstants.teamPart +
-                    UrlConstants.bySummonerPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.teamAPIVersion, UrlConstants.teamPart)
+                    .AppendPathSegments(UrlConstants.bySummonerPart, ids);
+                url.SetQueryParams(new
+                {
+                    api_key = apiKey
+                });
+                uri = new Uri(url.ToString());
             }
             else
             {
@@ -1176,13 +910,13 @@ namespace CreepScoreAPI
             Uri uri;
             if (ids != "")
             {
-                uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                    UrlConstants.GetRegion(region) +
-                    UrlConstants.teamAPIVersion +
-                    UrlConstants.teamPart + "/" +
-                    ids +
-                    UrlConstants.apiKeyPart +
-                    CreepScore.apiKey);
+                Url url = UrlConstants.UrlBuilder(region, UrlConstants.teamAPIVersion, UrlConstants.teamPart)
+                    .AppendPathSegment(ids);
+                url.SetQueryParams(new
+                {
+                    api_key = apiKey
+                });
+                uri = new Uri(url.ToString());
             }
             else
             {
@@ -1205,14 +939,14 @@ namespace CreepScoreAPI
 
         public async Task<MatchDetailAdvanced> RetrieveMatch(CreepScore.Region region, long matchId, bool includeTimeline = false)
         {
-            Uri uri = new Uri(UrlConstants.GetBaseUrl(region) + "/" +
-                UrlConstants.GetRegion(region) +
-                UrlConstants.matchAPIVersion +
-                UrlConstants.matchPart + "/" +
-                matchId.ToString() + "?" +
-                "includeTimeline=" + includeTimeline.ToString() +
-                UrlConstants.andApiKeyPart + apiKey);
-
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.matchAPIVersion, UrlConstants.matchPart)
+                .AppendPathSegment(matchId.ToString());
+            url.SetQueryParams(new
+            {
+                includeTimeline = includeTimeline.ToString(),
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
             await GetPermission(region);
             string responseString = await GetWebData(uri);
 
