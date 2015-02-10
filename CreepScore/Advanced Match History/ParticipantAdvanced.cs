@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
 using CreepScoreAPI.Constants;
+using Newtonsoft.Json.Linq;
 
 namespace CreepScoreAPI
 {

@@ -65,6 +65,12 @@
     <Compile Include="League.cs" />
     <Compile Include="LeagueEntry.cs" />
     <Compile Include="CreepScore.cs" />
+    <Compile Include="Live Games\CurrentGameInfoLive.cs" />
+    <Compile Include="Live Games\FeaturedGamesLive.cs" />
+    <Compile Include="Live Games\MasteryLive.cs" />
+    <Compile Include="Live Games\ObserverLive.cs" />
+    <Compile Include="Live Games\ParticipantLive.cs" />
+    <Compile Include="Live Games\RuneLive.cs" />
     <Compile Include="Mastery.cs" />
     <Compile Include="MasteryPage.cs" />
     <Compile Include="MasteryPages.cs" />

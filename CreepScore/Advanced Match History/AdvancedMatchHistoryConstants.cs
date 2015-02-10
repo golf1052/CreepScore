@@ -632,6 +632,138 @@ namespace CreepScoreAPI.Constants
             }
         }
 
+        public static QueueTypeAdvanced SetQueueType(long gameQueueConfigId)
+        {
+            if (gameQueueConfigId == 0)
+            {
+                return QueueTypeAdvanced.Custom;
+            }
+            else if (gameQueueConfigId == 2)
+            {
+                return QueueTypeAdvanced.NormalBlind5;
+            }
+            else if (gameQueueConfigId == 7)
+            {
+                return QueueTypeAdvanced.CoOp5;
+            }
+            else if (gameQueueConfigId == 31)
+            {
+                return QueueTypeAdvanced.CoOpIntro5;
+            }
+            else if (gameQueueConfigId == 32)
+            {
+                return QueueTypeAdvanced.CoOpBeginner5;
+            }
+            else if (gameQueueConfigId == 33)
+            {
+                return QueueTypeAdvanced.CoOpIntermediate5;
+            }
+            else if (gameQueueConfigId == 8)
+            {
+                return QueueTypeAdvanced.Normal3;
+            }
+            else if (gameQueueConfigId == 14)
+            {
+                return QueueTypeAdvanced.NormalDraft5;
+            }
+            else if (gameQueueConfigId == 16)
+            {
+                return QueueTypeAdvanced.DominionBlind5;
+            }
+            else if (gameQueueConfigId == 17)
+            {
+                return QueueTypeAdvanced.DominionDraft5;
+            }
+            else if (gameQueueConfigId == 25)
+            {
+                return QueueTypeAdvanced.DominionCoOp5;
+            }
+            else if (gameQueueConfigId == 4)
+            {
+                return QueueTypeAdvanced.RankedSolo5;
+            }
+            else if (gameQueueConfigId == 9)
+            {
+                return QueueTypeAdvanced.RankedPremade3;
+            }
+            else if (gameQueueConfigId == 6)
+            {
+                return QueueTypeAdvanced.RankedPremade5;
+            }
+            else if (gameQueueConfigId == 41)
+            {
+                return QueueTypeAdvanced.RankedTeam3;
+            }
+            else if (gameQueueConfigId == 42)
+            {
+                return QueueTypeAdvanced.RankedTeam5;
+            }
+            else if (gameQueueConfigId == 52)
+            {
+                return QueueTypeAdvanced.CoOp3;
+            }
+            else if (gameQueueConfigId == 61)
+            {
+                return QueueTypeAdvanced.TeamBuilder5;
+            }
+            else if (gameQueueConfigId == 65)
+            {
+                return QueueTypeAdvanced.Aram5;
+            }
+            else if (gameQueueConfigId == 70)
+            {
+                return QueueTypeAdvanced.OneForAll5;
+            }
+            else if (gameQueueConfigId == 72)
+            {
+                return QueueTypeAdvanced.FirstBlood1;
+            }
+            else if (gameQueueConfigId == 73)
+            {
+                return QueueTypeAdvanced.FirstBlood2;
+            }
+            else if (gameQueueConfigId == 75)
+            {
+                return QueueTypeAdvanced.Hexakill;
+            }
+            else if (gameQueueConfigId == 76)
+            {
+                return QueueTypeAdvanced.Urf;
+            }
+            else if (gameQueueConfigId == 83)
+            {
+                return QueueTypeAdvanced.UrfBots;
+            }
+            else if (gameQueueConfigId == 91)
+            {
+                return QueueTypeAdvanced.Nightmare5Rank1;
+            }
+            else if (gameQueueConfigId == 92)
+            {
+                return QueueTypeAdvanced.Nightmare5Rank2;
+            }
+            else if (gameQueueConfigId == 93)
+            {
+                return QueueTypeAdvanced.Nightmare5Rank5;
+            }
+            else if (gameQueueConfigId == 96)
+            {
+                return QueueTypeAdvanced.Ascension;
+            }
+            else if (gameQueueConfigId == 98)
+            {
+                return QueueTypeAdvanced.TwistedTreelineHexakill;
+            }
+            else if (gameQueueConfigId == 300)
+            {
+                return QueueTypeAdvanced.KingPoro;
+            }
+            else
+            {
+                return QueueTypeAdvanced.Other;
+            }
+        }
+
         public static SeasonAdvanced SetSeason(string season)
         {
             if (season == "PRESEASON3")

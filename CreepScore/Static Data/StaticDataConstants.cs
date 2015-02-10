@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CreepScoreAPI.Constants
+﻿namespace CreepScoreAPI.Constants
 {
     public class StaticDataConstants
     {

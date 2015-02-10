@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CreepScoreAPI
+﻿namespace CreepScoreAPI
 {
     /// <summary>
     /// RuneSlot class

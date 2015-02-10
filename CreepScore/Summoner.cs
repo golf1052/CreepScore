@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CreepScoreAPI.Constants;
+using Flurl;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Flurl;
 
 namespace CreepScoreAPI
 {
@@ -98,6 +98,35 @@ namespace CreepScoreAPI
         {
             revisionDateLong = date;
             revisionDate = CreepScore.EpochToDateTime(date);
+        }
+
+        public async Task<CurrentGameInfoLive> RetrieveCurrentGameInfo()
+        {
+            Url url = new Url(UrlConstants.GetBaseUrl(region)).AppendPathSegments(UrlConstants.observerModeRestpart,
+                "/consumer/getSpectatorGameInfo/", UrlConstants.GetPlatformId(region), id.ToString());
+            url.SetQueryParams(new
+            {
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
+            await CreepScore.GetPermission(region);
+            string responseString = await CreepScore.GetWebData(uri);
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadCurrentGameInfo(JObject.Parse(responseString));
+            }
+            else
+            {
+                if (responseString == "404")
+                {
+                    // might want to do something different if 404
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public async Task<RecentGames> RetrieveRecentGames()

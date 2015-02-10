@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace CreepScoreAPI
+﻿namespace CreepScoreAPI
 {
     public class MetaDataStatic
     {

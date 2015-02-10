@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using CreepScoreAPI;
-using CreepScoreAPI.Constants;
 
 namespace CreepScoreAPI
 {
@@ -351,6 +345,33 @@ namespace CreepScoreAPI
         public static PlayerHistoryAdvanced LoadPlayerHistoryAdvanced(JObject o)
         {
             return new PlayerHistoryAdvanced((JArray)o["matches"]);
+        }
+
+        public static List<BannedChampionAdvanced> LoadBans(JArray a)
+        {
+            List<BannedChampionAdvanced> tmp = new List<BannedChampionAdvanced>();
+            for (int i = 0; i < a.Count; i++)
+            {
+                tmp.Add(new BannedChampionAdvanced((int)a[i]["championId"],
+                    (int)a[i]["pickTurn"],
+                    (int?)a[i]["teamId"]));
+            }
+            return tmp;
+        }
+
+        public static CurrentGameInfoLive LoadCurrentGameInfo(JObject o)
+        {
+            return new CurrentGameInfoLive((JArray)o["bannedChampions"],
+                (long)o["gameId"],
+                (long)o["gameLength"],
+                (string)o["gameMode"],
+                (long)o["gameQueueConfigId"],
+                (long)o["gameStartTime"],
+                (string)o["gameType"],
+                (long)o["mapId"],
+                (JObject)o["observers"],
+                (JArray)o["participants"],
+                (string)o["platformId"]);
         }
     }
 }

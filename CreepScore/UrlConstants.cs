@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flurl;
+﻿using Flurl;
 
 namespace CreepScoreAPI.Constants
 {
@@ -22,54 +17,65 @@ namespace CreepScoreAPI.Constants
         {
             if (region == CreepScore.Region.NA)
             {
-                return "https://na.api.pvp.net/api/lol";
+                return "https://na.api.pvp.net";
             }
             else if (region == CreepScore.Region.EUW)
             {
-                return "https://euw.api.pvp.net/api/lol";
+                return "https://euw.api.pvp.net";
             }
             else if (region == CreepScore.Region.EUNE)
             {
-                return "https://eune.api.pvp.net/api/lol";
+                return "https://eune.api.pvp.net";
             }
             else if (region == CreepScore.Region.BR)
             {
-                return "https://br.api.pvp.net/api/lol";
+                return "https://br.api.pvp.net";
             }
             else if (region == CreepScore.Region.LAN)
             {
-                return "https://lan.api.pvp.net/api/lol";
+                return "https://lan.api.pvp.net";
             }
             else if (region == CreepScore.Region.LAS)
             {
-                return "https://las.api.pvp.net/api/lol";
+                return "https://las.api.pvp.net";
             }
             else if (region == CreepScore.Region.OCE)
             {
-                return "https://oce.api.pvp.net/api/lol";
+                return "https://oce.api.pvp.net";
             }
             else if (region == CreepScore.Region.KR)
             {
-                return "https://kr.api.pvp.net/api/lol";
+                return "https://kr.api.pvp.net";
             }
             else if (region == CreepScore.Region.TR)
             {
-                return "https://tr.api.pvp.net/api/lol";
+                return "https://tr.api.pvp.net";
             }
             else if (region == CreepScore.Region.RU)
             {
-                return "https://ru.api.pvp.net/api/lol";
+                return "https://ru.api.pvp.net";
             }
             else
             {
-                return "https://global.api.pvp.net/api/lol";
+                return "https://global.api.pvp.net";
             }
         }
 
         /// <summary>
         /// Global base URL
         /// </summary>
-        public static string globalBaseUrl = "https://global.api.pvp.net/api/lol";
+        public static string globalBaseUrl = "https://global.api.pvp.net";
+
+        /// <summary>
+        /// API LoL part
+        /// </summary>
+        /// <remarks>Live games stuff doesn't use this part, Rito plz</remarks>
+        public static string apiLolPart = "/api/lol";
+
+        /// <summary>
+        /// Observer mode rest part
+        /// </summary>
+        public static string observerModeRestpart = "/observer-mode/rest";
 
         /// <summary>
         /// Champion API version
@@ -334,16 +340,64 @@ namespace CreepScoreAPI.Constants
             }
         }
 
+        public static string GetPlatformId(CreepScore.Region region)
+        {
+            if (region == CreepScore.Region.NA)
+            {
+                return "NA1";
+            }
+            else if (region == CreepScore.Region.EUW)
+            {
+                return "EUW1";
+            }
+            else if (region == CreepScore.Region.EUNE)
+            {
+                return "EUN1";
+            }
+            else if (region == CreepScore.Region.BR)
+            {
+                return "BR1";
+            }
+            else if (region == CreepScore.Region.LAN)
+            {
+                return "LA1";
+            }
+            else if (region == CreepScore.Region.LAS)
+            {
+                return "LA2";
+            }
+            else if (region == CreepScore.Region.OCE)
+            {
+                return "OC1";
+            }
+            else if (region == CreepScore.Region.KR)
+            {
+                return "KR";
+            }
+            else if (region == CreepScore.Region.TR)
+            {
+                return "TR1";
+            }
+            else if (region == CreepScore.Region.RU)
+            {
+                return "RU";
+            }
+            else
+            {
+                return "NONE";
+            }
+        }
+
         public static Url StaticDataUrlBuilder(CreepScore.Region region, string endpoint)
         {
-            Url url = new Url(GetBaseUrl(region)).AppendPathSegment(staticDataPart).AppendPathSegment(GetRegion(region))
+            Url url = new Url(GetBaseUrl(region)).AppendPathSegment(apiLolPart).AppendPathSegment(staticDataPart).AppendPathSegment(GetRegion(region))
                 .AppendPathSegment(staticDataAPIVersion).AppendPathSegment(endpoint);
             return url;
         }
 
         public static Url UrlBuilder(CreepScore.Region region, string version, string endpoint)
         {
-            Url url = new Url(GetBaseUrl(region)).AppendPathSegment(GetRegion(region)).AppendPathSegment(version)
+            Url url = new Url(GetBaseUrl(region)).AppendPathSegment(apiLolPart).AppendPathSegment(GetRegion(region)).AppendPathSegment(version)
                 .AppendPathSegment(endpoint);
             return url;
         }

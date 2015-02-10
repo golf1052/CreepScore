@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace CreepScoreAPI
@@ -93,7 +92,7 @@ namespace CreepScoreAPI
         {
             if (bansA != null)
             {
-                bans = LoadBans(bansA);
+                bans = HelperMethods.LoadBans(bansA);
             }
             this.baronKills = baronKills;
             this.dominionVictoryScore = dominionVictoryScore;
@@ -108,18 +107,6 @@ namespace CreepScoreAPI
             this.towerKills = towerKills;
             this.vilemawKills = vilemawKills;
             this.winner = winner;
-        }
-
-        List<BannedChampionAdvanced> LoadBans(JArray a)
-        {
-            List<BannedChampionAdvanced> tmp = new List<BannedChampionAdvanced>();
-            for (int i = 0; i < a.Count; i++)
-            {
-                tmp.Add(new BannedChampionAdvanced((int)a[i]["championId"],
-                    (int)a[i]["pickTurn"],
-                    (int?)a[i]["teamId"]));
-            }
-            return tmp;
         }
     }
 }

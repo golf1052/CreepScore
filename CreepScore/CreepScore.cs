@@ -5,11 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CreepScoreAPI.Constants;
+using Flurl;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NodaTime;
-using System.Threading;
-using Flurl;
 
 namespace CreepScoreAPI
 {
@@ -75,10 +74,25 @@ namespace CreepScoreAPI
         private static Dictionary<Region, Request> requests;
 
         /// <summary>
+        /// CreepScore constructor, auto sets requests per 10 seconds to 10 and requests per 10 minutes to 500
+        /// </summary>
+        /// <param name="key">Your API key</param>
+        public CreepScore(string key)
+        {
+            Init(key, 10, 500);
+        }
+        /// <summary>
         /// CreepScore constructor
         /// </summary>
         /// <param name="key">Your API key</param>
+        /// <param name="requestsPer10Seconds">Number of requests per 10 seconds</param>
+        /// <param name="requestsPer10Minutes">Number of requests per 10 minutes</param>
         public CreepScore(string key, int requestsPer10Seconds, int requestsPer10Minutes)
+        {
+            Init(key, requestsPer10Seconds, requestsPer10Minutes);
+        }
+
+        private void Init(string key, int requestsPer10Seconds, int requestsPer10Minutes)
         {
             apiKey = key;
             requestsPerSecond = requestsPer10Seconds;
@@ -523,6 +537,27 @@ namespace CreepScoreAPI
             else
             {
                 errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<FeaturedGamesLive> RetrieveFeaturedGames(CreepScore.Region region)
+        {
+            Url url = new Url(UrlConstants.GetBaseUrl(region)).AppendPathSegments(UrlConstants.observerModeRestpart,
+                "/featured");
+            url.SetQueryParams(new
+            {
+                api_key = apiKey
+            });
+            Uri uri = new Uri(url.ToString());
+            await CreepScore.GetPermission(region);
+            string responseString = await CreepScore.GetWebData(uri);
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return LoadFeaturedGames(JObject.Parse(responseString));
+            }
+            else
+            {
                 return null;
             }
         }
@@ -1113,6 +1148,12 @@ namespace CreepScoreAPI
                 (string)o["type"],
                 (string)o["version"],
                 o);
+        }
+
+        public FeaturedGamesLive LoadFeaturedGames(JObject o)
+        {
+            return new FeaturedGamesLive((long)o["clientRefreshInterval"],
+                (JArray)o["gameList"]);
         }
 
         public RealmStatic LoadRealmData(JObject o)
