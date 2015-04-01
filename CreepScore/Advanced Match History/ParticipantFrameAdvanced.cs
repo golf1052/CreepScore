@@ -58,7 +58,10 @@ namespace CreepScoreAPI
             this.level = level;
             this.minionsKilled = minionsKilled;
             this.participantId = participantId;
-            this.position = LoadPosition(positionO);
+            if (positionO != null)
+            {
+                this.position = LoadPosition(positionO);
+            }
             this.totalGold = totalGold;
             this.xp = xp;
         }

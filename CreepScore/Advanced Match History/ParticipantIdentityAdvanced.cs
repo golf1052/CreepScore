@@ -18,7 +18,10 @@ namespace CreepScoreAPI
             JObject playerO)
         {
             this.participantId = participantId;
-            this.player = LoadPlayer(playerO);
+            if (playerO != null)
+            {
+                this.player = LoadPlayer(playerO);
+            }
         }
 
         PlayerAdvanced LoadPlayer(JObject o)

@@ -169,7 +169,7 @@ namespace CreepScoreAPI
             {
                 this.pointCaptured = AdvancedMatchHistoryConstants.SetPointCaptured(pointCaptured);
             }
-            if (position != null)
+            if (positionO != null)
             {
                 this.position = LoadPosition(positionO);
             }
