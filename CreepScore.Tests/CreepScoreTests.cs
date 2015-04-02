@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CreepScoreAPI.Constants;
 using Xunit;
 
@@ -11,6 +12,14 @@ namespace CreepScoreAPI.Tests
         // Karma = 43
         // golf1052 = 26040955
         // Chaox = 7460
+
+        [Fact]
+        public async void RetrieveUrfIdsTest()
+        {
+            List<long> ids = await creepScore.RetrieveUrfIds(CreepScore.Region.NA,
+                new DateTime(2015, 4, 1, 16, 0, 0, DateTimeKind.Utc));
+            Assert.NotNull(ids);
+        }
 
         [Fact]
         public async void RetrieveChampionsTest()

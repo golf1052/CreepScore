@@ -233,6 +233,16 @@ namespace CreepScoreAPI
             return tmp;
         }
 
+        public static List<long> LoadLongs(JArray a)
+        {
+            List<long> tmp = new List<long>();
+            for (int i = 0; i < a.Count; i++)
+            {
+                tmp.Add((long)a[i]);
+            }
+            return tmp;
+        }
+
         public static MasteryListStatic LoadMasteryListStatic(JObject o)
         {
             return new MasteryListStatic((JObject)o["data"],
