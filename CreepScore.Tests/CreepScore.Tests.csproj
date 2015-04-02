@@ -46,6 +46,7 @@
     <Compile Include="RateLimiterTests.cs" />
     <Compile Include="StaticDataTests.cs" />
     <Compile Include="SummonerTests.cs" />
+    <Compile Include="UrfTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http">

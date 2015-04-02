@@ -105,17 +105,24 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
-        /// 
+        /// Retrieve a list of URF game IDs for a 5 minute time range
         /// </summary>
-        /// <param name="region"></param>
-        /// <param name="beginDate"></param>
-        /// <returns></returns>
-        public async Task<List<long>> RetrieveUrfIds(CreepScore.Region region, DateTime beginDate)
+        /// <param name="region">The region of the games</param>
+        /// <param name="beginDate">
+        /// UTC Date representing the start date for the game list.
+        /// Must represent a time with an even 5 minute offset.
+        /// </param>
+        /// <returns>A list of game IDs</returns>
+        public async Task<List<long>> RetrieveUrfIds(CreepScore.Region region, DateTimeOffset beginDate)
         {
             Url url = UrlConstants.UrlBuilder(region, UrlConstants.apiChallengeVersion, "/game/ids");
             if (beginDate.Minute % 5 == 0 && beginDate.Second == 0)
             {
-                url.SetQueryParam("beginDate", DateTimeToEpoch(beginDate));
+                url.SetQueryParams(new
+                {
+                    beginDate = DateTimeToEpoch(beginDate.UtcDateTime),
+                    api_key = apiKey
+                });
                 Uri uri = new Uri(url.ToString());
                 await GetPermission(region);
                 string responseString = await GetWebData(uri);
@@ -1234,9 +1241,9 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
-        /// Converts an epoch date time to a C# DateTime
+        /// Converts an epoch date time (milliseconds) to a C# DateTime
         /// </summary>
-        /// <param name="date">Date as a epoch time</param>
+        /// <param name="date">Date as a epoch time (milliseconds)</param>
         /// <returns>A C# DateTime (UTC)</returns>
         public static DateTime EpochToDateTime(long date)
         {
@@ -1244,10 +1251,10 @@ namespace CreepScoreAPI
         }
 
         /// <summary>
-        /// Converts a C# DateTime to an epoch date time
+        /// Converts a C# DateTime to an epoch date time (seconds)
         /// </summary>
         /// <param name="date">Date</param>
-        /// <returns>An epoch date time (UTC)</returns>
+        /// <returns>An epoch date time (seconds) (UTC)</returns>
         public static long DateTimeToEpoch(DateTime date)
         {
             return (long)(date - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
