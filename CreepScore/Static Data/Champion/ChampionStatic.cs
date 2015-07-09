@@ -41,6 +41,7 @@ namespace CreepScoreAPI
             JArray tagsA,
             string title)
         {
+            System.Diagnostics.Debug.WriteLine(name);
             allyTips = new List<string>();
             enemyTips = new List<string>();
             recommended = new List<RecommendedStatic>();
@@ -120,7 +121,7 @@ namespace CreepScoreAPI
                     (string)a[i]["champion"],
                     (string)a[i]["map"],
                     (string)a[i]["mode"],
-                    (bool)a[i]["priority"],
+                    (bool?)a[i]["priority"],
                     (string)a[i]["title"],
                     (string)a[i]["type"]));
             }

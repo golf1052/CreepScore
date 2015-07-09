@@ -185,7 +185,7 @@ namespace CreepScoreAPI.Tests
         {
             RealmStatic realmData = await creepScore.RetrieveRealmData(CreepScore.Region.NA);
 
-            Assert.Equal("5.2.2", realmData.v);
+            Assert.Equal("5.12.1", realmData.v);
             Assert.Equal("en_US", realmData.l);
         }
 
@@ -194,7 +194,7 @@ namespace CreepScoreAPI.Tests
         {
             List<string> versions = await creepScore.RetrieveVersions(CreepScore.Region.NA);
 
-            Assert.Equal("5.3.1", versions[0]);
+            Assert.Equal("5.13.1", versions[0]);
         }
     }
 }

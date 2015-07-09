@@ -73,11 +73,6 @@ namespace CreepScoreAPI.Constants
         public static string apiLolPart = "/api/lol";
 
         /// <summary>
-        /// API Challenge version
-        /// </summary>
-        public static string apiChallengeVersion = "/v4.1";
-
-        /// <summary>
         /// Observer mode rest part
         /// </summary>
         public static string observerModeRestpart = "/observer-mode/rest";

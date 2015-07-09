@@ -91,6 +91,11 @@ namespace CreepScoreAPI
 
         public static BasicDataStatic LoadBasicDataStatic(JObject o)
         {
+            JObject image = null;
+            if (o["image"].Type != JTokenType.Null)
+            {
+                image = (JObject)o["image"];
+            }
             return new BasicDataStatic((string)o["colloq"],
                 (bool?)o["consumeOnFull"],
                 (bool?)o["consumed"],
@@ -101,7 +106,7 @@ namespace CreepScoreAPI
                 (string)o["group"],
                 (bool?)o["hideFromAll"],
                 (int)o["id"],
-                (JObject)o["image"],
+                image,
                 (bool?)o["inStore"],
                 (JArray)o["into"],
                 (JObject)o["maps"],

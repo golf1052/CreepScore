@@ -41,7 +41,7 @@ namespace CreepScoreAPI.Tests
             summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames);
             Dictionary<string, List<League>> teamData = await summoners[0].RetrieveLeague();
 
-            Assert.Equal("TEAM-60d19ea0-a284-11e3-8849-782bcb4d1861", teamData["35788975"][1].participantId);
+            Assert.Equal("TEAM-394018d0-58be-11e4-9e4f-782bcb4d1e24", teamData["35788975"][1].participantId);
 
             Dictionary<string, List<League>> leagueData = await golf1052.RetrieveLeague();
             League league = null;

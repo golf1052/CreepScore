@@ -104,44 +104,6 @@ namespace CreepScoreAPI
             }
         }
 
-        /// <summary>
-        /// Retrieve a list of URF game IDs for a 5 minute time range
-        /// </summary>
-        /// <param name="region">The region of the games</param>
-        /// <param name="beginDate">
-        /// UTC Date representing the start date for the game list.
-        /// Must represent a time with an even 5 minute offset.
-        /// </param>
-        /// <returns>A list of game IDs</returns>
-        public async Task<List<long>> RetrieveUrfIds(CreepScore.Region region, DateTimeOffset beginDate)
-        {
-            Url url = UrlConstants.UrlBuilder(region, UrlConstants.apiChallengeVersion, "/game/ids");
-            if (beginDate.Minute % 5 == 0 && beginDate.Second == 0)
-            {
-                url.SetQueryParams(new
-                {
-                    beginDate = DateTimeToEpoch(beginDate.UtcDateTime),
-                    api_key = apiKey
-                });
-                Uri uri = new Uri(url.ToString());
-                await GetPermission(region);
-                string responseString = await GetWebData(uri);
-                if (GoodStatusCode(responseString))
-                {
-                    return HelperMethods.LoadLongs(JArray.Parse(responseString));
-                }
-                else
-                {
-                    errorString = responseString;
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public async Task<ChampionListStatic> RetrieveChampionsData(CreepScore.Region region, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
         {
             Url url = UrlConstants.StaticDataUrlBuilder(region, UrlConstants.championPart);

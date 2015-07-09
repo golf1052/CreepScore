@@ -9,7 +9,7 @@ namespace CreepScoreAPI
         public string champion;
         public string map;
         public string mode;
-        public bool priority;
+        public bool? priority;
         public string title;
         public string type;
 
@@ -17,7 +17,7 @@ namespace CreepScoreAPI
             string champion,
             string map,
             string mode,
-            bool priority,
+            bool? priority,
             string title,
             string type)
         {
