@@ -375,6 +375,7 @@ namespace CreepScoreAPI
             }
         }
 
+        [Obsolete("This endpoint will stop working September 22nd, 2015. Please use RetrieveMatchList instead. More information can be found here: https://developer.riotgames.com/discussion/community-discussion/show/oLXKEZFZ")]
         public async Task<PlayerHistoryAdvanced> RetrieveMatchHistory(CreepScore.Region region, List<int> championIds = null, List<GameConstants.Queue> rankedQueues = null, int? beginIndex = null, int? endIndex = null)
         {
             string url = UrlConstants.GetBaseUrl(region) + "/" +
@@ -453,6 +454,134 @@ namespace CreepScoreAPI
             if (CreepScore.GoodStatusCode(responseString))
             {
                 return HelperMethods.LoadPlayerHistoryAdvanced(JObject.Parse(responseString));
+            }
+            else
+            {
+                errorString = responseString;
+                return null;
+            }
+        }
+
+        public async Task<MatchListAdvanced> RetrieveMatchList(List<int> championIds = null, List<GameConstants.Queue> rankedQueues = null, List<AdvancedMatchHistoryConstants.SeasonAdvanced> seasons = null, long? beginTime = null, long? endTime = null, int? beginIndex = null, int? endIndex = null)
+        {
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.apiLolPart + "/" +
+                UrlConstants.GetRegion(region) +
+                UrlConstants.matchListAPIVersion +
+                UrlConstants.matchListPart +
+                UrlConstants.bySummonerPart + "/" +
+                id.ToString() + "?";
+
+            if (championIds != null)
+            {
+                if (championIds.Count != 0)
+                {
+                    url += "championIds=";
+
+                    for (int i = 0; i < championIds.Count; i++)
+                    {
+                        if (i + 1 == championIds.Count)
+                        {
+                            url += championIds[i].ToString() + "&";
+                        }
+                        else
+                        {
+                            url += championIds[i].ToString() + ",";
+                        }
+                    }
+                }
+            }
+
+            if (rankedQueues != null)
+            {
+                if (rankedQueues.Count != 0)
+                {
+                    string tmpRankedQueues = "";
+                    for (int i = 0; i < rankedQueues.Count; i++)
+                    {
+                        if (rankedQueues[i] == GameConstants.Queue.None)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (i + 1 == rankedQueues.Count)
+                            {
+                                tmpRankedQueues += GameConstants.GetQueue(rankedQueues[i]);
+                            }
+                            else
+                            {
+                                tmpRankedQueues += GameConstants.GetQueue(rankedQueues[i]) + ",";
+                            }
+                        }
+                    }
+                    if (tmpRankedQueues != "")
+                    {
+                        url += "rankedQueues=" + tmpRankedQueues + "&";
+                    }
+                }
+            }
+
+            if (seasons != null)
+            {
+                if (seasons.Count != 0)
+                {
+                    string tmpSeasons = "";
+                    for (int i = 0; i < seasons.Count; i++)
+                    {
+                        if (seasons[i] == AdvancedMatchHistoryConstants.SeasonAdvanced.Other)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (i + 1 == seasons.Count)
+                            {
+                                tmpSeasons += AdvancedMatchHistoryConstants.GetSeason(seasons[i]);
+                            }
+                            else
+                            {
+                                tmpSeasons += AdvancedMatchHistoryConstants.GetSeason(seasons[i]) + ",";
+                            }
+                        }
+                    }
+                    if (tmpSeasons != "")
+                    {
+                        url += "seasons=" + tmpSeasons + "&";
+                    }
+                }
+            }
+
+            if (beginTime != null)
+            {
+                url += "beginTime=" + beginTime.Value.ToString() + "&";
+            }
+            
+            if (endTime != null)
+            {
+                url += "endTime=" + endTime.Value.ToString() + "&";
+            }
+
+            if (beginIndex != null)
+            {
+                url += "beginIndex=" + beginIndex.Value.ToString() + "&";
+            }
+
+            if (endIndex != null)
+            {
+                url += "endIndex=" + endIndex.Value.ToString() + "&";
+            }
+            url += "api_key=" +
+                CreepScore.apiKey;
+
+            Uri uri = new Uri(url);
+
+            await CreepScore.GetPermission(region);
+            string responseString = await CreepScore.GetWebData(uri);
+
+            if (CreepScore.GoodStatusCode(responseString))
+            {
+                return HelperMethods.LoadMatchListAdvanced(JObject.Parse(responseString));
             }
             else
             {

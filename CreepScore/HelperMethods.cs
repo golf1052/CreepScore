@@ -388,5 +388,13 @@ namespace CreepScoreAPI
                 (JArray)o["participants"],
                 (string)o["platformId"]);
         }
+
+        public static MatchListAdvanced LoadMatchListAdvanced(JObject o)
+        {
+            return new MatchListAdvanced((int)o["endIndex"],
+                (JArray)o["matches"],
+                (int)o["startIndex"],
+                (int)o["totalGames"]);
+        }
     }
 }

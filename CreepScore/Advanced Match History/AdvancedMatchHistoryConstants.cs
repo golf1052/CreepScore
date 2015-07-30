@@ -795,5 +795,37 @@ namespace CreepScoreAPI.Constants
                 return SeasonAdvanced.Other;
             }
         }
+
+        public static string GetSeason(SeasonAdvanced season)
+        {
+            if (season == SeasonAdvanced.Preseason3)
+            {
+                return "PRESEASON3";
+            }
+            else if (season == SeasonAdvanced.Season3)
+            {
+                return "SEASON3";
+            }
+            else if (season == SeasonAdvanced.Preseason2014)
+            {
+                return "PRESEASON2014";
+            }
+            else if (season == SeasonAdvanced.Season2014)
+            {
+                return "SEASON2014";
+            }
+            else if (season == SeasonAdvanced.Preseason2015)
+            {
+                return "PRESEASON2015";
+            }
+            else if (season == SeasonAdvanced.Season2015)
+            {
+                return "SEASON2015";
+            }
+            else
+            {
+                return "OTHER";
+            }
+        }
     }
 }

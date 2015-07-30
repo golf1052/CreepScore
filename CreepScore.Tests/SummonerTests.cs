@@ -145,5 +145,16 @@ namespace CreepScoreAPI.Tests
             PlayerHistoryAdvanced morePlayerMatches = await golf1052.RetrieveMatchHistory(CreepScore.Region.NA, champions, queues, 0, 1);
             Assert.Equal(1, morePlayerMatches.matches.Count);
         }
+
+        [Fact]
+        public async void RetrieveMatchListTest()
+        {
+            MatchListAdvanced matchList = await golf1052.RetrieveMatchList();
+            Assert.True(matchList.matches.Count > 1);
+
+            MatchListAdvanced emptyMatchList = await golf1052.RetrieveMatchList(null, null,
+                new List<AdvancedMatchHistoryConstants.SeasonAdvanced>(new AdvancedMatchHistoryConstants.SeasonAdvanced[] { AdvancedMatchHistoryConstants.SeasonAdvanced.Preseason3 }));
+            Assert.True(emptyMatchList.matches.Count == 0);
+        }
     }
 }

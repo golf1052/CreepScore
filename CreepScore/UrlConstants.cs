@@ -113,6 +113,11 @@ namespace CreepScoreAPI.Constants
         public static string matchHistoryAPIVersion = "/v2.2";
 
         /// <summary>
+        /// Match list API version
+        /// </summary>
+        public static string matchListAPIVersion = "/v2.2";
+
+        /// <summary>
         /// Stats API version
         /// </summary>
         public static string statsAPIVersion = "/v1.3";
@@ -271,6 +276,11 @@ namespace CreepScoreAPI.Constants
         /// Match history part of url
         /// </summary>
         public static string matchHistoryPart = "/matchhistory";
+
+        /// <summary>
+        /// Match list part of url
+        /// </summary>
+        public static string matchListPart = "/matchlist";
 
         /// <summary>
         /// Languages part of url

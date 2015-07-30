@@ -42,6 +42,8 @@
     <Compile Include="Advanced Match History\FrameAdvanced.cs" />
     <Compile Include="Advanced Match History\MasteryAdvanced.cs" />
     <Compile Include="Advanced Match History\MatchDetailAdvanced.cs" />
+    <Compile Include="Advanced Match History\MatchListAdvanced.cs" />
+    <Compile Include="Advanced Match History\MatchReferenceAdvanced.cs" />
     <Compile Include="Advanced Match History\MatchSummaryAdvanced.cs" />
     <Compile Include="Advanced Match History\MatchTimelineAdvanced.cs" />
     <Compile Include="Advanced Match History\ParticipantAdvanced.cs" />
