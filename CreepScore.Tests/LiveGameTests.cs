@@ -12,13 +12,29 @@ namespace CreepScoreAPI.Tests
         {
             List<string> summonerNames = new List<string>(new string[]{
                 "NightBlue3",
-                "imaqtpie"
+                "imaqtpie",
+                "voyboy",
+                "scarra"
             });
             List<Summoner> summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames);
             List<CurrentGameInfoLive> currentGameInfo = new List<CurrentGameInfoLive>();
             foreach (Summoner summoner in summoners)
             {
-                CurrentGameInfoLive currentGame = await summoner.RetrieveCurrentGameInfo();
+                CurrentGameInfoLive currentGame = null;
+                try
+                {
+                    currentGame = await summoner.RetrieveCurrentGameInfo();
+                }
+                catch (CreepScoreException ex)
+                {
+                    if (ex.StatusCode == 404)
+                    {
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 currentGameInfo.Add(currentGame);
             }
             foreach (CurrentGameInfoLive currentGame in currentGameInfo)

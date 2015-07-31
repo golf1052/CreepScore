@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CreepScoreAPI.Constants;
 using Xunit;
@@ -40,8 +41,9 @@ namespace CreepScoreAPI.Tests
             List<Summoner> summoners = new List<Summoner>();
             summoners = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames);
             Dictionary<string, List<League>> teamData = await summoners[0].RetrieveLeague();
+            League participantLeague = teamData["35788975"].FirstOrDefault(t => t.participantId == "TEAM-fbe31d30-c08b-11e4-ad89-c81f66dd45c9");
 
-            Assert.Equal("TEAM-394018d0-58be-11e4-9e4f-782bcb4d1e24", teamData["35788975"][1].participantId);
+            Assert.NotNull(participantLeague);
 
             Dictionary<string, List<League>> leagueData = await golf1052.RetrieveLeague();
             League league = null;
@@ -65,7 +67,7 @@ namespace CreepScoreAPI.Tests
                 }
             }
 
-            Assert.Equal("Sion's Overlords", league.name);
+            Assert.Equal("Karthus's Horde", league.name);
             Assert.Equal(26040955, long.Parse(league.participantId));
             Assert.Equal(GameConstants.Queue.Solo5, league.queue);
         }
@@ -78,7 +80,7 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal(GameConstants.Queue.Solo5, league.queue);
             Assert.Equal(GameConstants.Tier.Silver, league.tier);
-            Assert.Equal("I", league.entries[0].division);
+            Assert.Equal("II", league.entries[0].division);
             Assert.Equal("golf1052", league.entries[0].playerOrTeamName);
         }
 

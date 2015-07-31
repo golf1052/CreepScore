@@ -60,6 +60,7 @@
     <Compile Include="AggregatedStats.cs" />
     <Compile Include="Champion.cs" />
     <Compile Include="ChampionStats.cs" />
+    <Compile Include="CreepScoreException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="HelperMethods.cs" />

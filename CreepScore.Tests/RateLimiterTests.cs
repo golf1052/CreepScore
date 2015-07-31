@@ -20,13 +20,20 @@ namespace CreepScoreAPI.Tests
             {
                 for (int j = 1; j < 11; j++)
                 {
-                    Champion champions = await creepScore.RetrieveChampion((CreepScore.Region)j, 43);
-                    Assert.NotEqual("429", creepScore.ErrorString);
+                    Champion champions = null;
+                    try
+                    {
+                        champions = await creepScore.RetrieveChampion((CreepScore.Region)j, 43);
+                    }
+                    catch (CreepScoreException ex)
+                    {
+                        Assert.True(false, ex.StatusCode + ex.Message + ". Retry after: " + ex.RetryAfter.Value.TotalSeconds);
+                    }
                     Assert.Equal(43, champions.id);
                 }
             }
             timer.Stop();
-            Assert.True(timer.Elapsed < TimeSpan.FromSeconds(20));
+            Assert.True(timer.Elapsed < TimeSpan.FromSeconds(30));
         }
     }
 }

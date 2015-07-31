@@ -44,26 +44,9 @@ namespace CreepScoreAPI
         public long summonerLevel;
 
         /// <summary>
-        /// Flag to check if all summoner fields are loaded (not including runes, masteries, etc)
-        /// </summary>
-        public bool isLittleSummoner;
-
-        /// <summary>
         /// The region this summoner was loaded in
         /// </summary>
         public CreepScore.Region region;
-
-        private string errorString;
-
-        private List<int> championIds = new List<int>();
-
-        public string ErrorString
-        {
-            get
-            {
-                return errorString;
-            }
-        }
 
         /// <summary>
         /// Full summoner constructor
@@ -77,20 +60,6 @@ namespace CreepScoreAPI
             revisionDateLong = (long)summonerO["revisionDate"];
             SetRevisionDate(revisionDateLong);
             summonerLevel = (long)summonerO["summonerLevel"];
-            isLittleSummoner = false;
-            this.region = region;
-        }
-
-        /// <summary>
-        /// Little summmoner constructor
-        /// </summary>
-        /// <param name="id">Summoner ID</param>
-        /// <param name="name">Summoner Name</param>
-        public Summoner(long id, string name, CreepScore.Region region)
-        {
-            this.id = id;
-            this.name = name;
-            isLittleSummoner = true;
             this.region = region;
         }
 
@@ -110,157 +79,96 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
             await CreepScore.GetPermission(region);
-            string responseString = await CreepScore.GetWebData(uri);
-            if (CreepScore.GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return HelperMethods.LoadCurrentGameInfo(JObject.Parse(responseString));
+                responseString = await CreepScore.GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                if (responseString == "404")
-                {
-                    // might want to do something different if 404
-                    return null;
-                }
-                else
-                {
-                    return null;
-                }
+                throw;
             }
+            return HelperMethods.LoadCurrentGameInfo(JObject.Parse(responseString));
         }
 
         public async Task<RecentGames> RetrieveRecentGames()
         {
-            if (!isLittleSummoner)
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.gameAPIVersion, UrlConstants.gamePart)
+                .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.recentPart);
+            url.SetQueryParams(new
             {
-                Url url = UrlConstants.UrlBuilder(region, UrlConstants.gameAPIVersion, UrlConstants.gamePart)
-                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.recentPart);
-                url.SetQueryParams(new
-                {
-                    api_key = CreepScore.apiKey
-                });
-                Uri uri = new Uri(url.ToString());
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
-                await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
+            await CreepScore.GetPermission(region);
 
-                if (CreepScore.GoodStatusCode(responseString))
-                {
-                    return LoadRecentGames(JObject.Parse(responseString));
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
+            string responseString;
+            try
             {
-                return null;
+                responseString = await CreepScore.GetWebData(uri);
             }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return LoadRecentGames(JObject.Parse(responseString));
         }
 
         public async Task<Dictionary<string, List<League>>> RetrieveLeague()
         {
-            if (!isLittleSummoner)
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
+                .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString());
+            url.SetQueryParams(new
             {
-                Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
-                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString());
-                url.SetQueryParams(new
-                {
-                    api_key = CreepScore.apiKey
-                });
-                Uri uri = new Uri(url.ToString());
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
-                await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
+            await CreepScore.GetPermission(region);
 
-                if (CreepScore.GoodStatusCode(responseString))
-                {
-                    return HelperMethods.LoadLeague(responseString);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
+            string responseString;
+            try
             {
-                return null;
+                responseString = await CreepScore.GetWebData(uri);
             }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return HelperMethods.LoadLeague(responseString);
         }
 
         public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry()
         {
-            if (!isLittleSummoner)
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
+                .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.entryPart);
+            url.SetQueryParams(new
             {
-                Url url = UrlConstants.UrlBuilder(region, UrlConstants.leagueAPIVersion, UrlConstants.leaguePart)
-                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.entryPart);
-                url.SetQueryParams(new
-                {
-                    api_key = CreepScore.apiKey
-                });
-                Uri uri = new Uri(url.ToString());
-                await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
+            await CreepScore.GetPermission(region);
 
-                if (CreepScore.GoodStatusCode(responseString))
-                {
-                    return HelperMethods.LoadLeague(responseString);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
+            string responseString;
+            try
             {
-                return null;
+                responseString = await CreepScore.GetWebData(uri);
             }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return HelperMethods.LoadLeague(responseString);
         }
 
         public async Task<RankedStats> RetrieveRankedStats(CreepScore.Season season)
         {
-            if (!isLittleSummoner)
-            {
-                if (summonerLevel == 30)
-                {
-                    Url url = UrlConstants.UrlBuilder(region, UrlConstants.statsAPIVersion, UrlConstants.statsPart)
-                        .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.rankedPart);
-                    url.SetQueryParams(new
-                    {
-                        season = CreepScore.GetSeason(season),
-                        api_key = CreepScore.apiKey
-                    });
-                    Uri uri = new Uri(url.ToString());
-                    await CreepScore.GetPermission(region);
-                    string responseString = await CreepScore.GetWebData(uri);
-
-                    if (CreepScore.GoodStatusCode(responseString))
-                    {
-                        return LoadRankedStats(JObject.Parse(responseString), season);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public async Task<PlayerStatsSummaryList> RetrievePlayerStatsSummaries(CreepScore.Season season)
-        {
-            if (!isLittleSummoner)
+            if (summonerLevel == 30)
             {
                 Url url = UrlConstants.UrlBuilder(region, UrlConstants.statsAPIVersion, UrlConstants.statsPart)
-                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.summaryPart);
+                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.rankedPart);
                 url.SetQueryParams(new
                 {
                     season = CreepScore.GetSeason(season),
@@ -268,117 +176,125 @@ namespace CreepScoreAPI
                 });
                 Uri uri = new Uri(url.ToString());
                 await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
 
-                if (CreepScore.GoodStatusCode(responseString))
+                string responseString;
+                try
                 {
-                    return LoadPlayerStatSummariesList(JObject.Parse(responseString), season);
+                    responseString = await CreepScore.GetWebData(uri);
                 }
-                else
+                catch (CreepScoreException)
                 {
-                    return null;
+                    throw;
                 }
+                return LoadRankedStats(JObject.Parse(responseString), season);
             }
             else
             {
-                return null;
+                throw new CreepScoreException("The summoner is not level 30. They do not have ranked stats.");
             }
+        }
+
+        public async Task<PlayerStatsSummaryList> RetrievePlayerStatsSummaries(CreepScore.Season season)
+        {
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.statsAPIVersion, UrlConstants.statsPart)
+                .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString(), UrlConstants.summaryPart);
+            url.SetQueryParams(new
+            {
+                season = CreepScore.GetSeason(season),
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
+            await CreepScore.GetPermission(region);
+
+            string responseString;
+            try
+            {
+                responseString = await CreepScore.GetWebData(uri);
+            }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return LoadPlayerStatSummariesList(JObject.Parse(responseString), season);
         }
 
         public async Task<Dictionary<string, MasteryPages>> RetrieveMasteryPages()
         {
-            if (!isLittleSummoner)
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                .AppendPathSegments(id.ToString(), UrlConstants.masteriesPart);
+            url.SetQueryParams(new
             {
-                Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
-                    .AppendPathSegments(id.ToString(), UrlConstants.masteriesPart);
-                url.SetQueryParams(new
-                {
-                    api_key = CreepScore.apiKey
-                });
-                Uri uri = new Uri(url.ToString());
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
-                await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
+            await CreepScore.GetPermission(region);
 
-                if (CreepScore.GoodStatusCode(responseString))
-                {
-                    return LoadMasteryPages(responseString);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
+            string responseString;
+            try
             {
-                return null;
+                responseString = await CreepScore.GetWebData(uri);
             }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return LoadMasteryPages(responseString);
         }
 
         public async Task<Dictionary<string, RunePages>> RetrieveRunePages()
         {
-            if (!isLittleSummoner)
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
+                .AppendPathSegments(id.ToString(), UrlConstants.runesPart);
+            url.SetQueryParams(new
             {
-                Url url = UrlConstants.UrlBuilder(region, UrlConstants.summonerAPIVersion, UrlConstants.summonerPart)
-                    .AppendPathSegments(id.ToString(), UrlConstants.runesPart);
-                url.SetQueryParams(new
-                {
-                    api_key = CreepScore.apiKey
-                });
-                Uri uri = new Uri(url.ToString());
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
-                await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
+            await CreepScore.GetPermission(region);
 
-                if (CreepScore.GoodStatusCode(responseString))
-                {
-                    return LoadRunePages(responseString);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
+            string responseString;
+            try
             {
-                return null;
+                responseString = await CreepScore.GetWebData(uri);
             }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return LoadRunePages(responseString);
         }
 
         public async Task<Dictionary<string, List<Team>>> RetrieveTeams()
         {
-            if (!isLittleSummoner)
+            Url url = UrlConstants.UrlBuilder(region, UrlConstants.teamAPIVersion, UrlConstants.teamPart)
+                .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString());
+            url.SetQueryParams(new
             {
-                Url url = UrlConstants.UrlBuilder(region, UrlConstants.teamAPIVersion, UrlConstants.teamPart)
-                    .AppendPathSegments(UrlConstants.bySummonerPart, id.ToString());
-                url.SetQueryParams(new
-                {
-                    api_key = CreepScore.apiKey
-                });
-                Uri uri = new Uri(url.ToString());
+                api_key = CreepScore.apiKey
+            });
+            Uri uri = new Uri(url.ToString());
 
-                await CreepScore.GetPermission(region);
-                string responseString = await CreepScore.GetWebData(uri);
+            await CreepScore.GetPermission(region);
 
-                if (CreepScore.GoodStatusCode(responseString))
-                {
-                    return HelperMethods.LoadTeams(responseString);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
+            string responseString;
+            try
             {
-                return null;
+                responseString = await CreepScore.GetWebData(uri);
             }
+            catch (CreepScoreException)
+            {
+                throw;
+            }
+            return HelperMethods.LoadTeams(responseString);
         }
 
         [Obsolete("This endpoint will stop working September 22nd, 2015. Please use RetrieveMatchList instead. More information can be found here: https://developer.riotgames.com/discussion/community-discussion/show/oLXKEZFZ")]
         public async Task<PlayerHistoryAdvanced> RetrieveMatchHistory(CreepScore.Region region, List<int> championIds = null, List<GameConstants.Queue> rankedQueues = null, int? beginIndex = null, int? endIndex = null)
         {
-            string url = UrlConstants.GetBaseUrl(region) + "/" +
+            string url = UrlConstants.GetBaseUrl(region) +
+                UrlConstants.apiLolPart + "/" +
                 UrlConstants.GetRegion(region) +
                 UrlConstants.matchHistoryAPIVersion +
                 UrlConstants.matchHistoryPart + "/" +
@@ -449,17 +365,17 @@ namespace CreepScoreAPI
             Uri uri = new Uri(url);
 
             await CreepScore.GetPermission(region);
-            string responseString = await CreepScore.GetWebData(uri);
 
-            if (CreepScore.GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadPlayerHistoryAdvanced(JObject.Parse(responseString));
+                responseString = await CreepScore.GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadPlayerHistoryAdvanced(JObject.Parse(responseString));
         }
 
         public async Task<MatchListAdvanced> RetrieveMatchList(List<int> championIds = null, List<GameConstants.Queue> rankedQueues = null, List<AdvancedMatchHistoryConstants.SeasonAdvanced> seasons = null, long? beginTime = null, long? endTime = null, int? beginIndex = null, int? endIndex = null)
@@ -577,17 +493,17 @@ namespace CreepScoreAPI
             Uri uri = new Uri(url);
 
             await CreepScore.GetPermission(region);
-            string responseString = await CreepScore.GetWebData(uri);
 
-            if (CreepScore.GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadMatchListAdvanced(JObject.Parse(responseString));
+                responseString = await CreepScore.GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadMatchListAdvanced(JObject.Parse(responseString));
         }
 
         Dictionary<string, RunePages> LoadRunePages(string s)

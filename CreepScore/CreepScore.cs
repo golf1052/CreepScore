@@ -50,16 +50,6 @@ namespace CreepScoreAPI
             Season4,
             Season2015
         }
-
-        private string errorString;
-
-        public string ErrorString
-        {
-            get
-            {
-                return errorString;
-            }
-        }
         
         /// <summary>
         /// How many requests your app can make every 10 seconds
@@ -117,17 +107,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return LoadChampionListStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadChampionListStatic(JObject.Parse(responseString));
         }
 
         public async Task<ChampionStatic> RetrieveChampionData(CreepScore.Region region, int id, StaticDataConstants.ChampData champData, string locale = "", string version = "", bool dataById = false)
@@ -143,17 +132,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadChampionStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadChampionStatic(JObject.Parse(responseString));
         }
 
         public async Task<ItemListStatic> RetrieveItemsData(CreepScore.Region region, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
@@ -168,17 +156,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadItemsStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadItemsStatic(JObject.Parse(responseString));
         }
 
         public async Task<ItemStatic> RetrieveItemData(CreepScore.Region region, int id, StaticDataConstants.ItemListData itemListData, string locale = "", string version = "")
@@ -193,17 +180,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadItemStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadItemStatic(JObject.Parse(responseString));
         }
 
         public async Task<LanguageStringsStatic> RetrieveLanguageStrings(CreepScore.Region region, string locale = "", string version = "")
@@ -216,16 +202,17 @@ namespace CreepScoreAPI
                 api_key = apiKey
             });
             Uri uri = new Uri(url.ToString());
-            string responseString = await GetWebData(uri);
-            if (GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return HelperMethods.LoadLanguageStringsStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadLanguageStringsStatic(JObject.Parse(responseString));
         }
 
         public async Task<List<string>> RetrieveLanguages(CreepScore.Region region)
@@ -236,17 +223,17 @@ namespace CreepScoreAPI
                 api_key = apiKey
             });
             Uri uri = new Uri(url.ToString());
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadStrings(JArray.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadStrings(JArray.Parse(responseString));
         }
 
         public async Task<MapListStatic> RetrieveMap(CreepScore.Region region, string locale = "", string version = "")
@@ -259,16 +246,17 @@ namespace CreepScoreAPI
                 api_key = apiKey
             });
             Uri uri = new Uri(url.ToString());
-            string responseString = await GetWebData(uri);
-            if (GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return HelperMethods.LoadMapListStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadMapListStatic(JObject.Parse(responseString));
         }
 
         public async Task<MasteryListStatic> RetrieveMasteriesData(CreepScore.Region region, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
@@ -283,17 +271,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadMasteryListStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadMasteryListStatic(JObject.Parse(responseString));
         }
 
         public async Task<MasteryStatic> RetrieveMasteryData(CreepScore.Region region, int id, StaticDataConstants.MasteryListData masteryListData, string locale = "", string version = "")
@@ -308,17 +295,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadMasteryStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadMasteryStatic(JObject.Parse(responseString));
         }
 
         public async Task<RealmStatic> RetrieveRealmData(CreepScore.Region region)
@@ -329,17 +315,17 @@ namespace CreepScoreAPI
                 api_key = apiKey
             });
             Uri uri = new Uri(url.ToString());
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return LoadRealmData(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadRealmData(JObject.Parse(responseString));
         }
 
         public async Task<RuneListStatic> RetrieveRunesData(CreepScore.Region region, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
@@ -354,17 +340,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadRuneListStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadRuneListStatic(JObject.Parse(responseString));
         }
 
         public async Task<RuneStatic> RetrieveRuneData(CreepScore.Region region, int id, StaticDataConstants.RuneListData runeListData, string locale = "", string version = "")
@@ -379,17 +364,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadRuneStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadRuneStatic(JObject.Parse(responseString));
         }
 
         public async Task<SummonerSpellListStatic> RetrieveSummonerSpellsData(CreepScore.Region region, StaticDataConstants.SpellData spellData, string locale = "", string version = "", bool dataById = false)
@@ -405,17 +389,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadSummonerSpellListStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadSummonerSpellListStatic(JObject.Parse(responseString));
         }
 
         public async Task<SummonerSpellStatic> RetrieveSummonerSpellData(CreepScore.Region region, int id, StaticDataConstants.SpellData spellData, string locale = "", string version = "")
@@ -430,17 +413,16 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
 
-            string responseString = await GetWebData(uri);
-
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadSummonerSpellStatic(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadSummonerSpellStatic(JObject.Parse(responseString));
         }
 
         public async Task<List<string>> RetrieveVersions(CreepScore.Region region)
@@ -451,33 +433,34 @@ namespace CreepScoreAPI
                 api_key = apiKey
             });
             Uri uri = new Uri(url.ToString());
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadStrings(JArray.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadStrings(JArray.Parse(responseString));
         }
 
         public async Task<List<Shard>> RetrieveShards()
         {
             Uri uri;
             uri = new Uri("http://status.leagueoflegends.com/shards");
-            string responseString = await GetWebData(uri);
-            if (GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return LoadShards(JArray.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadShards(JArray.Parse(responseString));
         }
 
         public async Task<ShardStatus> RetrieveShardStatus(Region region)
@@ -485,16 +468,17 @@ namespace CreepScoreAPI
             Uri uri;
             uri = new Uri("http://status.leagueoflegends.com/shards/" +
             UrlConstants.GetRegion(region));
-            string responseString = await GetWebData(uri);
-            if (GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return LoadShardStatus(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadShardStatus(JObject.Parse(responseString));
         }
 
         public async Task<List<Champion>> RetrieveChampions(CreepScore.Region region, bool freeToPlay = false)
@@ -507,17 +491,17 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return LoadChampions(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadChampions(JObject.Parse(responseString));
         }
 
         public async Task<Champion> RetrieveChampion(CreepScore.Region region, int id)
@@ -529,16 +513,17 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
-            if (GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return LoadChampion(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadChampion(JObject.Parse(responseString));
         }
 
         public async Task<FeaturedGamesLive> RetrieveFeaturedGames(CreepScore.Region region)
@@ -551,15 +536,17 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
             await CreepScore.GetPermission(region);
-            string responseString = await CreepScore.GetWebData(uri);
-            if (CreepScore.GoodStatusCode(responseString))
+
+            string responseString;
+            try
             {
-                return LoadFeaturedGames(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                return null;
+                throw;
             }
+            return LoadFeaturedGames(JObject.Parse(responseString));
         }
 
         public async Task<Dictionary<string, List<League>>> RetrieveLeague(CreepScore.Region region, List<string> teamIds)
@@ -567,8 +554,7 @@ namespace CreepScoreAPI
             string ids = "";
             if (teamIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 10 teams at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 10 teams at once.");
             }
             for (int i = 0; i < teamIds.Count; i++)
             {
@@ -595,21 +581,21 @@ namespace CreepScoreAPI
             }
             else
             {
-                errorString = "Cannot have an empty list of team ids";
-                return null;
+                throw new CreepScoreException("Cannot have an empty list of team IDs.");
             }
 
             await GetPermission(region);
-            string responseString = await CreepScore.GetWebData(uri);
 
-            if (CreepScore.GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadLeague(responseString);
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                return null;
+                throw;
             }
+            return HelperMethods.LoadLeague(responseString);
         }
 
         public async Task<Dictionary<string, List<League>>> RetrieveLeagueEntry(CreepScore.Region region, List<string> teamIds)
@@ -617,8 +603,7 @@ namespace CreepScoreAPI
             string ids = "";
             if (teamIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 10 teams at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 10 teams at once.");
             }
 
             for (int i = 0; i < teamIds.Count; i++)
@@ -646,22 +631,21 @@ namespace CreepScoreAPI
             }
             else
             {
-                errorString = "Cannot have an empty list of team ids";
-                return null;
+                throw new CreepScoreException("Cannot have an empty list of team IDs.");
             }
 
             await GetPermission(region);
-            string responseString = await CreepScore.GetWebData(uri);
 
-            if (CreepScore.GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadLeague(responseString);
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return HelperMethods.LoadLeague(responseString);
         }
 
         public async Task<League> RetrieveChallengerLeague(CreepScore.Region region, GameConstants.Queue queue)
@@ -674,33 +658,33 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return LoadLeague(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return LoadLeague(JObject.Parse(responseString));
         }
 
         public async Task<Summoner> RetrieveSummoner(CreepScore.Region region, string summonerName)
         {
             List<string> temp = new List<string>();
             temp.Add(summonerName);
-            List<Summoner> returnedList = await RetrieveSummoners(region, temp);
-
-            if (returnedList != null)
+            List<Summoner> returnedList;
+            try
             {
-                return returnedList[0];
+                returnedList = await RetrieveSummoners(region, temp);
             }
-            else
+            catch (CreepScoreException)
             {
-                return null;
+                throw;
             }
+            return returnedList[0];
         }
 
         public async Task<List<Summoner>> RetrieveSummoners(CreepScore.Region region, List<string> summonerNames)
@@ -708,8 +692,7 @@ namespace CreepScoreAPI
             string names = "";
             if (summonerNames.Count > 40)
             {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 40 summoners at once.");
             }
 
             for (int i = 0; i < summonerNames.Count; i++)
@@ -737,28 +720,27 @@ namespace CreepScoreAPI
             }
             else
             {
-                errorString = "Cannot have an empty list of summoner names";
-                return null;
+                throw new CreepScoreException("Cannot have an empty list of summoner names.");
             }
 
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                List<Summoner> summoners = new List<Summoner>();
-                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
-                foreach (KeyValuePair<string, JObject> value in values)
-                {
-                    summoners.Add(new Summoner(value.Value, region));
-                }
-                return summoners;
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            List<Summoner> summoners = new List<Summoner>();
+            Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
+            foreach (KeyValuePair<string, JObject> value in values)
+            {
+                summoners.Add(new Summoner(value.Value, region));
+            }
+            return summoners;
         }
 
         public async Task<List<Summoner>> RetrieveSummoners(CreepScore.Region region, List<long> summonerIds)
@@ -766,8 +748,7 @@ namespace CreepScoreAPI
             string ids = "";
             if (summonerIds.Count > 40)
             {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 40 summoners at once.");
             }
 
             for (int i = 0; i < summonerIds.Count; i++)
@@ -795,37 +776,35 @@ namespace CreepScoreAPI
             }
             else
             {
-                errorString = "Cannot have an empty list of summoner ids";
-                return null;
+                throw new CreepScoreException("Cannot have an empty list of summoner IDs.");
             }
 
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                List<Summoner> summoners = new List<Summoner>();
-                Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
-                foreach (KeyValuePair<string, JObject> value in values)
-                {
-                    summoners.Add(new Summoner(value.Value, region));
-                }
-                return summoners;
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            List<Summoner> summoners = new List<Summoner>();
+            Dictionary<string, JObject> values = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(responseString);
+            foreach (KeyValuePair<string, JObject> value in values)
+            {
+                summoners.Add(new Summoner(value.Value, region));
+            }
+            return summoners;
         } 
 
-        public async Task<List<Summoner>> RetrieveSummonerNames(CreepScore.Region region, List<long> summonerIds)
+        public async Task<Dictionary<long, string>> RetrieveSummonerNames(CreepScore.Region region, List<long> summonerIds)
         {
             string summonerIdsPart = "";
             if (summonerIds.Count > 40)
             {
-                errorString = "Cannot retrieve more than 40 summoners at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 40 summoners at once.");
             }
 
             for (int i = 0; i < summonerIds.Count; i++)
@@ -849,25 +828,17 @@ namespace CreepScoreAPI
             Uri uri = new Uri(url.ToString());
 
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                Dictionary<string, string> values = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
-                List<Summoner> littleSummoners = new List<Summoner>();
-
-                foreach (KeyValuePair<string, string> value in values)
-                {
-                    littleSummoners.Add(new Summoner(long.Parse(value.Key), value.Value, region));
-                }
-
-                return littleSummoners;
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
+            return JsonConvert.DeserializeObject<Dictionary<long, string>>(responseString);
         }
 
         public async Task<Dictionary<string, List<Team>>> RetrieveTeams(CreepScore.Region region, List<long> summonerIds)
@@ -875,8 +846,7 @@ namespace CreepScoreAPI
             string ids = "";
             if (summonerIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 10 summoners at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 10 summoners at once.");
             }
 
             for (int i = 0; i < summonerIds.Count; i++)
@@ -904,21 +874,21 @@ namespace CreepScoreAPI
             }
             else
             {
-                errorString = "Cannot have an empty list of summoner ids";
-                return null;
+                throw new CreepScoreException("Cannot have an empty list of summoner IDs.");
             }
 
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (CreepScore.GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadTeams(responseString);
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                return null;
+                throw;
             }
+            return HelperMethods.LoadTeams(responseString);
         }
 
         public async Task<Dictionary<string, Team>> RetrieveTeam(CreepScore.Region region, List<string> teamIds)
@@ -926,8 +896,7 @@ namespace CreepScoreAPI
             string ids = "";
             if (teamIds.Count > 10)
             {
-                errorString = "Cannot retrieve more than 10 teams at once";
-                return null;
+                throw new CreepScoreException("Cannot retrieve more than 10 teams at once.");
             }
 
             for (int i = 0; i < teamIds.Count; i++)
@@ -955,21 +924,21 @@ namespace CreepScoreAPI
             }
             else
             {
-                errorString = "Cannot have an empty list of team ids";
-                return null;
+                throw new CreepScoreException("Cannot have an empty list of team IDs.");
             }
 
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (CreepScore.GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadTeam(responseString);
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                return null;
+                throw;
             }
+            return HelperMethods.LoadTeam(responseString);
         }
 
         public async Task<MatchDetailAdvanced> RetrieveMatch(CreepScore.Region region, long matchId, bool includeTimeline = false)
@@ -983,28 +952,17 @@ namespace CreepScoreAPI
             });
             Uri uri = new Uri(url.ToString());
             await GetPermission(region);
-            string responseString = await GetWebData(uri);
 
-            if (GoodStatusCode(responseString))
+            string responseString;
+            try
             {
-                return HelperMethods.LoadMatchDetailAdvanced(JObject.Parse(responseString));
+                responseString = await GetWebData(uri);
             }
-            else
+            catch (CreepScoreException)
             {
-                errorString = responseString;
-                return null;
+                throw;
             }
-        }
-
-        internal static bool GoodStatusCode(string response)
-        {
-            return response != "400" &&
-                response != "401" &&
-                response != "404" &&
-                response != "500" &&
-                response != "429" &&
-                response != "503" &&
-                response != "Unknown status code";
+            return HelperMethods.LoadMatchDetailAdvanced(JObject.Parse(responseString));
         }
 
         /// <summary>
@@ -1028,36 +986,36 @@ namespace CreepScoreAPI
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 // 400 - Bad request
-                return "400";
+                throw new CreepScoreException("Bad request", 400);
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                // 401 - Unauthoriezed
-                return "401";
+                // 401 - Unauthorized
+                throw new CreepScoreException("Unauthorized", 401);
             }
             else if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 // 404 - Summoner not found/Game data not found/League not found/Team not found
-                return "404";
-            }
-            else if (response.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                // 500 - Internal server error
-                return "500";
-            }
-            else if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
-            {
-                // 503 - Service unavalible
-                return "503";
+                throw new CreepScoreException("Not found", 404);
             }
             else if ((int)response.StatusCode == 429)
             {
                 // 429 - Rate limit exceeded
-                return "429";
+                throw new CreepScoreException("Rate limit exceeded", 429, response.Headers.RetryAfter.Delta);
+            }
+            else if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                // 500 - Internal server error
+                throw new CreepScoreException("Internal server error", 500);
+            }
+            else if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                // 503 - Service unavailable
+                throw new CreepScoreException("Service unavailable", 503);
             }
             else
             {
-                return "Unknown status code";
+                throw new CreepScoreException("Unknown status code", (int)response.StatusCode);
             }
         }
 

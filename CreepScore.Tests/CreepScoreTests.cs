@@ -56,7 +56,6 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal(26040955, summoners[0].id);
             Assert.Equal("golf1052", summoners[0].name);
-            Assert.False(summoners[0].isLittleSummoner);
             Assert.Equal(558, summoners[0].profileIconId);
             Assert.Equal(30, summoners[0].summonerLevel);
 
@@ -94,9 +93,7 @@ namespace CreepScoreAPI.Tests
             {
                 summonerNames3.Add("");
             }
-            List<Summoner> summoners3 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames3);
-
-            Assert.Null(summoners3);
+            await Assert.ThrowsAsync<CreepScoreException>(async () => await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerNames3));
         }
 
         [Fact]
@@ -108,7 +105,6 @@ namespace CreepScoreAPI.Tests
 
             Assert.Equal(26040955, summoners[0].id);
             Assert.Equal("golf1052", summoners[0].name);
-            Assert.False(summoners[0].isLittleSummoner);
             Assert.Equal(558, summoners[0].profileIconId);
             Assert.Equal(30, summoners[0].summonerLevel);
 
@@ -125,38 +121,31 @@ namespace CreepScoreAPI.Tests
             {
                 summonerIds3.Add(0);
             }
-            List<Summoner> summoners3 = await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerIds3);
-
-            Assert.Null(summoners3);
+            await Assert.ThrowsAsync<CreepScoreException>(async () => await creepScore.RetrieveSummoners(CreepScore.Region.NA, summonerIds3));
         }
 
         [Fact]
-        public async void RetrieveLittleSummonerTest()
+        public async void RetrieveSummonerNamesTest()
         {
             List<long> summonerIds = new List<long>();
             summonerIds.Add(26040955);
-            List<Summoner> summoners = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds);
-
-            Assert.Equal(26040955, summoners[0].id);
-            Assert.Equal("golf1052", summoners[0].name);
-            Assert.True(summoners[0].isLittleSummoner);
+            Dictionary<long, string> summoners = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds);
+            Assert.Equal("golf1052", summoners[26040955]);
 
             List<long> summonerIds2 = new List<long>();
             summonerIds2.Add(26040955);
             summonerIds2.Add(7460);
-            List<Summoner> summoners2 = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds2);
+            Dictionary<long, string> summoners2 = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds2);
 
-            Assert.Equal("golf1052", summoners2[0].name);
-            Assert.Equal("Chaox", summoners2[1].name);
+            Assert.Equal("golf1052", summoners2[26040955]);
+            Assert.Equal("Chaox", summoners2[7460]);
 
             List<long> summonerIds3 = new List<long>();
             for (int i = 0; i < 41; i++)
             {
                 summonerIds3.Add(0);
             }
-            List<Summoner> summoners3 = await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds3);
-
-            Assert.Null(summoners3);
+            await Assert.ThrowsAsync<CreepScoreException>(async () => await creepScore.RetrieveSummonerNames(CreepScore.Region.NA, summonerIds3));
         }
 
         [Fact]
