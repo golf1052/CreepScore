@@ -178,6 +178,10 @@ namespace CreepScoreAPI.Constants
             TwistedTreelineHexakill,
             // KING_PORO_5x5
             KingPoro,
+            // COUNTER_PICK
+            CounterPick,
+            // BILGEWATER_5x5
+            Bilgewater,
             Other
         }
 
@@ -626,6 +630,14 @@ namespace CreepScoreAPI.Constants
             {
                 return QueueTypeAdvanced.KingPoro;
             }
+            else if (queueType == "COUNTER_PICK")
+            {
+                return QueueTypeAdvanced.CounterPick;
+            }
+            else if (queueType == "BILGEWATER_5x5")
+            {
+                return QueueTypeAdvanced.Bilgewater;
+            }
             else
             {
                 return QueueTypeAdvanced.Other;
@@ -757,6 +769,14 @@ namespace CreepScoreAPI.Constants
             else if (gameQueueConfigId == 300)
             {
                 return QueueTypeAdvanced.KingPoro;
+            }
+            else if (gameQueueConfigId == 310)
+            {
+                return QueueTypeAdvanced.CounterPick;
+            }
+            else if (gameQueueConfigId == 313)
+            {
+                return QueueTypeAdvanced.Bilgewater;
             }
             else
             {

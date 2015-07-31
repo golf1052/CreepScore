@@ -104,7 +104,9 @@
             NightmareBot,
             Ascension,
             TwistedTreelineHexakill,
-            KingPoro
+            KingPoro,
+            CounterPick,
+            Bilgewater
         }
 
         /// <summary>
@@ -201,7 +203,11 @@
             // HEXAKILL
             TwistedTreelineHexakill,
             // KING_PORO
-            KingPoro
+            KingPoro,
+            // COUNTER_PICK
+            CounterPick,
+            // BILGEWATER
+            Bilgewater
         }
 
         /// <summary>
@@ -506,6 +512,14 @@
             {
                 return PlayerStatSummaryType.KingPoro;
             }
+            else if (playerStatSummaryTypeStr == "CounterPick")
+            {
+                return PlayerStatSummaryType.CounterPick;
+            }
+            else if (playerStatSummaryTypeStr == "Bilgewater")
+            {
+                return PlayerStatSummaryType.Bilgewater;
+            }
             else
             {
                 return PlayerStatSummaryType.None;
@@ -744,6 +758,14 @@
             else if (subType == "KING_PORO")
             {
                 return SubType.KingPoro;
+            }
+            else if (subType == "COUNTER_PICK")
+            {
+                return SubType.CounterPick;
+            }
+            else if (subType == "BILGEWATER")
+            {
+                return SubType.Bilgewater;
             }
             else
             {
